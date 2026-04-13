@@ -1,0 +1,1840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JELWO – Jewelry is Our Passion</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+  --gold: #b08c5a;
+  --gold-light: #d4aa7d;
+  --gold-dark: #8a6a3a;
+  --cream: #f8f3ee;
+  --cream-dark: #ede5d8;
+  --text-dark: #1a1a1a;
+  --text-mid: #5a5a5a;
+  --white: #ffffff;
+  --transition: .3s ease;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Jost', sans-serif; background: var(--white); color: var(--text-dark); overflow-x: hidden; }
+h1,h2,h3,h4 { font-family: 'Cormorant Garamond', serif; }
+
+/* ---- TOAST ---- */
+.jelwo-toast {
+  position: fixed; bottom: 30px; right: 30px; z-index: 9999;
+  background: var(--text-dark); color: #fff; padding: 12px 20px;
+  border-radius: 8px; font-size: .9rem; transform: translateY(80px);
+  opacity: 0; transition: all .4s ease; pointer-events: none;
+}
+.jelwo-toast.show { transform: translateY(0); opacity: 1; }
+
+/* ---- HEADER ---- */
+.top-bar { background: var(--text-dark); color: #fff; font-size: .8rem; padding: 6px 0; }
+.top-bar a { color: #ccc; text-decoration: none; }
+.main-header {
+  position: sticky; top: 0; z-index: 1050;
+  background: #fff; border-bottom: 1px solid #e8e0d4;
+  box-shadow: 0 2px 20px rgba(0,0,0,.06);
+}
+.header-inner { display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; gap: 16px; }
+.logo { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 600; color: var(--text-dark); text-decoration: none; letter-spacing: 2px; }
+.logo span { color: var(--gold); }
+.header-bar { background: var(--cream); padding: 8px 24px; display: flex; align-items: center; gap: 24px; }
+.phone-link { font-size: .85rem; color: var(--text-dark); text-decoration: none; display: flex; align-items: center; gap: 6px; }
+.phone-link:hover { color: var(--gold); }
+.main-nav { display: flex; align-items: center; gap: 8px; flex-grow: 1; justify-content: center; }
+.nav-link-custom {
+  font-size: .85rem; font-weight: 500; letter-spacing: .8px;
+  color: var(--text-dark); text-decoration: none; padding: 4px 12px;
+  text-transform: uppercase; transition: color var(--transition);
+  display: flex; align-items: center; gap: 4px; cursor: pointer;
+}
+.nav-link-custom:hover, .nav-link-custom.active { color: var(--gold); }
+.header-actions { display: flex; align-items: center; gap: 16px; }
+.icon-btn {
+  position: relative; background: none; border: none; cursor: pointer;
+  font-size: 1.25rem; color: var(--text-dark); transition: color var(--transition);
+  padding: 4px;
+}
+.icon-btn:hover { color: var(--gold); }
+.badge-count {
+  position: absolute; top: -6px; right: -6px;
+  background: var(--gold); color: #fff; border-radius: 50%;
+  width: 18px; height: 18px; font-size: .65rem; display: none;
+  align-items: center; justify-content: center; font-weight: 600;
+}
+.free-try { font-size: .8rem; font-weight: 500; letter-spacing: .5px; color: var(--text-dark); display: flex; align-items: center; gap: 6px; text-decoration: none; }
+.free-try:hover { color: var(--gold); }
+
+/* ---- MEGA DROPDOWN ---- */
+.mega-wrap { position: relative; }
+.mega-menu {
+  position: fixed; left: 0; right: 0;
+  top: 0; /* will be set by JS */
+  background: #fff; box-shadow: 0 8px 40px rgba(0,0,0,.12);
+  border-top: 2px solid var(--gold); padding: 32px 40px;
+  display: none; z-index: 1040;
+}
+.mega-menu-col h6 { font-family: 'Jost', sans-serif; font-weight: 600; font-size: .8rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+.mega-menu-col a { display: block; font-size: .85rem; color: var(--text-mid); text-decoration: none; margin-bottom: 6px; transition: color var(--transition); }
+.mega-menu-col a:hover { color: var(--gold); padding-left: 4px; }
+.mega-promo { border-radius: 8px; overflow: hidden; }
+.mega-promo img { width: 100%; height: 180px; object-fit: cover; }
+
+/* Products mega - carousel */
+.products-mega-carousel .mini-product { text-align: center; padding: 8px; }
+.products-mega-carousel .mini-product img { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; margin-bottom: 6px; }
+.products-mega-carousel .mini-product p { font-size: .75rem; color: var(--text-mid); margin: 0; }
+.products-mega-carousel .mini-product span { font-size: .8rem; color: var(--gold); font-weight: 600; }
+
+/* Nested dropdown (Pages > About) */
+.nested-dropdown-wrap { position: relative; }
+.nested-dropdown {
+  position: absolute; left: 100%; top: 0;
+  background: #fff; box-shadow: 4px 4px 20px rgba(0,0,0,.1);
+  border-left: 2px solid var(--gold); min-width: 160px; padding: 8px 0;
+  display: none; z-index: 1041;
+}
+.nested-dropdown-wrap:hover .nested-dropdown { display: block; }
+.nested-dropdown a { display: block; padding: 8px 16px; font-size: .85rem; color: var(--text-mid); text-decoration: none; }
+.nested-dropdown a:hover { color: var(--gold); background: var(--cream); }
+
+/* Products mega - carousel */
+.products-mega-carousel .mini-product { text-align: center; padding: 8px; }
+.products-mega-carousel .mini-product img { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; margin-bottom: 6px; }
+.products-mega-carousel .mini-product p { font-size: .75rem; color: var(--text-mid); margin: 0; }
+.products-mega-carousel .mini-product span { font-size: .8rem; color: var(--gold); font-weight: 600; }
+
+/* Nested dropdown (Pages > About) */
+.nested-dropdown-wrap { position: relative; }
+.nested-dropdown {
+  position: absolute; left: 100%; top: 0;
+  background: #fff; box-shadow: 4px 4px 20px rgba(0,0,0,.1);
+  border-left: 2px solid var(--gold); min-width: 160px; padding: 8px 0;
+  display: none; z-index: 1041;
+}
+.nested-dropdown-wrap:hover .nested-dropdown { display: block; }
+.nested-dropdown a { display: block; padding: 8px 16px; font-size: .85rem; color: var(--text-mid); text-decoration: none; }
+.nested-dropdown a:hover { color: var(--gold); background: var(--cream); }
+
+/* ---- HOME MEGA THEME CARDS ---- */
+.home-mega-menu { padding: 28px 40px 24px !important; }
+.home-theme-card { text-align: center; }
+  .home-theme-img-wrap {
+    position: relative; border-radius: 10px; overflow: hidden;
+    border: 2px solid transparent; transition: border-color var(--transition), box-shadow var(--transition);
+    background: var(--cream);
+  }
+  .home-theme-card:hover .home-theme-img-wrap {
+    border-color: var(--gold);
+    box-shadow: 0 6px 24px rgba(176,140,90,.25);
+  }
+  .home-theme-img-wrap img {
+    width: 100%; height: 160px; object-fit: cover; display: block;
+    transition: transform .4s ease;
+  }
+  .home-theme-card:hover .home-theme-img-wrap img { transform: scale(1.04); }
+  .home-theme-overlay {
+    position: absolute; inset: 0; background: rgba(176,140,90,.5);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity var(--transition);
+  }
+  .home-theme-card:hover .home-theme-overlay { opacity: 1; }
+  .home-theme-label {
+    font-size: .78rem; color: var(--text-mid); margin: 8px 0 0;
+    font-weight: 500; letter-spacing: .3px; transition: color var(--transition);
+  }
+  .home-theme-card:hover .home-theme-label { color: var(--gold); }
+  
+/* ---- HERO CAROUSEL ---- */
+.hero-carousel { position: relative; overflow: hidden; cursor: pointer; }
+.hero-slide {
+  position: absolute; inset: 0; opacity: 0; transition: opacity .8s ease;
+  background-size: cover; background-position: center;
+}
+.hero-slide.active { opacity: 1; position: relative; }
+.hero-inner { min-height: 85vh; display: flex; align-items: center; padding: 60px 80px; position: relative; }
+.hero-content { max-width: 420px; z-index: 2; }
+.hero-badge { font-size: .75rem; letter-spacing: 2px; color: var(--gold); text-transform: uppercase; margin-bottom: 12px; }
+.hero-title { font-size: clamp(3rem, 6vw, 5.5rem); line-height: 1.05; margin-bottom: 20px; color: var(--text-dark); }
+.hero-img-right { position: absolute; right: 60px; bottom: 0; height: 80%; object-fit: contain; pointer-events: none; }
+.hero-img-left { position: absolute; left: 40px; top: 50%; transform: translateY(-50%); height: 45%; object-fit: contain; pointer-events: none; }
+.hero-badge-seal { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -60%); width: 100px; opacity: .7; }
+.hero-dots { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 5; }
+.hero-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(0,0,0,.2); border: none; cursor: pointer; transition: all var(--transition); }
+.hero-dot.active { background: var(--gold); width: 24px; border-radius: 4px; }
+.btn-primary-jelwo {
+  background: var(--gold); color: #fff; border: none;
+  padding: 14px 32px; border-radius: 50px; font-size: .85rem;
+  font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase;
+  text-decoration: none; display: inline-block; transition: all var(--transition);
+}
+.btn-primary-jelwo:hover { background: var(--gold-dark); color: #fff; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(176,140,90,.4); }
+.btn-outline-jelwo {
+  border: 2px solid var(--gold); color: var(--gold);
+  padding: 13px 32px; border-radius: 50px; font-size: .85rem;
+  font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase;
+  text-decoration: none; display: inline-block; transition: all var(--transition); background: transparent;
+}
+.btn-outline-jelwo:hover { background: var(--gold); color: #fff; }
+
+
+/* ---- STATIC BANNER ---- */
+.marquee-banner { 
+  background: var(--cream); 
+  padding: 14px 0; 
+  display: flex; 
+  justify-content: center; /* Centers the text horizontally */
+  align-items: center;     /* Centers the text vertically */
+  width: 100%;
+}
+
+.static-banner-text { 
+  font-size: .85rem; 
+  letter-spacing: 1px; 
+  color: orange;           /* Changed to orange */
+  display: flex; 
+  align-items: center; 
+  gap: 12px; 
+}
+
+
+/* ---- SECTION TITLES ---- */
+.section-title { font-size: clamp(2rem, 4vw, 3rem); text-align: center; margin-bottom: 48px; }
+
+.promo-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.promo-item {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.promo-item img {
+    width: 100%;
+    height: 420px;
+    object-fit: cover;
+    transition: transform .6s ease;
+    display: block;
+}
+
+.promo-item:hover img {
+    transform: scale(1.05);
+}
+
+  /* normal pages dropdown */
+.normal-wrap{
+  position: relative;
+}
+.normal-menu{
+  position: absolute;   /* changed from fixed */
+  top: 100%;            /* appear below menu */
+  left: 0;              /* align left */
+  min-width: 220px;     /* normal dropdown width */
+  
+  background: #fff;
+  box-shadow: 0 8px 40px rgba(0,0,0,.12);
+  border-top: 2px solid var(--gold);
+  padding: 12px 0;      /* smaller padding */
+
+  display: none;
+  z-index: 1040;
+}
+.normal-wrap:hover .normal-menu{
+  display:block;
+}
+
+.normal-menu .container-fluid , .normal-menu .row , .normal-menu .col-2{
+  all:unset;
+  display:block;
+}
+.normal-menu a{
+  display: block;
+    font-size: .85rem;
+    color: var(--text-mid);
+    text-decoration: none;
+    margin-bottom: 6px;
+    transition: color var(--transition);
+    padding-left: 15%;
+}
+
+/* FULL overlay on image */
+.promo-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+
+    padding: 30px;
+    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+    color: #fff;
+}
+
+.promo-tag {
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.8;
+    margin-bottom: 5px;
+}
+
+.promo-title {
+    font-size: 2rem;
+    font-family: 'Cormorant Garamond', serif;
+    line-height: 1.2;
+    margin-bottom: 10px;
+}
+
+/* ---- POPULAR CATEGORIES ---- */
+.category-carousel {
+    overflow: hidden;
+    width: 100%;
+}
+
+.category-track {
+    display: flex;
+    transition: transform 0.6s ease;
+}
+.category-card { position: relative; overflow: hidden; border-radius: 10px; cursor: pointer;min-width: 33.33%;position: relative; }
+.category-card img { width: 100%; height: 380px; object-fit: cover; transition: transform .5s ease; display: block; }
+.category-card:hover img { transform: scale(1.06); }
+.category-info {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: rgba(255,255,255,.9); padding: 24px;
+  transform: translateY(0); transition: all .3s ease;
+}
+.category-card:hover .category-info { background: rgba(176,140,90,.85); }
+.category-card:hover .category-info * { color: #fff !important; }
+.category-count { font-size: .75rem; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); }
+.category-name { font-size: 2.5rem; color: var(--text-dark); }
+.category-link { font-size: .75rem; letter-spacing: 1.5px; text-transform: uppercase; text-decoration: none; color: var(--text-mid); }
+
+/* ---- TRUST STRIP ---- */
+.trust-strip { background: var(--cream); padding: 24px 0; }
+.trust-item { text-align: center; padding: 16px; }
+.trust-icon { font-size: 1.8rem; color: var(--gold); margin-bottom: 8px; display: block; }
+.trust-title { font-weight: 600; font-size: .9rem; margin-bottom: 2px; }
+.trust-sub { font-size: .8rem; color: var(--text-mid); }
+
+/* ---- PRODUCTS GRID ---- */
+.product-card {
+  border-radius: 8px; overflow: hidden; background: #fff;
+  transition: box-shadow var(--transition);
+}
+.product-card:hover { box-shadow: 0 12px 40px rgba(0,0,0,.12); }
+.product-img-wrap { position: relative; overflow: hidden; background: var(--cream); }
+.product-img-wrap img { width: 100%; height: 220px; object-fit: cover; transition: transform .5s ease; display: block; }
+.product-card:hover .product-img-wrap img { transform: scale(1.06); }
+.product-badge { position: absolute; top: 12px; left: 12px; background: #2ecc71; color: #fff; font-size: .75rem; font-weight: 600; padding: 3px 8px; border-radius: 4px; z-index: 2; }
+.product-overlay {
+  position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,.15); display: flex; align-items: center; justify-content: center;
+  gap: 12px; opacity: 0; transition: opacity var(--transition);
+}
+.product-card:hover .product-overlay { opacity: 1; }
+.overlay-btn {
+  width: 40px; height: 40px; border-radius: 50%; background: #fff; border: none;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem; cursor: pointer; transition: all var(--transition);
+  transform: translateY(10px); transition: all .3s ease;
+}
+.product-card:hover .overlay-btn { transform: translateY(0); }
+.overlay-btn:hover, .overlay-btn.active { background: var(--gold); color: #fff; }
+.product-countdown { display: flex; gap: 8px; padding: 8px 12px; background: #fff; font-size: .75rem; font-weight: 600; letter-spacing: .5px; }
+.product-countdown span { display: flex; flex-direction: column; align-items: center; }
+.product-countdown small { font-size: .6rem; font-weight: 400; color: var(--text-mid); }
+.product-info { padding: 14px; }
+.product-category { font-size: .7rem; letter-spacing: 2px; text-transform: uppercase; color: var(--text-mid); margin-bottom: 4px; }
+.product-name { font-weight: 500; margin-bottom: 6px; font-size: .95rem; }
+.product-price { color: var(--gold); font-weight: 600; font-size: .9rem; }
+.product-price del { color: var(--text-mid); font-weight: 400; font-size: .8rem; margin-left: 4px; }
+.product-actions { display: flex; gap: 8px; align-items: center; }
+.variant-select { flex: 1; border: 1px solid #ddd; border-radius: 6px; padding: 5px 8px; font-size: .8rem; cursor: pointer; }
+.qty-control { display: flex; align-items: center; gap: 6px; border: 1px solid #ddd; border-radius: 6px; padding: 4px 8px; }
+.qty-control button { background: none; border: none; cursor: pointer; font-size: .9rem; color: var(--text-dark); padding: 0 2px; }
+.qty-control span { font-size: .85rem; min-width: 20px; text-align: center; }
+.btn-atc { background: var(--gold); color: #fff; border: none; border-radius: 6px; font-size: .8rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; padding: 9px; cursor: pointer; transition: all var(--transition); }
+.btn-atc:hover { background: var(--gold-dark); transform: translateY(-1px); }
+
+/* ---- UNLEASH SECTION ---- */
+.unleash-section { padding: 20px; }
+.unleash-left {
+  position: relative; overflow: hidden; min-height: 480px;
+  display: flex; align-items: center;
+  background: var(--cream);
+}
+.unleash-left-img {
+  position: absolute; left: 0; bottom: 0; height: 100%;
+  object-fit: cover; object-position: top;
+}
+.unleash-left-content {
+  position: relative; z-index: 2; margin-left: 48%;
+  padding: 48px 40px 48px 24px;
+}
+.unleash-right { position: relative; overflow: hidden; min-height: 480px; }
+.unleash-right video, .unleash-right img.video-thumb { width: 100%; height: 480px; object-fit: cover; display: block; }
+.video-play-btn {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  width: 64px; height: 64px; border-radius: 50%; background: rgba(255,255,255,.9);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem; color: var(--gold); transition: all var(--transition);
+  cursor: pointer; border: none; z-index: 3;
+}
+.video-play-btn:hover { background: var(--gold); color: #fff; transform: translate(-50%, -50%) scale(1.1); }
+
+/* ---- TESTIMONIALS ---- */
+.testimonials { padding: 80px 0; overflow: hidden; }
+.testimonials-track { display: flex; gap: 32px; transition: transform .6s ease; }
+.testimonial-card { min-width: 500px; background: #fff; border-radius: 12px; padding: 32px; box-shadow: 0 4px 24px rgba(0,0,0,.06); }
+.stars { color: var(--gold); font-size: 1.1rem; margin-bottom: 8px; }
+.review-text { font-size: .9rem; color: var(--text-mid); line-height: 1.7; margin-bottom: 20px; }
+.reviewer { display: flex; align-items: center; gap: 14px; }
+.reviewer img { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; }
+.reviewer-info .name { font-weight: 600; font-size: .9rem; }
+.reviewer-info .role { font-size: .8rem; color: var(--text-mid); }
+.quote-icon { margin-left: auto; font-size: 2.5rem; color: var(--gold-light); opacity: .6; }
+
+/* ---- NEWS SECTION ---- */
+.news-section { padding: 80px 0; background: var(--cream); overflow: hidden; }
+.news-track { display: flex; gap: 24px; transition: transform .6s ease; }
+.news-card { width:500px; flex-shrink: 0; background: #fff; border-radius: 8px; overflow: hidden; transition: box-shadow var(--transition), transform var(--transition); cursor:pointer;}
+.news-card:hover { box-shadow: 0 12px 40px rgba(0,0,0,.12); transform: translateY(-4px); }
+.news-card img { width: 100%; height: 220px; object-fit: cover; transition: transform .5s ease; }
+.news-card:hover img { transform: scale(1.04); }
+.news-meta { color: var(--gold); font-size: .78rem; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; padding: 24px 24px 0; }
+.news-excerpt { font-size: .85rem; color: var(--text-mid); line-height: 1.6; padding: 0 24px 16px; }
+
+/* ---- REELS ---- */
+.reels-section { padding: 80px 0; }
+.reels-track { display: flex; gap: 16px; overflow-x: auto; scrollbar-width: none; padding: 0 24px; }
+.reel-card { flex-shrink: 0; width: 260px; border-radius: 12px; overflow: hidden; position: relative; cursor: pointer; }
+.reel-bg { width: 100%; height: 340px; object-fit: cover; display: block; }
+.reel-video-bg { width: 100%; height: 340px; object-fit: cover; display: block; }
+.reel-info {
+  position: absolute; bottom: 0; left: 0; right: 0;
+   padding: 14px 12px 14px;
+  display: flex; align-items: center; gap: 10px;
+}
+.reel-thumb { width: 71.99px; height: 89.98px; border-radius: 6px; object-fit: cover; flex-shrink: 0; }
+.reel-product-name { font-size: 15px; color: #fff; font-weight: 500; }
+.reel-price { font-size: 15px; color: #fff; }
+.btn-reel-atc { 
+  position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%);
+  background: var(--gold); color: #fff; border: none; border-radius: 20px;
+  font-size: .7rem; font-weight: 600; letter-spacing: 1px; padding: 8px 16px;
+  opacity: 0; transition: opacity var(--transition); white-space: nowrap; cursor: pointer;
+}
+.reel-card:hover .btn-reel-atc { opacity: 1; }
+
+/* ---- FOOTER ---- */
+footer { background: var(--cream); padding: 60px 0 30px; }
+.footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 600; color: var(--text-dark); letter-spacing: 2px; display: block; margin-bottom: 20px; text-decoration: none; }
+.footer-contact { font-size: .875rem; color: var(--text-mid); line-height: 1.8; }
+.footer-contact a { color: var(--text-mid); text-decoration: none; }
+.footer-contact a:hover { color: var(--gold); }
+.footer-heading { font-family: 'Jost', sans-serif; font-weight: 600; font-size: .8rem; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dark); margin-bottom: 16px; }
+.footer-link { display: block; font-size: .875rem; color: var(--text-mid); text-decoration: none; margin-bottom: 8px; transition: color var(--transition); }
+.footer-link:hover { color: var(--gold); padding-left: 4px; }
+.footer-social a { display: inline-flex; width: 36px; height: 36px; border-radius: 50%; background: var(--cream-dark); align-items: center; justify-content: center; color: var(--text-dark); text-decoration: none; transition: all var(--transition); margin-right: 8px; }
+.footer-social a:hover { background: var(--gold); color: #fff; }
+.footer-subscribe { display: flex; gap: 8px; }
+.footer-subscribe input { flex: 1; border: 1px solid #ddd; border-radius: 6px; padding: 10px 14px; font-size: .85rem; background: #fff; }
+.footer-subscribe button { background: var(--gold); color: #fff; border: none; border-radius: 6px; padding: 10px 20px; font-size: .85rem; font-weight: 600; cursor: pointer; transition: background var(--transition); }
+.footer-subscribe button:hover { background: var(--gold-dark); }
+.footer-bottom { border-top: 1px solid var(--cream-dark); margin-top: 40px; padding-top: 20px; font-size: .8rem; color: var(--text-mid); }
+.payment-icons i { font-size: 1.8rem; margin-left: 8px; opacity: .6; }
+
+/* ---- CART OFFCANVAS ---- */
+.offcanvas-header { border-bottom: 1px solid var(--cream-dark); }
+.offcanvas-title { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; }
+.welcome-banner { background: var(--cream); padding: 10px 16px; font-size: .8rem; border-radius: 6px; margin-bottom: 16px; }
+.welcome-banner strong { color: var(--gold); }
+.free-ship-bar { background: var(--cream-dark); border-radius: 6px; height: 6px; margin-bottom: 20px; overflow: hidden; }
+.free-shipping-bar { height: 100%; background: var(--gold); border-radius: 6px; transition: width .4s ease; width: 0%; }
+.cart-actions .btn { border-radius: 6px; font-weight: 600; font-size: .85rem; }
+.btn-checkout { background: var(--text-dark); color: #fff; border: none; padding: 13px 24px; border-radius: 6px; font-weight: 600; font-size: .85rem; cursor: pointer; transition: all var(--transition); text-decoration: none; display: inline-block; }
+.btn-checkout:hover { background: var(--gold); color: #fff; }
+
+/* ---- QUICK VIEW MODAL ---- */
+.modal-content { border-radius: 12px; overflow: hidden; }
+.qv-img { width: 100%; height: 320px; object-fit: cover; }
+.qv-name { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; }
+.qv-price { color: var(--gold); font-size: 1.1rem; font-weight: 600; }
+.qv-price del { color: var(--text-mid); font-weight: 400; }
+
+/* ---- MISC ---- */
+.btn-xs { font-size: .75rem; padding: 2px 8px; }
+.section-pad { padding: 80px 0; }
+
+@media (max-width: 992px) {
+  .mega-menu { padding: 24px; }
+  .main-nav { display: none; }
+  .promo-grid { grid-template-columns: 1fr; }
+  .hero-inner { padding: 40px 24px; min-height: 60vh; }
+  .hero-img-right { display: none; }
+}
+
+.product-carousel {
+  overflow: hidden;
+  width: 100%;
+}
+
+.product-track {
+  display: flex;
+}
+
+.product-card {
+  min-width: 25%; /* show 4 products */
+  padding: 10px;
+  cursor:pointer
+}
+
+.trend-carousel {
+  overflow: hidden;
+  width: 100%;
+}
+
+.trend-track {
+  display: flex;
+}
+
+.trend-card {
+  min-width: 25%; /* 4 items visible */
+  padding: 10px;
+  cursor:pointer
+}
+
+ /* ── Modal backdrop ───────────────────────────────────── */
+    #newsletterModal .modal-dialog {
+      max-width: 500px;
+    }
+    #newsletterModal .modal-content {
+      border: none;
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.18);
+    }
+ 
+    /* ── Close button ─────────────────────────────────────── */
+    #newsletterModal .btn-close {
+      position: absolute;
+      top: 14px;
+      right: 16px;
+      z-index: 10;
+      opacity: 0.55;
+      filter: none;
+    }
+    #newsletterModal .btn-close:hover { opacity: 1; }
+ 
+    /* ── Text section ─────────────────────────────────────── */
+    .popup-text {
+      background: #fff;
+      padding: 2.4rem 2.8rem 1.6rem;
+      position: relative;
+    }
+    .popup-eyebrow {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #b08d6a;
+      margin-bottom: 0.75rem;
+    }
+    .popup-headline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.55rem, 4vw, 2rem);
+      font-weight: 600;
+      line-height: 1.25;
+      color: #1a1a1a;
+      margin-bottom: 1.6rem;
+    }
+    .popup-headline span {
+      color: #b08d6a;
+    }
+ 
+    /* ── Email row ────────────────────────────────────────── */
+    .input-group .form-control {
+      border: 1.5px solid #ddd;
+      border-right: none;
+      border-radius: 3px 0 0 3px !important;
+      font-size: 0.85rem;
+      padding: 0.65rem 1rem;
+      background: #faf9f7;
+      color: #333;
+      font-family: 'Jost', sans-serif;
+      letter-spacing: 0.03em;
+    }
+    .input-group .form-control:focus {
+      box-shadow: none;
+      border-color: #b08d6a;
+      background: #fff;
+    }
+    .input-group .form-control::placeholder { color: #bbb; }
+ 
+    .btn-subscribe {
+      background: #b08d6a;
+      color: #fff;
+      border: none;
+      border-radius: 0 3px 3px 0 !important;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 0 1.4rem;
+      transition: background 0.25s;
+      white-space: nowrap;
+    }
+    .btn-subscribe:hover { background: #96754f; color: #fff; }
+ 
+    /* ── Checkbox ─────────────────────────────────────────── */
+    .dont-show-wrap {
+      margin-top: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .dont-show-wrap input[type="checkbox"] {
+      accent-color: #b08d6a;
+      width: 14px;
+      height: 14px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .dont-show-wrap label {
+      font-size: 0.78rem;
+      color: #999;
+      cursor: pointer;
+      letter-spacing: 0.04em;
+      user-select: none;
+    }
+ 
+    /* ── Image section ────────────────────────────────────── */
+    .popup-image {
+      width: 100%;
+      height: 210px;
+      object-fit: cover;
+      display: block;
+    }
+ 
+    /* ── Success message ──────────────────────────────────── */
+    .success-msg {
+      display: none;
+      text-align: center;
+      padding: 0.6rem 0 0.2rem;
+    }
+    .success-msg p {
+      font-size: 0.82rem;
+      color: #7aaa6d;
+      font-family: 'Jost', sans-serif;
+      letter-spacing: 0.06em;
+    }
+  </style>
+</head>
+<body>
+
+<!-- =================== MAIN HEADER =================== -->
+<header class="main-header" id="mainHeader">
+  <div class="header-inner">
+    <a href="index.html" class="logo"><img src="//jelwo.myshopify.com/cdn/shop/files/jewelry-4-logo.png?v=1744805986&width=500"/></a>
+    <span style="border-left: 1px solid #e2e2e2;
+    padding-left: 30px;
+    margin-left: 30px; color:#808080; align-items:center; justify-content:flex-start;"><p>Free UK standard delivery on all orders.</p></span>
+    <!-- HEADER ACTIONS -->
+    <div class="header-actions">
+      <div class="position-relative">
+        <input type="text" id="headerSearch" placeholder="Search product..." class="form-control form-control-sm" style="width:180px;border-radius:20px;border:1px solid #ddd;">
+      </div>
+      <a href="account.html">
+      <button class="icon-btn" ><i class="bi bi-person"></i></button></a>
+      <a href="wishlist.html">
+      <button class="icon-btn" data-bs-toggle="offcanvas" data-bs-target="#wishlistOffcanvas">
+        <i class="bi bi-heart"></i>
+        <span class="badge-count wishlist-count">0</span>
+      </button> </a>
+      <button class="icon-btn" data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas">
+        <i class="bi bi-bag"></i>
+        <span class="badge-count cart-count">0</span>
+      </button>
+    </div>
+  </div>
+  
+</header>
+
+<div class="header-bar">
+    <a href="tel:2201234567890" class="phone-link"><i class="bi bi-telephone"></i> (220) 123 456 7890</a>
+    <!-- NAV -->
+    <nav class="main-nav">
+
+      <!-- HOME -->
+      <div class="mega-wrap">
+        <a class="nav-link-custom active">HOME <i class="bi bi-chevron-down small"></i></a>
+        <div class="mega-menu home-mega-menu">
+          <div style="width:100%;">
+            
+            <div style="display:grid; grid-template-columns:repeat(6,1fr); gap:16px;">
+ 
+              <!-- 06 Classic jewelry (NEW badge) -->
+              <div class="home-theme-card" onclick="location.href='index.html'" style="cursor:pointer;position:relative;">
+                <div style="position:absolute;top:8px;left:8px;z-index:3;background:#2ecc71;color:#fff;font-size:.62rem;font-weight:700;padding:2px 7px;border-radius:3px;letter-spacing:.5px;transform:rotate(-5deg);">NEW</div>
+                <div class="home-theme-img-wrap">
+                  <img src="//jelwo.myshopify.com/cdn/shop/files/home6.jpg?v=1750230396&width=500" alt="Classic jewelry">
+                  <div class="home-theme-overlay"><i class="bi bi-eye" style="font-size:1.2rem;color:#fff;"></i></div>
+                </div>
+                <p class="home-theme-label">06 Classic jewelry</p>
+              </div>
+ 
+              <!-- 01 Unique jewelry -->
+              <div class="home-theme-card" onclick="location.href='index.html'" style="cursor:pointer;">
+                <div class="home-theme-img-wrap">
+                  <img src="//jelwo.myshopify.com/cdn/shop/files/demo-menu-banner-1.jpg?v=1746178520&width=500" alt="Unique jewelry">
+                  <div class="home-theme-overlay"><i class="bi bi-eye" style="font-size:1.2rem;color:#fff;"></i></div>
+                </div>
+                <p class="home-theme-label">01 Unique jewelry</p>
+              </div>
+ 
+              <!-- 02 Modern jewelry -->
+              <div class="home-theme-card" onclick="location.href='index.html'" style="cursor:pointer;">
+                <div class="home-theme-img-wrap">
+                  <img src="//jelwo.myshopify.com/cdn/shop/files/demo-menu-banner-2.jpg?v=1746178520&width=500" alt="Modern jewelry">
+                  <div class="home-theme-overlay"><i class="bi bi-eye" style="font-size:1.2rem;color:#fff;"></i></div>
+                </div>
+                <p class="home-theme-label">02 Modern jewelry</p>
+              </div>
+ 
+              <!-- 03 Traditional jewelry -->
+              <div class="home-theme-card" onclick="location.href='index.html'" style="cursor:pointer;">
+                <div class="home-theme-img-wrap">
+                  <img src="//jelwo.myshopify.com/cdn/shop/files/demo-menu-banner-3.jpg?v=1746178520&width=500" alt="Traditional jewelry">
+                  <div class="home-theme-overlay"><i class="bi bi-eye" style="font-size:1.2rem;color:#fff;"></i></div>
+                </div>
+                <p class="home-theme-label">03 Traditional jewelry</p>
+              </div>
+ 
+              <!-- 04 Luxury jewelry -->
+              <div class="home-theme-card" onclick="location.href='index.html'" style="cursor:pointer;">
+                <div class="home-theme-img-wrap">
+                  <img src="//jelwo.myshopify.com/cdn/shop/files/demo-menu-banner-4.jpg?v=1746178520&width=500" alt="Luxury jewelry">
+                  <div class="home-theme-overlay"><i class="bi bi-eye" style="font-size:1.2rem;color:#fff;"></i></div>
+                </div>
+                <p class="home-theme-label">04 Luxury jewelry</p>
+              </div>
+ 
+              <!-- 05 Elegant jewelry -->
+              <div class="home-theme-card" onclick="location.href='index.html'" style="cursor:pointer;">
+                <div class="home-theme-img-wrap">
+                  <img src="//jelwo.myshopify.com/cdn/shop/files/demo-menu-banner-5.jpg?v=1746178520&width=500" alt="Elegant jewelry">
+                  <div class="home-theme-overlay"><i class="bi bi-eye" style="font-size:1.2rem;color:#fff;"></i></div>
+                </div>
+                <p class="home-theme-label">05 Elegant jewelry</p>
+              </div>
+ 
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SHOP -->
+      <div class="mega-wrap">
+        <a href="shop.html" class="nav-link-custom">SHOP <i class="bi bi-chevron-down small"></i></a>
+        <div class="mega-menu" style="display:none; top:130px;">
+          <div class="container-fluid">
+            <div class="row g-4">
+              <div class="col-2 mega-menu-col">
+                <h6>Earrings</h6>
+                <a href="flowerjhumka.html">Flower jumkha</a>
+                <a href="flowerjhumka.html">Brown sunglasses</a>
+                <a href="flowerjhumka.html">Bucket shoes</a>
+                <a href="iamondrashmiring.html">Iamond rashmi ring</a>
+                <a href="floralgoldbangle.html">Floral gold bangle</a>
+                <a href="glitterdiamondring.html">Glitter diamond ring</a>
+              </div>
+              <div class="col-2 mega-menu-col">
+                <h6>Necklace</h6>
+                <a href="framedgoldpendant.html">Framed gold pendant</a>
+                <a href="glowernosepin.html">Flower nose pin</a>
+                <a href="goldnosepin.html">Gold nose pin</a>
+                <a href="goldnosepin.html">Color print sandal</a>
+                <a href="blossomdiamondbangle.html">Blossom diamond bangle</a>
+                <a href="simplepearlear.html">Simple Pearl earrings</a>
+              </div>
+              <div class="col-2 mega-menu-col">
+                <h6>Rings</h6>
+                <a href="rosegoldring.html">Rose gold rings</a>
+                <a href="sherbiring.html">Sherbi ring</a>
+                <a href="iamondrashmiring.html">Iamond rashmi ring</a>
+                <a href="glitterdiamondring.html">Glitter diamond ring</a>
+                <a href="diamondring.html">Diamond rings</a>
+                <a href="clusterdiamondring.html">Cluster diamond ring</a>
+              </div>
+              <div class="col-2 mega-menu-col">
+                <h6>Bracelets</h6>
+                <a href="floralgoldbangle.html">Floral gold bangle</a>
+                <a href="modish.html">Modish bracelet</a>
+                <a href="blossomdiamondbangle.html">Blossom diamond bangle</a>
+                <a href="gemstonechainbrac.html">Gemstone chain bracelet</a>
+                <a href="gemstonechainbrac.html">Blue heavy t-shirt</a>
+                <a href="gemstonechainbrac.html">Brown sunglasses</a>
+              </div>
+              <div class="col-4">
+                <div style="background:var(--gold);border-radius:12px;overflow:hidden;position:relative;">
+                  <img src="//jelwo.myshopify.com/cdn/shop/files/jewelry-4-menu-banner.jpg?v=1742635152&width=500" style="width:100%;height:200px;object-fit:cover;opacity:.7;">
+                  <div style="position:absolute;bottom:0;left:0;right:0;padding:16px;color:#fff">
+                    <div style="font-size:.75rem;letter-spacing:2px">SPECIAL OFFER</div>
+                    <div style="font-family:'Cormorant Garamond',serif;font-size:1.6rem">FLAT 30% OFF</div>
+                    <a href="collections.html" class="btn-outline-jelwo mt-2" style="font-size:.72rem;padding:6px 14px;color:#fff;border-color:#fff">SHOP NOW</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRODUCTS -->
+      <div class="mega-wrap">
+        <a class="nav-link-custom">PRODUCTS <i class="bi bi-chevron-down small"></i></a>
+        <div class="mega-menu" style="display:none;">
+          <div class="container-fluid">
+            <div class="row g-4">
+              <div class="col-2 mega-menu-col">
+                <h6>Earrings</h6>
+                <a href="dropgoldear.html">Drop gold earrings</a>
+                <a href="simplepearlear.html">Simple Pearl earrings</a>
+                <a href="gemstonejhumka.html">Gemstone jhumkas</a>
+                <a href="flowerjhumka.html">Flower jhumka</a>
+                <a href="rosegoldbrac.html">Rose gold bracelet</a>
+                <a href="diamondbrac.html">Diamond bracelet</a>
+              </div>
+              <div class="col-2 mega-menu-col">
+                <h6>Bracelets</h6>
+                <a href="rosegoldbrac.html">Rose gold bracelet</a>
+                <a href="diamondbrac.html">Diamond bracelet</a>
+                <a href="goldchain.html">Gold chain</a>
+                <a href="rosegoldbrac.html">Rose gold bracelet</a>
+                <a href="diamondbrac.html">Diamond bracelet</a>
+                <a href="goldchain.html">Gold chain</a>
+              </div>
+              <div class="col-2 mega-menu-col">
+                <h6>Necklace</h6>
+                <a href="diamondnecklace.html">Diamond necklace</a>
+                <a href="goldpendant.html">Gold pendant</a>
+                <a href="flowerpendant.html">Flower pendant</a>
+                <a href="rosegoldbrac.html">Rose gold bracelet</a>
+                <a href="diamondbrac.html">Diamond bracelet</a>
+                <a href="goldchain.html">Gold chain</a>
+              </div>
+              <div class="col-2 mega-menu-col">
+                <h6>Rings</h6>
+                <a href="chicdiamondring.html">Chic diamond ring</a>
+                <a href="glitterdiamondring.html">Glitter diamond ring</a>
+                <a href="sherbiring.html">Sherbi ring</a>
+                <a href="rosegoldbrac.html">Rose gold bracelet</a>
+                <a href="diamondbrac.html">Diamond bracelet</a>
+                <a href="goldchain.html">Gold chain</a>
+              </div>
+              <div class="col-4">
+                <h6>Popular Collection</h6>
+                <div id="productsMegaCarousel" class="d-flex gap-3 overflow-hidden">
+                  <!-- populated by JS -->
+                </div>
+                <div class="d-flex gap-2 mt-3">
+                  <button class="btn btn-sm btn-outline-secondary" onclick="slideMegaCarousel(-1)"><i class="bi bi-chevron-left"></i></button>
+                  <button class="btn btn-sm btn-outline-secondary" onclick="slideMegaCarousel(1)"><i class="bi bi-chevron-right"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BLOG -->
+      <a href="blog.html" class="nav-link-custom">BLOG</a>
+
+      <!-- PAGES -->
+      <div class="normal-wrap">
+        <a class="nav-link-custom">
+          PAGES <i class="bi bi-chevron-down small"></i>
+        </a>
+
+        <div class="normal-menu">
+
+          <!-- About (nested) -->
+          <div class="nested-dropdown-wrap">
+            <a style="cursor:pointer;display:flex;align-items:center;text-align:center;justify-content:space-between;">
+              About us <i class="bi bi-chevron-right small"></i>
+            </a>
+            <div class="nested-dropdown">
+              <a href="about.html">About us</a>
+              <a href="about2.html">About us 2</a>
+            </div>
+          </div>
+
+          <!-- Contact (nested) -->
+          <div class="nested-dropdown-wrap mt-2">
+            <a style="cursor:pointer;display:flex;align-items:center;justify-content:space-between">
+              Contact <i class="bi bi-chevron-right small"></i>
+            </a>
+            <div class="nested-dropdown">
+              <a href="contact.html">Contact us</a>
+              <a href="contact2.html">Contact us 2</a>
+            </div>
+          </div>
+
+          <a href="faqs.html">Faq's</a>
+          <a href="privacy.html">Privacy policy</a>
+          <a href="refund.html">Refund policy</a>
+          <a href="storeloc.html">Store location</a>
+          <a href="shipping.html">Shipping & return</a>
+          <a href="terms.html">Terms & condition</a>
+
+        </div>
+      </div>
+    </nav>
+    <a href="collections.html" class="free-try ms-auto"><i class="bi bi-house"></i> FREE TRY AT HOME</a>
+
+  </div>
+
+<!-- =================== CART OFFCANVAS =================== -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="cartOffcanvas" style="width:400px;">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title">My shopping cart</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div class="welcome-banner">New customers save 10% with code <strong>WELCOME10</strong></div>
+    <div class="free-ship-bar"><div class="free-shipping-bar"></div></div>
+    <p class="free-shipping-text text-muted small mb-3">Spend Rs. 100 more and get free shipping!</p>
+    <div id="cartOffcanvasItems"></div>
+    <div class="border-top pt-3 mt-3">
+      <div class="d-flex justify-content-between mb-3">
+        <strong>Subtotal</strong>
+        <strong id="cartSubtotal">Rs. 0.00</strong>
+      </div>
+      <p class="text-muted small">Taxes, discounts and shipping calculated at checkout.</p>
+      <div class="d-flex gap-2">
+        <a href="cart.html" class="btn btn-outline-secondary flex-fill">VIEW CART</a>
+        <a href="#" class="btn-checkout flex-fill text-center">CHECKOUT</a>
+      </div>
+      <!-- Recommended -->
+      <div class="mt-4">
+        <p class="small fw-semibold">You might also like</p>
+        <div id="cartRecsCarousel" class="d-flex gap-3 overflow-hidden">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =================== QUICK VIEW MODAL =================== -->
+<div class="modal fade" id="quickViewModal" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body p-0">
+        <button class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" style="z-index:5;"></button>
+        <div class="row g-0">
+          <div class="col-md-5">
+            <img src="" class="qv-img" alt="">
+          </div>
+          <div class="col-md-7 p-4">
+            <h2 class="qv-name mb-2">Product Name</h2>
+            <p class="qv-price mb-3">Rs. 0.00 <del>Rs. 0.00</del></p>
+            <select class="form-select mb-3 qv-variants" style="max-width:180px;"></select>
+            <button class="btn-primary-jelwo qv-atc w-100">ADD TO CART</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =================== HERO CAROUSEL =================== -->
+<section class="hero-carousel" id="heroCarousel">
+  <!-- Slides built by JS -->
+</section>
+
+<!-- =================== MARQUEE BANNER =================== -->
+<div class="marquee-banner">
+    <span class="static-banner-text">DIAMONDS FOR EVERY EXCUSE 1500+ DESIGNS UNDER</span>
+</div>
+
+
+<!-- =================== PROMO 2-GRID =================== -->
+<section id="promoGrid" style="padding-inline: 20px;">
+  <div class="promo-grid">
+    <div class="promo-item">
+      <img src="//jelwo.myshopify.com/cdn/shop/files/jewelry-4-banner-1.jpg?v=1742541671&width=1080" alt="Exquisite collection">
+      <div class="promo-content">
+        <div class="promo-tag">GET A 30% DISCOUNT</div>
+        <div class="promo-title">Exquisite<br>collection</div>
+        <a href="brooch.html" class="btn-primary-jelwo">SHOP NOW</a>
+      </div>
+  </div>
+  <div class="promo-item">
+      <img src="//jelwo.myshopify.com/cdn/shop/files/jewelry-4-banner-2.jpg?v=1742541712&width=1080" alt="Diamond necklace">
+      <div class="promo-content">
+        <div class="promo-tag">20% OFF ON WASTAGE</div>
+        <div class="promo-title">Diamond<br>necklace</div>
+        <a href="chain.html" class="btn-primary-jelwo">SHOP NOW</a>
+      </div>
+  </div>
+  </div>
+</section>
+
+<!-- =================== POPULAR CATEGORY =================== -->
+<section class="section-pad" style="background:#fff;">
+  <div class="container-fluid px-4">
+    <h2 class="section-title">Popular category</h2>
+
+    <div class="category-carousel">
+      <div class="category-track">
+
+        <!-- CARD -->
+        <div class="category-card">
+          <a href="rings.html" class="d-block text-decoration-none">
+            <img src="//jelwo.myshopify.com/cdn/shop/files/jewelry-4-cate-1.jpg?v=1742619384&width=1080">
+            <div class="category-info">
+              <div class="category-count">12 + ITEMS</div>
+              <div class="category-name">Rings</div>
+              <div class="category-link">SHOP NOW →</div>
+            </div>
+          </a>
+        </div>
+
+        <div class="category-card">
+          <a href="earrings.html">
+            <img src="//jelwo.myshopify.com/cdn/shop/files/jewelry-4-cate-2.jpg?v=1742619383&width=1080">
+            <div class="category-info">
+              <div class="category-count">10 + ITEMS</div>
+              <div class="category-name">Earrings</div>
+              <div class="category-link">SHOP NOW →</div>
+            </div>
+          </a>
+        </div>
+
+        <div class="category-card">
+          <a href="bracelets.html">
+            <img src="//jelwo.myshopify.com/cdn/shop/files/jewelry-4-cate-3.jpg?v=1742619384&width=1080">
+            <div class="category-info">
+              <div class="category-count">12 + ITEMS</div>
+              <div class="category-name">Bracelets</div>
+              <div class="category-link">SHOP NOW →</div>
+            </div>
+          </a>
+        </div>
+
+        <div class="category-card">
+          <a href="necklaces.html">
+            <img src="//jelwo.myshopify.com/cdn/shop/files/jewelry-4-cate-4.jpg?v=1742620620&width=1080">
+            <div class="category-info">
+              <div class="category-count">12 + ITEMS</div>
+              <div class="category-name">Necklace</div>
+              <div class="category-link">SHOP NOW →</div>
+            </div>
+          </a>
+        </div>
+
+        <div class="category-card">
+          <a href="pendant.html">
+            <img src="//jelwo.myshopify.com/cdn/shop/files/jewelry-4-cate-5.jpg?v=1742621906&width=1080">
+            <div class="category-info">
+              <div class="category-count">12 + ITEMS</div>
+              <div class="category-name">Pendants</div>
+              <div class="category-link">SHOP NOW →</div>
+            </div>
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- =================== TRUST STRIP =================== -->
+<div class="trust-strip">
+  <div class="container">
+    <div class="row g-0">
+      <div class="col-md-3 trust-item border-end">
+        <span class="trust-icon"><i class="bi bi-truck"></i></span>
+        <div class="trust-title">Free shipping</div>
+        <div class="trust-sub">On all orders</div>
+      </div>
+      <div class="col-md-3 trust-item border-end">
+        <span class="trust-icon"><i class="bi bi-headset"></i></span>
+        <div class="trust-title">Quality support</div>
+        <div class="trust-sub">Contact us anytime</div>
+      </div>
+      <div class="col-md-3 trust-item border-end">
+        <span class="trust-icon"><i class="bi bi-arrow-repeat"></i></span>
+        <div class="trust-title">Money return</div>
+        <div class="trust-sub">30 days free return</div>
+      </div>
+      <div class="col-md-3 trust-item">
+        <span class="trust-icon"><i class="bi bi-shield-check"></i></span>
+        <div class="trust-title">Secured payment</div>
+        <div class="trust-sub">Payment cards accepted</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =================== NEW JEWELRYS =================== -->
+<section class="section-pad">
+  <div class="container-fluid px-4">
+    <h2 class="section-title">New jewelrys</h2>
+    <div class="row g-4" id="newJewelrysGrid"></div>
+    <div class="text-center mt-5">
+      <a href="collections.html" class="btn-primary-jelwo">VIEW COLLECTION</a>
+    </div>
+  </div>
+</section>
+
+<!-- =================== UNLEASH SECTION =================== -->
+<section class="unleash-section">
+  <div class="row g-6 m-0">
+    <!-- LEFT: jewelry image with content overlaid on top -->
+    <div class="col-md-7 unleash-left">
+      <img src="//jelwo.myshopify.com/cdn/shop/files/jewelry-4-banner-3.jpg?v=1742624026&width=1024" class="unleash-left-img" alt="Earrings">
+      <div class="unleash-left-content">
+        <h2 style="font-size:2.8rem;line-height:1.1;font-family:'Cormorant Garamond',serif;">Unleash your<br><em>inner shine</em></h2>
+        <p style="font-size:.9rem;line-height:1.8;color:var(--text-mid);margin:16px 0 28px;">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
+        <a href="collections.html" class="btn-primary-jelwo">SHOP NOW</a>
+      </div>
+    </div>
+    <!-- RIGHT: video fills the full right column -->
+    <div class="col-md-5 unleash-right">
+      <img src="//jelwo.myshopify.com/cdn/shop/files/jewelry-4-video-banner.jpg?v=1742625158&width=1024" class="video-thumb" alt="Video" id="unleashVideoThumb">
+      <button class="video-play-btn" onclick="playYoutube()" id="unleashPlayBtn">
+        <i class="bi bi-play-fill"></i>
+      </button>
+      <div id="youtubeEmbed" style="display:none;position:absolute;inset:0;"></div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== TRENDING PRODUCTS =================== -->
+<section class="section-pad" style="background:#fff;">
+  <div class="container-fluid px-4">
+    <h2 class="section-title">Trending products</h2>
+    <div class="row g-4" id="trendingGrid" ></div>
+    <div class="text-center mt-5">
+      <a href="collections.html" class="btn-primary-jelwo">VIEW COLLECTION</a>
+    </div>
+  </div>
+</section>
+
+<!-- =================== TESTIMONIALS =================== -->
+<section class="testimonials" style="background:var(--cream);">
+  <div class="container-fluid px-4">
+    <h2 class="section-title">Happy customer</h2>
+    <div style="overflow:hidden;">
+      <div class="testimonials-track" id="testimonialsTrack"></div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== JEWELRY NEWS =================== -->
+<section class="news-section">
+  <div class="container-fluid px-4">
+    <h2 class="section-title">Jewelry news</h2>
+    <div style="overflow:hidden;">
+      <div class="news-track" id="newsTrack"></div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== WATCH & SHOP REELS =================== -->
+<section class="reels-section">
+  <div class="container-fluid px-4">
+    <h2 class="section-title">Watch &amp; shop reels</h2>
+    <div class="reels-track" id="reelsTrack"></div>
+  </div>
+</section>
+
+<!-- =================== FOOTER =================== -->
+<footer>
+  <div class="container-fluid px-5">
+    <div class="row g-5">
+      <div class="col-md-3">
+        <a href="index.html" class="footer-logo">JELWO</a>
+        <div class="footer-contact">
+          <p><i class="bi bi-geo-alt me-2 text-gold"></i>55 East 10th street, new york,<br>ny 10003, united states</p>
+          <p class="mt-2"><i class="bi bi-telephone me-2"></i><a href="tel:2201234567890">+ (220) 123 456 7890</a></p>
+          <p><i class="bi bi-envelope me-2"></i><a href="mailto:demo123546@gmail.com">demo123546@gmail.com</a></p>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <p class="footer-heading">Information</p>
+        <a href="about.html" class="footer-link">About us</a>
+        <a href="contact.html" class="footer-link">Contact us</a>
+        <a href="faqs.html" class="footer-link">Faq's</a>
+        <a href="news.html" class="footer-link">News</a>
+      </div>
+      <div class="col-md-2">
+        <p class="footer-heading">Privacy &amp; terms</p>
+        <a href="privacy.html" class="footer-link">Privacy policy</a>
+        <a href="refund.html" class="footer-link">Refund policy</a>
+        <a href="shipping.html" class="footer-link">Shipping &amp; return</a>
+        <a href="terms.html" class="footer-link">Terms &amp; condition</a>
+      </div>
+      <div class="col-md-2">
+        <p class="footer-heading">Category</p>
+        <a href="rings.html" class="footer-link">Rings</a>
+        <a href="earring.html" class="footer-link">Earring</a>
+        <a href="pendant.html" class="footer-link">Pendant</a>
+        <a href="necklaces.html" class="footer-link">Necklaces</a>
+        <a href="bracelets.html" class="footer-link">Bracelets</a>
+      </div>
+      <div class="col-md-3">
+        <p class="footer-heading">Visit store</p>
+        <p class="footer-contact" style="font-size:.875rem;color:var(--text-mid);">
+          Mon - sat : 10am - 11pm<br>
+          Sun : 10am - 4pm<br>
+          7 Days a week
+        </p>
+        <div class="mt-4">
+          <p class="footer-heading">Subscribe &amp; get 15% discount.</p>
+          <div class="footer-subscribe">
+            <input type="email" placeholder="Enter your email" id="footerEmail">
+            <button onclick="footerSubscribe()">SUBSCRIBE</button>
+          </div>
+          <p class="text-success small mt-2" id="footerMsg" style="display:none;">Thanks for subscribing, Discount code: <strong>WC5</strong></p>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom d-flex justify-content-between align-items-center flex-wrap gap-3">
+      <div>
+        <div class="footer-social mb-2">
+          <a href="#"><i class="bi bi-facebook"></i></a>
+          <a href="#"><i class="bi bi-twitter-x"></i></a>
+          <a href="#"><i class="bi bi-instagram"></i></a>
+          <a href="#"><i class="bi bi-pinterest"></i></a>
+          <a href="https://youtube.com" target="_blank"><i class="bi bi-youtube"></i></a>
+        </div>
+        Copyright © 2026 by spacingtech
+      </div>
+      <div class="payment-icons">
+        <i class="bi bi-credit-card-2-front"></i>
+        <i class="bi bi-credit-card"></i>
+        <i class="bi bi-paypal"></i>
+        <i class="bi bi-bank"></i>
+      </div>
+    </div>
+  </div>
+</footer>
+
+ <!-- ── Newsletter Modal ──────────────────────────── -->
+  <div class="modal fade" id="newsletterModal" tabindex="-1" aria-labelledby="newsletterModalLabel" aria-hidden="true" data-bs-backdrop="true" data-bs-keyboard="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+ 
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+ 
+        <!-- Text area -->
+        <div class="popup-text">
+          <p class="popup-eyebrow">Don't miss a thing</p>
+          <h2 class="popup-headline" id="newsletterModalLabel">
+            Join our newsletter and get<br>
+            <span>10% off</span> your first order
+          </h2>
+ 
+          <!-- Email + Subscribe -->
+          <div class="input-group" id="emailRow">
+            <input type="email" id="popupEmail" class="form-control" placeholder="Enter your email" aria-label="Email address"/>
+            <button class="btn btn-subscribe" type="button" id="subscribeBtn">Subscribe</button>
+          </div>
+ 
+          <!-- Success -->
+          <div class="success-msg" id="successMsg">
+            <p>&#10003; &nbsp;You're subscribed! Check your inbox for your discount code.</p>
+          </div>
+ 
+          <!-- Don't show again -->
+          <div class="dont-show-wrap">
+            <input type="checkbox" id="dontShowAgain"/>
+            <label for="dontShowAgain">Don't show this popup again</label>
+          </div>
+        </div>
+ 
+        <!-- Jewellery image -->
+        <img
+          src="//jelwo.myshopify.com/cdn/shop/files/jewelry-4-popup.jpg?crop=center&height=500&v=1742642273&width=900"
+          alt="Diamond ring on a hand"
+          class="popup-image"
+        />
+ 
+      </div>
+    </div>
+  </div>
+<script src="javascript/App.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+
+// =============================================
+// HERO CAROUSEL
+// =============================================
+const heroSlides = [
+  {
+    bg: '//jelwo.myshopify.com/cdn/shop/files/jewelry-4-slider-1.jpg?v=1742540741&width=3840',
+    tag: 'SINCE 1990 · NEW COLLECTION',
+    title: 'Jewelry is our<br>passion',
+    btn: 'SHOP NOW',
+  },
+  {
+    bg: '//jelwo.myshopify.com/cdn/shop/files/jewelry-4-slider-2.jpg?v=1742541168&width=3840',
+    tag: 'ELEGANCE REDEFINED',
+    title: 'Crafted with<br>love',
+    btn: 'EXPLORE',
+    
+  },
+  {
+    bg: '//jelwo.myshopify.com/cdn/shop/files/jewelry-4-slider-3.jpg?v=1742541168&width=3840',
+    tag: 'LUXURY DIAMONDS',
+    title: 'Shine bright<br>always',
+    btn: 'DISCOVER',
+    
+  }
+];
+
+let heroIdx = 0;
+const heroEl = document.getElementById('heroCarousel');
+function buildHero() {
+  heroEl.innerHTML = `
+    <div class="hero-slide active" style="background:url('${heroSlides[heroIdx].bg}') center/cover no-repeat;">
+      <div class="hero-inner" onclick="location.href='collections.html'">
+        <div style="position:relative;z-index:2;text-align:center;width:100%">
+          <img src="//jelwo.myshopify.com/cdn/shop/files/jewelry-4-slider-label.png?v=1742534520&width=600" alt="heroimg">
+          <h1 class="hero-title">${heroSlides[heroIdx].title}</h1>
+          <a href="collections.html" class="btn-primary-jelwo" onclick="event.stopPropagation()">
+            ${heroSlides[heroIdx].btn}
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="hero-dots" onclick="event.stopPropagation()">
+      ${heroSlides.map((_, i) => `<button class="hero-dot ${i===heroIdx?'active':''}" onclick="goHero(${i})"></button>`).join('')}
+    </div>`;
+}
+function goHero(i) { heroIdx = i; buildHero(); }
+buildHero();
+setInterval(() => { heroIdx = (heroIdx + 1) % heroSlides.length; buildHero(); }, 10000);
+
+// =============================================
+// MEGA DROPDOWN POSITION
+// =============================================
+function positionMegaMenus() {
+  const header = document.getElementById('mainHeader');
+  const bottom = header ? header.getBoundingClientRect().bottom : 130;
+  document.querySelectorAll('.mega-menu').forEach(m => m.style.top = 130 + 'px');
+}
+window.addEventListener('scroll', positionMegaMenus);
+window.addEventListener('resize', positionMegaMenus);
+document.addEventListener('DOMContentLoaded', positionMegaMenus);
+// Show/hide on hover
+document.querySelectorAll('.mega-wrap').forEach(wrap => {
+  wrap.addEventListener('mouseenter', () => {
+    positionMegaMenus();
+    wrap.querySelector('.mega-menu').style.display = 'flex';
+  });
+  wrap.addEventListener('mouseleave', () => {
+    wrap.querySelector('.mega-menu').style.display = 'none';
+  });
+});
+
+// =============================================
+// PRODUCTS MEGA CAROUSEL
+// =============================================
+let megaCarouselIdx = 0;
+const megaProds = PRODUCTS.slice(0, 4);
+function renderMegaCarousel() {
+  const el = document.getElementById('productsMegaCarousel');
+  if (!el) return;
+  const visible = megaProds.slice(megaCarouselIdx, megaCarouselIdx + 2);
+  el.innerHTML = visible.map(p => `
+    <div class="d-flex gap-2 align-items-center p-2 border rounded" style="min-width:180px;cursor:pointer;" onclick="location.href='collections.html'">
+      <img src="${p.image}" style="width:60px;height:60px;object-fit:cover;border-radius:6px;">
+      <div>
+        <p style="font-size:.8rem;font-weight:500;margin:0;">${p.name}</p>
+        <span style="font-size:.8rem;color:var(--gold);font-weight:600;">Rs. ${p.price.toFixed(2)}</span>
+        ${p.oldPrice ? `<del style="font-size:.7rem;color:#999;margin-left:4px;">Rs. ${p.oldPrice.toFixed(2)}</del>` : ''}
+        <span style="display:block;background:#2ecc71;color:#fff;font-size:.65rem;border-radius:3px;padding:1px 5px;margin-top:3px;width:fit-content;">${p.badge}%</span>
+      </div>
+    </div>`).join('');
+}
+function slideMegaCarousel(dir) {
+  megaCarouselIdx = Math.max(0, Math.min(megaCarouselIdx + dir, megaProds.length - 2));
+  renderMegaCarousel();
+}
+renderMegaCarousel();
+
+// =============================================
+// FOOTER SUBSCRIBE
+// =============================================
+function footerSubscribe() {
+  const email = document.getElementById('footerEmail').value;
+  if (!email) return;
+  document.getElementById('footerMsg').style.display = 'block';
+  document.getElementById('footerEmail').value = '';
+}
+
+// =============================================
+// CART RECS
+// =============================================
+function renderCartRecs() {
+  const el = document.getElementById('cartRecsCarousel');
+  if (!el) return;
+  el.innerHTML = PRODUCTS.slice(0, 3).map(p => `
+    <div style="min-width:130px;text-align:center;cursor:pointer;" onclick="location.href='collections.html'">
+      <img src="${p.image}" style="width:90px;height:90px;object-fit:cover;border-radius:8px;margin-bottom:6px;">
+      <p style="font-size:.75rem;font-weight:500;margin:0;">${p.name}</p>
+      <span style="font-size:.75rem;color:var(--gold);">Rs. ${p.price.toFixed(2)}</span>
+    </div>`).join('');
+}
+renderCartRecs();
+
+// =============================================
+// NEW JEWELRYS GRID
+// =============================================
+const newGrid = document.getElementById('newJewelrysGrid');
+
+if (newGrid) {
+
+  // create carousel structure
+  newGrid.innerHTML = `
+    <div class="product-carousel">
+      <div class="product-track">
+        ${PRODUCTS.map(p => `
+          <div class="product-card">
+            ${buildProductCard(p)}
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+
+  const track = newGrid.querySelector('.product-track');
+  let slides = newGrid.querySelectorAll('.product-card');
+
+  let index = 0;
+
+  // clone first slide for smooth loop
+  const firstClone = slides[0].cloneNode(true);
+  track.appendChild(firstClone);
+
+  slides = newGrid.querySelectorAll('.product-card');
+
+  setInterval(() => {
+    index++;
+
+    track.style.transition = "transform 3s ease";
+    track.style.transform = `translateX(-65%)`;
+
+    // reset to first
+    if (index === slides.length - 1) {
+      setTimeout(() => {
+        track.style.transition = "none";
+        index = 0;
+        track.style.transform = `translateX(0)`;
+      }, 600);
+    }
+
+  }, 5000);
+}
+
+
+// =============================================
+// TRENDING PRODUCTS (with image cycle)
+// =============================================
+const trendingGrid = document.getElementById('trendingGrid');
+
+if (trendingGrid) {
+
+  // ✅ use ALL products (not slice)
+  const trendProds = PRODUCTS;
+
+  // ✅ make carousel structure
+  trendingGrid.innerHTML = `
+    <div class="trend-carousel">
+      <div class="trend-track">
+        ${trendProds.map(p => `
+          <div class="trend-card">
+            ${buildProductCard(p)}
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+
+  const track = trendingGrid.querySelector('.trend-track');
+  let slides = trendingGrid.querySelectorAll('.trend-card');
+
+  let index = 0;
+
+
+  // ✅ AUTO SLIDE
+  setInterval(() => {
+    index++;
+
+    track.style.transition = "transform 0.6s ease";
+    track.style.transform = `translateX(-${index * 25}%)`; // 4 items view
+
+    if (index === slides.length) {
+      setTimeout(() => {
+        track.style.transition = "none";
+        index = 0;
+        track.style.transform = `translateX(0)`;
+      }, 600);
+    }
+
+  }, 5000);
+
+  PRODUCTS.forEach(p => {
+  // set end date (example: 3 days from now)
+  const endDate = new Date().getTime() + (1618 * 9 * 60 * 50 * 1000);
+
+  startCountdown(p.id, endDate);
+});
+
+  // ===================================
+  // ✅ HOVER IMAGE (same as your code)
+  // ===================================
+  trendProds.forEach(p => {
+    const el = trendingGrid.querySelector(`[data-id="${p.id}"] .product-img-wrap img`);
+    if (!el) return;
+
+    const originalImg = p.image;
+    const hoverImg = PRODUCTS[Math.floor(Math.random() * PRODUCTS.length)].image;
+
+    el.addEventListener('mouseenter', () => {
+      el.style.transition = 'opacity .4s';
+      el.style.opacity = 0;
+
+      setTimeout(() => {
+        el.src = hoverImg;
+        el.style.opacity = 1;
+      }, 200);
+    });
+
+    el.addEventListener('mouseleave', () => {
+      el.style.opacity = 0;
+
+      setTimeout(() => {
+        el.src = originalImg;
+        el.style.opacity = 1;
+      }, 200);
+    });
+  });
+
+  // ===================================
+  // ✅ COUNTDOWN TIMER
+  // ===================================
+  trendProds.forEach(p => {
+    const endDate = new Date().getTime() + (2 * 24 * 60 * 60 * 1000); // 2 days
+
+    const el = trendingGrid.querySelector(`#countdown-${p.id}`);
+    if (!el) return;
+
+    const daysEl = el.querySelector('.days');
+    const hoursEl = el.querySelector('.hours');
+    const minutesEl = el.querySelector('.minutes');
+    const secondsEl = el.querySelector('.seconds');
+
+    function updateTimer() {
+      const now = new Date().getTime();
+      const distance = endDate - now;
+
+      if (distance <= 0) return;
+
+      const d = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const h = Math.floor((distance / (1000 * 60 * 60)) % 24);
+      const m = Math.floor((distance / (1000 * 60)) % 60);
+      const s = Math.floor((distance / 1000) % 60);
+
+      daysEl.textContent = d;
+      hoursEl.textContent = h;
+      minutesEl.textContent = m;
+      secondsEl.textContent = s;
+    }
+
+    updateTimer();
+    setInterval(updateTimer, 1000);
+  });
+
+}
+
+// =============================================
+// TESTIMONIALS (auto-scroll)
+// =============================================
+const testimonialsData = [
+  { name: 'Kristen Brown', role: 'Company CEO', stars: 5, img: '//jelwo.myshopify.com/cdn/shop/files/jewelry-testi-2.jpg?v=1741598801&width=100', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea consequat.' },
+  { name: 'Michael Smith', role: 'Customer', stars: 4, img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea consequat.' },
+  { name: 'Sarah Johnson', role: 'Blogger', stars: 5, img: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&q=80', text: 'Absolutely love the quality of the jewelry. Every piece is crafted with such precision and care. My diamond ring gets compliments everywhere I go!' },
+  { name: 'David Lee', role: 'Customer', stars: 5, img: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&q=80', text: 'Bought a bracelet for my wife and she absolutely loves it. The packaging was beautiful and delivery was fast. Will definitely order again!' },
+];
+const testTrack = document.getElementById('testimonialsTrack');
+if (testTrack) {
+  testTrack.innerHTML = [...testimonialsData, ...testimonialsData].map(t => `
+    <div class="testimonial-card">
+      <div class="stars">${'★'.repeat(t.stars)}${'☆'.repeat(5-t.stars)} (${t.stars}.0 Reviews)</div>
+      <p class="review-text">${t.text}</p>
+      <div class="reviewer">
+        <img src="${t.img}" alt="${t.name}">
+        <div class="reviewer-info">
+          <div class="name">${t.name}</div>
+          <div class="role">${t.role}</div>
+        </div>
+        <div class="quote-icon">❝</div>
+      </div>
+    </div>`).join('');
+  let testIdx = 0;
+  setInterval(() => {
+    testIdx = (testIdx + 1) % testimonialsData.length;
+    testTrack.style.transform = `translateX(-${testIdx * 532}px)`;
+  }, 5000);
+}
+
+// =============================================
+// JEWELRY NEWS (auto-scroll)
+// =============================================
+const newsData = [
+  { date: '10, MAR 2025', author: 'Andrew johns', img: '//jelwo.myshopify.com/cdn/shop/articles/jewelry-blog-5_3cf647c3-7ce1-4f2c-bcc8-8289878be83c.jpg?v=1750223524&width=1080', text: 'As part of our mission create space for women to express their sensuality without shame fear or the patriarchal gaze ...' , ref: "adornyrmoments.html"},
+  { date: '02, MAR 2025', author: 'Andrew johns', img: '//jelwo.myshopify.com/cdn/shop/articles/jewelry-blog-6_1e2f3da7-57c0-499e-94ee-6047231ac720.jpg?v=1750223520&width=1080', text: 'As part of our mission create space for women to express their sensuality without shame fear or the patriarchal gaze ...' , ref: "wearyrelegance.html"},
+  { date: '02, MAR 2025', author: 'Andrew johns', img: '//jelwo.myshopify.com/cdn/shop/articles/jewelry-blog-7_923918ed-d386-45c3-85c2-ff31e2c4cdc5.jpg?v=1750223516&width=1080', text: 'As part of our mission create space for women to express their sensuality without shame fear or the patriarchal gaze ...' , ref: "transformyrstyle.html"},
+  { date: '15, FEB 2025', author: 'Andrew johns', img: '//jelwo.myshopify.com/cdn/shop/articles/jewelry-blog-8_1c3cdfa3-a7b1-4343-be06-30d5638e370b.jpg?v=1750223543&width=1080', text: 'Discover the latest trends in fine jewelry and how our artisans craft each unique piece with unparalleled dedication ...' , ref: "jewelsasunique.html"},
+  { date: '15, FEB 2025', author: 'Andrew johns', img: '//jelwo.myshopify.com/cdn/shop/articles/jewelry-blog-1_66fd95ae-8368-4800-8123-8c69f48dff27.jpg?v=1750223539&width=1080', text: 'Discover the latest trends in fine jewelry and how our artisans craft each unique piece with unparalleled dedication ...' , ref: "craftedforthemoments.html"},
+  { date: '15, FEB 2025', author: 'Andrew johns', img: '//jelwo.myshopify.com/cdn/shop/articles/jewelry-blog-2_f99fac11-0d22-4081-94bc-cd2ec791c782.jpg?v=1750223483&width=1080', text: 'Discover the latest trends in fine jewelry and how our artisans craft each unique piece with unparalleled dedication ...' , ref: "timelesstreasures.html"},
+  { date: '15, FEB 2025', author: 'Andrew johns', img: '//jelwo.myshopify.com/cdn/shop/articles/jewelry-blog-3_5c484272-7a2f-456b-9197-f56b9189f283.jpg?v=1750223534&width=1080', text: 'Discover the latest trends in fine jewelry and how our artisans craft each unique piece with unparalleled dedication ...' , ref: "jewelsthatshine.html"},
+  { date: '15, FEB 2025', author: 'Andrew johns', img: '//jelwo.myshopify.com/cdn/shop/articles/jewelry-blog-4_353fee00-faa9-421d-99bb-f4fe9cb5c1a2.jpg?v=1750223529&width=1080', text: 'Discover the latest trends in fine jewelry and how our artisans craft each unique piece with unparalleled dedication ...' , ref: "bczeveryday.html"},
+];
+const newsTrack = document.getElementById('newsTrack');
+if (newsTrack) {
+  newsTrack.innerHTML = [...newsData, ...newsData].map(n => `
+    <div class="news-card" onclick="location.href='${n.ref}'">
+      <img src="${n.img}" alt="News">
+      <div class="news-meta">${n.date} | By ${n.author}</div>
+      <h5 style="font-size:1.1rem;padding:0 24px 8px;color:var(--gold)">${n.date} | By ${n.author}</h5>
+      <p class="news-excerpt">${n.text}</p>
+      <div style="padding:0 24px 24px;">
+        <a href="#" class="btn-primary-jelwo" style="font-size:.75rem;padding:10px 20px;">READ MORE</a>
+      </div>
+    </div>`).join('');
+  let newsIdx = 0;
+  setInterval(() => {
+    newsIdx = (newsIdx + 1) % newsData.length;
+    newsTrack.style.transform = `translateX(-${newsIdx * 404}px)`;
+  }, 5000);
+}
+
+// =============================================
+// WATCH & SHOP REELS
+// =============================================
+const reelsData = [
+  { product: PRODUCTS[2], bg: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&q=80', videoUrl: '//jelwo.myshopify.com/cdn/shop/videos/c/vp/72e5b0f02511443c8a62a81b9024ddb9/72e5b0f02511443c8a62a81b9024ddb9.HD-1080p-3.3Mbps-44622574.mp4?v=0' },
+  { product: PRODUCTS[1], bg: 'https://images.unsplash.com/photo-1588444837495-c6cfeb53f32d?w=400&q=80', videoUrl: '//jelwo.myshopify.com/cdn/shop/videos/c/vp/7826750f43d941b28a3d57b2fd330864/7826750f43d941b28a3d57b2fd330864.HD-1080p-2.5Mbps-44713680.mp4?v=0' },
+  { product: PRODUCTS[3], bg: 'https://images.unsplash.com/photo-1603561591411-07134e71a2a9?w=400&q=80', videoUrl: '//jelwo.myshopify.com/cdn/shop/videos/c/vp/916ce2bac08d4c5c94bf6e154631eb8b/916ce2bac08d4c5c94bf6e154631eb8b.HD-1080p-7.2Mbps-44713017.mp4?v=0' },
+  { product: PRODUCTS[11], bg: 'https://images.unsplash.com/photo-1573408301185-9519f94815f7?w=400&q=80', videoUrl: '//jelwo.myshopify.com/cdn/shop/videos/c/vp/d030285c343f4cbbbf4851801cf773e8/d030285c343f4cbbbf4851801cf773e8.HD-1080p-7.2Mbps-44713018.mp4?v=0' },
+  { product: PRODUCTS[8], bg: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=400&q=80', videoUrl: '//jelwo.myshopify.com/cdn/shop/videos/c/vp/ba3a4b4a570f4749a2bf30fd1aa1b96d/ba3a4b4a570f4749a2bf30fd1aa1b96d.HD-1080p-4.8Mbps-44622575.mp4?v=0' },
+];
+const reelsTrack = document.getElementById('reelsTrack');
+if (reelsTrack) {
+  reelsTrack.innerHTML = reelsData.map((r, i) => `
+    <div class="reel-card" onclick="location.href='${r.product.ref}'">
+      <video id="reel-vid-${i}" class="reel-video-bg" src="${r.videoUrl}" muted loop autoplay playsinline poster="${r.bg}"></video>
+      <div class="reel-info">
+        <img src="${r.product.image}" class="reel-thumb" alt="">
+        <div>
+          <div class="reel-product-name">${r.product.name}</div>
+          <div class="reel-price">Rs. ${r.product.price.toFixed(2)}</div>
+          <button class="btn-reel-atc" onclick="handleAddToCart('${r.product.id}')">ADD TO CART</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+
+let reelsScrollIdx = 0;
+function slideReels(dir) {
+  const track = document.getElementById('reelsTrack');
+  if (!track) return;
+  reelsScrollIdx = Math.max(0, reelsScrollIdx + dir);
+  track.scrollLeft = reelsScrollIdx * 246;
+}
+
+// =============================================
+// YOUTUBE EMBED
+// =============================================
+function playYoutube() {
+  const wrap = document.querySelector('.video-wrap');
+  const embedDiv = document.getElementById('youtubeEmbed');
+
+  if (wrap) wrap.style.display = 'none';
+
+  if (embedDiv) {
+    embedDiv.style.display = 'block';
+
+    embedDiv.innerHTML = `
+      <div style="position:relative; width:100%; height:100%;">
+        
+        <!-- CLOSE BUTTON -->
+        <button onclick="closeVideo()" 
+          style="position:absolute; top:10px; right:10px; z-index:10; 
+          background:#000; color:#fff; border:none; width:35px; height:35px; 
+          border-radius:50%; cursor:pointer; font-size:18px;">
+          ✕
+        </button>
+
+        <!-- VIDEO -->
+        <video width="100%" height="420" controls autoplay style="border-radius:12px;">
+          <source src="https://cdn.shopify.com/videos/c/o/v/747375f4ce1e4946941f966c90baabbb.mp4" type="video/mp4">
+        </video>
+
+      </div>
+    `;
+  }
+}
+
+function closeVideo() {
+  const embedDiv = document.getElementById('youtubeEmbed');
+  const wrap = document.querySelector('.video-wrap');
+
+  if (embedDiv) {
+    embedDiv.style.display = 'none';
+    embedDiv.innerHTML = ''; // stops video
+  }
+
+  if (wrap) wrap.style.display = 'block';
+}
+
+// =============================================
+// FOOTER SUBSCRIBE
+// =============================================
+function footerSubscribe() {
+  const email = document.getElementById('footerEmail').value;
+  if (!email) return;
+  document.getElementById('footerMsg').style.display = 'block';
+  document.getElementById('footerEmail').value = '';
+}
+
+// =============================================
+// CART RECS
+// =============================================
+function renderCartRecs() {
+  const el = document.getElementById('cartRecsCarousel');
+  if (!el) return;
+  el.innerHTML = PRODUCTS.slice(0, 3).map(p => `
+    <div style="min-width:130px;text-align:center;cursor:pointer;" onclick="location.href='collections.html'">
+      <img src="${p.image}" style="width:90px;height:90px;object-fit:cover;border-radius:8px;margin-bottom:6px;">
+      <p style="font-size:.75rem;font-weight:500;margin:0;">${p.name}</p>
+      <span style="font-size:.75rem;color:var(--gold);">Rs. ${p.price.toFixed(2)}</span>
+    </div>`).join('');
+}
+renderCartRecs();
+
+// Init
+JelwoStore.updateCartUI();
+
+let index = 0;
+
+const track = document.querySelector('.category-track');
+let slides = document.querySelectorAll('.category-card');
+
+// clone first slide
+const firstClone = slides[0].cloneNode(true);
+track.appendChild(firstClone);
+
+// update slides after clone
+slides = document.querySelectorAll('.category-card');
+
+setInterval(() => {
+    index++;
+
+    track.style.transition = "transform 3s ease";
+    track.style.transform = `translateX(-65%)`;
+
+    // when reach cloned slide
+    if (index === slides.length - 1) {
+        setTimeout(() => {
+            track.style.transition = "none";
+            index = 0;
+            track.style.transform = `translateX(0)`;
+        }, 600); // same as transition time
+    }
+
+}, 5000);
+
+(function () {
+      const STORAGE_KEY = 'jelwo_newsletter_hidden';
+ 
+      // If user previously checked "don't show again", skip entirely
+      if (localStorage.getItem(STORAGE_KEY) === 'true') return;
+ 
+      const modalEl = document.getElementById('newsletterModal');
+      const modal   = new bootstrap.Modal(modalEl);
+ 
+      // ── Show on page load ───────────────────────────
+      window.addEventListener('load', function () {
+        modal.show();
+      });
+ 
+      // ── Subscribe button ────────────────────────────
+      document.getElementById('subscribeBtn').addEventListener('click', function () {
+        const emailInput = document.getElementById('popupEmail');
+        const email = emailInput.value.trim();
+ 
+        // Basic email validation
+        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          emailInput.classList.add('is-invalid');
+          emailInput.focus();
+          return;
+        }
+ 
+        emailInput.classList.remove('is-invalid');
+ 
+        // Hide input row, show success message
+        document.getElementById('emailRow').style.display = 'none';
+        document.getElementById('successMsg').style.display = 'block';
+ 
+        // Auto-close after 2.5 s
+        setTimeout(function () { modal.hide(); }, 2500);
+      });
+ 
+      // Clear invalid highlight while typing
+      document.getElementById('popupEmail').addEventListener('input', function () {
+        this.classList.remove('is-invalid');
+      });
+ 
+      // ── "Don't show again" checkbox ─────────────────
+      document.getElementById('dontShowAgain').addEventListener('change', function () {
+        if (this.checked) {
+          localStorage.setItem(STORAGE_KEY, 'true');
+        } else {
+          localStorage.removeItem(STORAGE_KEY);
+        }
+      });
+ 
+      // Also persist when modal closes (in case they checked then closed via X)
+      modalEl.addEventListener('hidden.bs.modal', function () {
+        if (document.getElementById('dontShowAgain').checked) {
+          localStorage.setItem(STORAGE_KEY, 'true');
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

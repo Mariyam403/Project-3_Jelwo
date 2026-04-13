@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Store Location – Jelwo</title>
+
+  <!-- Bootstrap 5.2.3 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" />
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --gold:   #b8975a;
+      --dark:   #1a1712;
+      --muted:  #6b6660;
+      --light:  #faf8f5;
+      --border: #e8e2d9;
+      --white:  #ffffff;
+      --gold-light: #d4aa7d;
+  --gold-dark: #8a6a3a;
+  --cream: #f8f3ee;
+  --cream-dark: #ede5d8;
+  --text-dark: #1a1a1a;
+  --text-mid: #5a5a5a;
+  --transition: .3s ease;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      background: var(--white);
+      color: var(--dark);
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
+
+    /* ---- TOAST ---- */
+.jelwo-toast {
+  position: fixed; bottom: 30px; right: 30px; z-index: 9999;
+  background: var(--text-dark); color: #fff; padding: 12px 20px;
+  border-radius: 8px; font-size: .9rem; transform: translateY(80px);
+  opacity: 0; transition: all .4s ease; pointer-events: none;
+}
+.jelwo-toast.show { transform: translateY(0); opacity: 1; }
+
+/* ---- HEADER ---- */
+.top-bar { background: var(--text-dark); color: #fff; font-size: .8rem; padding: 6px 0; }
+.top-bar a { color: #ccc; text-decoration: none; }
+.main-header {
+  position: sticky; top: 0; z-index: 1050;
+  background: #fff; border-bottom: 1px solid #e8e0d4;
+  box-shadow: 0 2px 20px rgba(0,0,0,.06);
+}
+.header-inner { display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; gap: 16px; }
+.logo { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 600; color: var(--text-dark); text-decoration: none; letter-spacing: 2px; }
+.logo span { color: var(--gold); }
+.header-bar { background: var(--cream); padding: 8px 24px; display: flex; align-items: center; gap: 24px; }
+.phone-link { font-size: .85rem; color: var(--text-dark); text-decoration: none; display: flex; align-items: center; gap: 6px; }
+.phone-link:hover { color: var(--gold); }
+.main-nav { display: flex; align-items: center; gap: 8px; flex-grow: 1; justify-content: center; }
+.nav-link-custom {
+  font-size: .85rem; font-weight: 500; letter-spacing: .8px;
+  color: var(--text-dark); text-decoration: none; padding: 4px 12px;
+  text-transform: uppercase; transition: color var(--transition);
+  display: flex; align-items: center; gap: 4px; cursor: pointer;
+}
+.nav-link-custom:hover, .nav-link-custom.active { color: var(--gold); }
+.header-actions { display: flex; align-items: center; gap: 16px; }
+.icon-btn {
+  position: relative; background: none; border: none; cursor: pointer;
+  font-size: 1.25rem; color: var(--text-dark); transition: color var(--transition);
+  padding: 4px;
+}
+.icon-btn:hover { color: var(--gold); }
+.badge-count {
+  position: absolute; top: -6px; right: -6px;
+  background: var(--gold); color: #fff; border-radius: 50%;
+  width: 18px; height: 18px; font-size: .65rem; display: none;
+  align-items: center; justify-content: center; font-weight: 600;
+}
+.free-try { font-size: .8rem; font-weight: 500; letter-spacing: .5px; color: var(--text-dark); display: flex; align-items: center; gap: 6px; text-decoration: none; }
+.free-try:hover { color: var(--gold); }
+
+/* ---- MEGA DROPDOWN ---- */
+.mega-wrap { position: relative; }
+.mega-menu {
+  position: fixed; left: 0; right: 0;
+  top: 0; /* will be set by JS */
+  background: #fff; box-shadow: 0 8px 40px rgba(0,0,0,.12);
+  border-top: 2px solid var(--gold); padding: 32px 40px;
+  display: none; z-index: 1040;
+}
+.mega-wrap:hover .mega-menu { display: flex; }
+.mega-menu-col h6 { font-family: 'Jost', sans-serif; font-weight: 600; font-size: .8rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+.mega-menu-col a { display: block; font-size: .85rem; color: var(--text-mid); text-decoration: none; margin-bottom: 6px; transition: color var(--transition); }
+.mega-menu-col a:hover { color: var(--gold); padding-left: 4px; }
+.mega-promo { border-radius: 8px; overflow: hidden; }
+.mega-promo img { width: 100%; height: 180px; object-fit: cover; }
+
+/* Products mega - carousel */
+.products-mega-carousel .mini-product { text-align: center; padding: 8px; }
+.products-mega-carousel .mini-product img { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; margin-bottom: 6px; }
+.products-mega-carousel .mini-product p { font-size: .75rem; color: var(--text-mid); margin: 0; }
+.products-mega-carousel .mini-product span { font-size: .8rem; color: var(--gold); font-weight: 600; }
+
+/* Nested dropdown (Pages > About) */
+.nested-dropdown-wrap { position: relative; }
+.nested-dropdown {
+  position: absolute; left: 100%; top: 0;
+  background: #fff; box-shadow: 4px 4px 20px rgba(0,0,0,.1);
+  border-left: 2px solid var(--gold); min-width: 160px; padding: 8px 0;
+  display: none; z-index: 1041;
+}
+.nested-dropdown-wrap:hover .nested-dropdown { display: block; }
+.nested-dropdown a { display: block; padding: 8px 16px; font-size: .85rem; color: var(--text-mid); text-decoration: none; }
+.nested-dropdown a:hover { color: var(--gold); background: var(--cream); }
+
+/* ---- HOME MEGA THEME CARDS ---- */
+.home-mega-menu { padding: 28px 40px 24px !important; }
+.home-theme-card { text-align: center; }
+  .home-theme-img-wrap {
+    position: relative; border-radius: 10px; overflow: hidden;
+    border: 2px solid transparent; transition: border-color var(--transition), box-shadow var(--transition);
+    background: var(--cream);
+  }
+  .home-theme-card:hover .home-theme-img-wrap {
+    border-color: var(--gold);
+    box-shadow: 0 6px 24px rgba(176,140,90,.25);
+  }
+  .home-theme-img-wrap img {
+    width: 100%; height: 160px; object-fit: cover; display: block;
+    transition: transform .4s ease;
+  }
+  .home-theme-card:hover .home-theme-img-wrap img { transform: scale(1.04); }
+  .home-theme-overlay {
+    position: absolute; inset: 0; background: rgba(176,140,90,.5);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity var(--transition);
+  }
+  .home-theme-card:hover .home-theme-overlay { opacity: 1; }
+  .home-theme-label {
+    font-size: .78rem; color: var(--text-mid); margin: 8px 0 0;
+    font-weight: 500; letter-spacing: .3px; transition: color var(--transition);
+  }
+  .home-theme-card:hover .home-theme-label { color: var(--gold); }
+
+  @media (max-width: 992px) {
+    .mega-menu { padding: 24px; }
+    .main-nav { display: none; }
+    .promo-grid { grid-template-columns: 1fr; }
+    .hero-inner { padding: 40px 24px; min-height: 60vh; }
+    .hero-img-right { display: none; }
+  }
+
+
+/*  HERO BANNER */
+
+.page-hero { position: relative; background: url('//jelwo.myshopify.com/cdn/shop/files/jewelry-3-breadcrumb.jpg?v=1742473987&width=1920') center/cover; min-height: 180px; display: flex; align-items: center; justify-content: center; }
+.page-hero::after { content:''; position:absolute;inset:0;background:rgba(0,0,0,.45); }
+.page-hero-content { position:relative;z-index:2;text-align:center;color:#fff; }
+.breadcrumb-item+.breadcrumb-item::before { color: rgba(255,255,255,.6); }
+
+.jelwo-toast { position:fixed;bottom:30px;right:30px;z-index:9999;background:var(--text-dark);color:#fff;padding:12px 20px;border-radius:8px;font-size:.9rem;transform:translateY(80px);opacity:0;transition:all .4s ease;pointer-events:none; }
+.jelwo-toast.show { transform:translateY(0);opacity:1; }
+
+/* OFFCANVAS */
+.offcanvas-title { font-family:'Cormorant Garamond',serif;font-size:1.4rem; }
+.btn-atc { background:var(--gold);color:#fff;border:none;border-radius:6px;font-size:.8rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:9px;cursor:pointer;transition:all var(--transition); }
+.btn-atc:hover { background:var(--gold-dark); }
+.btn-primary-jelwo { background:var(--gold);color:#fff;border:none;padding:14px 32px;border-radius:50px;font-size:.85rem;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none;display:inline-block;transition:all var(--transition); }
+.btn-primary-jelwo:hover { background:var(--gold-dark);color:#fff; }
+
+/* normal pages dropdown */
+.normal-wrap{
+  position: relative;
+}
+.normal-menu{
+  position: absolute;   /* changed from fixed */
+  top: 100%;            /* appear below menu */
+  left: 0;              /* align left */
+  min-width: 220px;     /* normal dropdown width */
+  
+  background: #fff;
+  box-shadow: 0 8px 40px rgba(0,0,0,.12);
+  border-top: 2px solid var(--gold);
+  padding: 12px 0;      /* smaller padding */
+
+  display: none;
+  z-index: 1040;
+}
+.normal-wrap:hover .normal-menu{
+  display:block;
+}
+
+.normal-menu .container-fluid , .normal-menu .row , .normal-menu .col-2{
+  all:unset;
+  display:block;
+}
+.normal-menu a{
+  display: block;
+    font-size: .85rem;
+    color: var(--text-mid);
+    text-decoration: none;
+    margin-bottom: 6px;
+    transition: color var(--transition);
+    padding-left: 15%;
+}
+
+/* ---- FOOTER ---- */
+footer { background: var(--cream); padding: 60px 0 30px; }
+.footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 600; color: var(--text-dark); letter-spacing: 2px; display: block; margin-bottom: 20px; text-decoration: none; }
+.footer-contact { font-size: .875rem; color: var(--text-mid); line-height: 1.8; }
+.footer-contact a { color: var(--text-mid); text-decoration: none; }
+.footer-contact a:hover { color: var(--gold); }
+.footer-heading { font-family: 'Jost', sans-serif; font-weight: 600; font-size: .8rem; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dark); margin-bottom: 16px; }
+.footer-link { display: block; font-size: .875rem; color: var(--text-mid); text-decoration: none; margin-bottom: 8px; transition: color var(--transition); }
+.footer-link:hover { color: var(--gold); padding-left: 4px; }
+.footer-social a { display: inline-flex; width: 36px; height: 36px; border-radius: 50%; background: var(--cream-dark); align-items: center; justify-content: center; color: var(--text-dark); text-decoration: none; transition: all var(--transition); margin-right: 8px; }
+.footer-social a:hover { background: var(--gold); color: #fff; }
+.footer-subscribe { display: flex; gap: 8px; }
+.footer-subscribe input { flex: 1; border: 1px solid #ddd; border-radius: 6px; padding: 10px 14px; font-size: .85rem; background: #fff; }
+.footer-subscribe button { background: var(--gold); color: #fff; border: none; border-radius: 6px; padding: 10px 20px; font-size: .85rem; font-weight: 600; cursor: pointer; transition: background var(--transition); }
+.footer-subscribe button:hover { background: var(--gold-dark); }
+.footer-bottom { border-top: 1px solid var(--cream-dark); margin-top: 40px; padding-top: 20px; font-size: .8rem; color: var(--text-mid); }
+.payment-icons i { font-size: 1.8rem; margin-left: 8px; opacity: .6; }
+
+
+    /* ── STORE SECTION ───────────────────────────── */
+    .store-section {
+      padding: 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .store-section:last-child { border-bottom: none; }
+
+    /* image side */
+    .store-img-wrap {
+      overflow: hidden;
+      height: 520px;
+      position: relative;
+    }
+    .store-img-wrap img {
+      padding-top: 10%;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .7s ease;
+      display: block;
+    }
+    .store-section:hover .store-img-wrap img { transform: scale(1.04); }
+
+    /* info side */
+    .store-info {
+      padding: 60px 64px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      height: 100%;
+    }
+    @media (max-width: 991px) {
+      .store-info { padding: 44px 32px; }
+      .store-img-wrap { height: 380px; }
+    }
+    @media (max-width: 767px) {
+      .store-info { padding: 36px 24px; }
+      .store-img-wrap { height: 300px; }
+    }
+
+    .store-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 3.5vw, 2.8rem);
+      font-weight: 500;
+      color: var(--dark);
+      margin-bottom: 36px;
+      letter-spacing: 0.02em;
+    }
+
+    /* contact rows */
+    .contact-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 18px;
+      margin-bottom: 26px;
+    }
+    .contact-row:last-child { margin-bottom: 0; }
+    .contact-icon {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      color: var(--dark);
+      font-size: 0.95rem;
+      margin-top: 2px;
+    }
+    .contact-label {
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--dark);
+      margin-bottom: 2px;
+    }
+    .contact-value {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .contact-value a {
+      color: var(--muted);
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .contact-value a:hover { color: var(--gold); }
+
+    /* reversed layout — image right */
+    .row-reverse { flex-direction: row-reverse; }
+    @media (max-width: 767px) {
+      .row-reverse { flex-direction: column; }
+    }
+
+    /* ── GOLD DIVIDER ────────────────────────────── */
+    .gold-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 0;
+    }
+
+    /* ── SCROLL REVEAL ───────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =================== MAIN HEADER =================== -->
+<header class="main-header" id="mainHeader">
+  <div class="header-inner">
+    <a href="index.html" class="logo"><img src="//jelwo.myshopify.com/cdn/shop/files/jewelry-4-logo.png?v=1744805986&width=500"/></a>
+    <span style="border-left: 1px solid #e2e2e2;
+    padding-left: 30px;
+    margin-left: 30px; color:#808080; align-items:center; justify-content:flex-start;"><p>Free UK standard delivery on all orders.</p></span>
+    <!-- HEADER ACTIONS -->
+    <div class="header-actions">
+      <div class="position-relative">
+        <input type="text" id="headerSearch" placeholder="Search product..." class="form-control form-control-sm" style="width:180px;border-radius:20px;border:1px solid #ddd;">
+      </div>
+      <a href="account.html">
+      <button class="icon-btn" ><i class="bi bi-person"></i></button></a>
+      <button class="icon-btn" data-bs-toggle="offcanvas" data-bs-target="#wishlistOffcanvas">
+        <i class="bi bi-heart"></i>
+        <span class="badge-count wishlist-count">0</span>
+      </button>
+      <button class="icon-btn" data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas">
+        <i class="bi bi-bag"></i>
+        <span class="badge-count cart-count">0</span>
+      </button>
+    </div>
+  </div>
+  
+</header>
+
+<div class="header-bar">
+    <a href="tel:2201234567890" class="phone-link"><i class="bi bi-telephone"></i> (220) 123 456 7890</a>
+    <!-- NAV -->
+    <nav class="main-nav">
+
+      <!-- HOME -->
+      <div class="mega-wrap">
+        <a class="nav-link-custom active">HOME <i class="bi bi-chevron-down small"></i></a>
+        <div class="mega-menu home-mega-menu" style="display:none; padding: 28px 40px 24px;">
+          <div style="width:100%;">
+            
+            <div style="display:grid; grid-template-columns:repeat(6,1fr); gap:16px;">
+ 
+              <!-- 06 Classic jewelry (NEW badge) -->
+              <div class="home-theme-card" onclick="location.href='index.html'" style="cursor:pointer;position:relative;">
+                <div style="position:absolute;top:8px;left:8px;z-index:3;background:#2ecc71;color:#fff;font-size:.62rem;font-weight:700;padding:2px 7px;border-radius:3px;letter-spacing:.5px;transform:rotate(-5deg);">NEW</div>
+                <div class="home-theme-img-wrap">
+                  <img src="//jelwo.myshopify.com/cdn/shop/files/home6.jpg?v=1750230396&width=500" alt="Classic jewelry">
+                  <div class="home-theme-overlay"><i class="bi bi-eye" style="font-size:1.2rem;color:#fff;"></i></div>
+                </div>
+                <p class="home-theme-label">06 Classic jewelry</p>
+              </div>
+ 
+              <!-- 01 Unique jewelry -->
+              <div class="home-theme-card" onclick="location.href='index.html'" style="cursor:pointer;">
+                <div class="home-theme-img-wrap">
+                  <img src="//jelwo.myshopify.com/cdn/shop/files/demo-menu-banner-1.jpg?v=1746178520&width=500" alt="Unique jewelry">
+                  <div class="home-theme-overlay"><i class="bi bi-eye" style="font-size:1.2rem;color:#fff;"></i></div>
+                </div>
+                <p class="home-theme-label">01 Unique jewelry</p>
+              </div>
+ 
+              <!-- 02 Modern jewelry -->
+              <div class="home-theme-card" onclick="location.href='index.html'" style="cursor:pointer;">
+                <div class="home-theme-img-wrap">
+                  <img src="//jelwo.myshopify.com/cdn/shop/files/demo-menu-banner-2.jpg?v=1746178520&width=500" alt="Modern jewelry">
+                  <div class="home-theme-overlay"><i class="bi bi-eye" style="font-size:1.2rem;color:#fff;"></i></div>
+                </div>
+                <p class="home-theme-label">02 Modern jewelry</p>
+              </div>
+ 
+              <!-- 03 Traditional jewelry -->
+              <div class="home-theme-card" onclick="location.href='index.html'" style="cursor:pointer;">
+                <div class="home-theme-img-wrap">
+                  <img src="//jelwo.myshopify.com/cdn/shop/files/demo-menu-banner-3.jpg?v=1746178520&width=500" alt="Traditional jewelry">
+                  <div class="home-theme-overlay"><i class="bi bi-eye" style="font-size:1.2rem;color:#fff;"></i></div>
+                </div>
+                <p class="home-theme-label">03 Traditional jewelry</p>
+              </div>
+ 
+              <!-- 04 Luxury jewelry -->
+              <div class="home-theme-card" onclick="location.href='index.html'" style="cursor:pointer;">
+                <div class="home-theme-img-wrap">
+                  <img src="//jelwo.myshopify.com/cdn/shop/files/demo-menu-banner-4.jpg?v=1746178520&width=500" alt="Luxury jewelry">
+                  <div class="home-theme-overlay"><i class="bi bi-eye" style="font-size:1.2rem;color:#fff;"></i></div>
+                </div>
+                <p class="home-theme-label">04 Luxury jewelry</p>
+              </div>
+ 
+              <!-- 05 Elegant jewelry -->
+              <div class="home-theme-card" onclick="location.href='index.html'" style="cursor:pointer;">
+                <div class="home-theme-img-wrap">
+                  <img src="//jelwo.myshopify.com/cdn/shop/files/demo-menu-banner-5.jpg?v=1746178520&width=500" alt="Elegant jewelry">
+                  <div class="home-theme-overlay"><i class="bi bi-eye" style="font-size:1.2rem;color:#fff;"></i></div>
+                </div>
+                <p class="home-theme-label">05 Elegant jewelry</p>
+              </div>
+ 
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SHOP -->
+      <div class="mega-wrap">
+        <a href="shop.html" class="nav-link-custom">SHOP <i class="bi bi-chevron-down small"></i></a>
+        <div class="mega-menu" style="display:none;">
+          <div class="container-fluid">
+            <div class="row g-4">
+              <div class="col-2 mega-menu-col">
+                <h6>Earrings</h6>
+                <a href="flowerjhumka.html">Flower jumkha</a>
+                <a href="flowerjhumka.html">Brown sunglasses</a>
+                <a href="flowerjhumka.html">Bucket shoes</a>
+                <a href="iamondrashmiring.html">Iamond rashmi ring</a>
+                <a href="floralgoldbangle.html">Floral gold bangle</a>
+                <a href="glitterdiamondring.html">Glitter diamond ring</a>
+              </div>
+              <div class="col-2 mega-menu-col">
+                <h6>Necklace</h6>
+                <a href="framedgoldpendant.html">Framed gold pendant</a>
+                <a href="glowernosepin.html">Flower nose pin</a>
+                <a href="goldnosepin.html">Gold nose pin</a>
+                <a href="goldnosepin.html">Color print sandal</a>
+                <a href="blossomdiamondbangle.html">Blossom diamond bangle</a>
+                <a href="simplepearlear.html">Simple Pearl earrings</a>
+              </div>
+              <div class="col-2 mega-menu-col">
+                <h6>Rings</h6>
+                <a href="rosegoldring.html">Rose gold rings</a>
+                <a href="sherbiring.html">Sherbi ring</a>
+                <a href="iamondrashmiring.html">Iamond rashmi ring</a>
+                <a href="glitterdiamondring.html">Glitter diamond ring</a>
+                <a href="diamondring.html">Diamond rings</a>
+                <a href="clusterdiamondring.html">Cluster diamond ring</a>
+              </div>
+              <div class="col-2 mega-menu-col">
+                <h6>Bracelets</h6>
+                <a href="floralgoldbangle.html">Floral gold bangle</a>
+                <a href="modish.html">Modish bracelet</a>
+                <a href="blossomdiamondbangle.html">Blossom diamond bangle</a>
+                <a href="gemstonechainbrac.html">Gemstone chain bracelet</a>
+                <a href="gemstonechainbrac.html">Blue heavy t-shirt</a>
+                <a href="gemstonechainbrac.html">Brown sunglasses</a>
+              </div>
+              <div class="col-4">
+                <div style="background:var(--gold);border-radius:12px;overflow:hidden;position:relative;">
+                  <img src="//jelwo.myshopify.com/cdn/shop/files/jewelry-4-menu-banner.jpg?v=1742635152&width=500" style="width:100%;height:200px;object-fit:cover;opacity:.7;">
+                  <div style="position:absolute;bottom:0;left:0;right:0;padding:16px;color:#fff">
+                    <div style="font-size:.75rem;letter-spacing:2px">SPECIAL OFFER</div>
+                    <div style="font-family:'Cormorant Garamond',serif;font-size:1.6rem">FLAT 30% OFF</div>
+                    <a href="collections.html" class="btn-outline-jelwo mt-2" style="font-size:.72rem;padding:6px 14px;color:#fff;border-color:#fff">SHOP NOW</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRODUCTS -->
+      <div class="mega-wrap">
+        <a class="nav-link-custom">PRODUCTS <i class="bi bi-chevron-down small"></i></a>
+        <div class="mega-menu" style="display:none;">
+          <div class="container-fluid">
+            <div class="row g-4">
+              <div class="col-2 mega-menu-col">
+                <h6>Earrings</h6>
+                <a href="dropgoldear.html">Drop gold earrings</a>
+                <a href="simplepearlear.html">Simple Pearl earrings</a>
+                <a href="gemstonejhumka.html">Gemstone jhumkas</a>
+                <a href="flowerjhumka.html">Flower jhumka</a>
+                <a href="rosegoldbrac.html">Rose gold bracelet</a>
+                <a href="diamondbrac.html">Diamond bracelet</a>
+              </div>
+              <div class="col-2 mega-menu-col">
+                <h6>Bracelets</h6>
+                <a href="rosegoldbrac.html">Rose gold bracelet</a>
+                <a href="diamondbrac.html">Diamond bracelet</a>
+                <a href="goldchain.html">Gold chain</a>
+                <a href="rosegoldbrac.html">Rose gold bracelet</a>
+                <a href="diamondbrac.html">Diamond bracelet</a>
+                <a href="goldchain.html">Gold chain</a>
+              </div>
+              <div class="col-2 mega-menu-col">
+                <h6>Necklace</h6>
+                <a href="diamondnecklace.html">Diamond necklace</a>
+                <a href="goldpendant.html">Gold pendant</a>
+                <a href="flowerpendant.html">Flower pendant</a>
+                <a href="rosegoldbrac.html">Rose gold bracelet</a>
+                <a href="diamondbrac.html">Diamond bracelet</a>
+                <a href="goldchain.html">Gold chain</a>
+              </div>
+              <div class="col-2 mega-menu-col">
+                <h6>Rings</h6>
+                <a href="chicdiamondring.html">Chic diamond ring</a>
+                <a href="glitterdiamondring.html">Glitter diamond ring</a>
+                <a href="sherbiring.html">Sherbi ring</a>
+                <a href="rosegoldbrac.html">Rose gold bracelet</a>
+                <a href="diamondbrac.html">Diamond bracelet</a>
+                <a href="goldchain.html">Gold chain</a>
+              </div>
+              <div class="col-4">
+                <h6>Popular Collection</h6>
+                <div id="productsMegaCarousel" class="d-flex gap-3 overflow-hidden">
+                  <!-- populated by JS -->
+                </div>
+                <div class="d-flex gap-2 mt-3">
+                  <button class="btn btn-sm btn-outline-secondary" onclick="slideMegaCarousel(-1)"><i class="bi bi-chevron-left"></i></button>
+                  <button class="btn btn-sm btn-outline-secondary" onclick="slideMegaCarousel(1)"><i class="bi bi-chevron-right"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BLOG -->
+      <a href="blog.html" class="nav-link-custom">BLOG</a>
+
+      <!-- PAGES -->
+      <div class="normal-wrap">
+        <a class="nav-link-custom">
+          PAGES <i class="bi bi-chevron-down small"></i>
+        </a>
+
+        <div class="normal-menu">
+
+          <!-- About (nested) -->
+          <div class="nested-dropdown-wrap">
+            <a style="cursor:pointer;display:flex;align-items:center;text-align:center;justify-content:space-between;">
+              About us <i class="bi bi-chevron-right small"></i>
+            </a>
+            <div class="nested-dropdown">
+              <a href="about.html">About us</a>
+              <a href="about2.html">About us 2</a>
+            </div>
+          </div>
+
+          <!-- Contact (nested) -->
+          <div class="nested-dropdown-wrap mt-2">
+            <a style="cursor:pointer;display:flex;align-items:center;justify-content:space-between">
+              Contact <i class="bi bi-chevron-right small"></i>
+            </a>
+            <div class="nested-dropdown">
+              <a href="contact.html">Contact us</a>
+              <a href="contact2.html">Contact us 2</a>
+            </div>
+          </div>
+
+          <a href="faqs.html">Faq's</a>
+          <a href="privacy.html">Privacy policy</a>
+          <a href="refund.html">Refund policy</a>
+          <a href="storeloc.html">Store location</a>
+          <a href="shipping.html">Shipping & return</a>
+          <a href="terms.html">Terms & condition</a>
+
+        </div>
+      </div>
+    </nav>
+    <a href="collections.html" class="free-try ms-auto"><i class="bi bi-house"></i> FREE TRY AT HOME</a>
+
+  </div>
+
+<!-- Cart Offcanvas -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="cartOffcanvas" style="width:400px;">
+  <div class="offcanvas-header border-bottom">
+    <h5 class="offcanvas-title">My shopping cart</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div style="background:var(--cream);padding:10px 16px;border-radius:6px;font-size:.8rem;margin-bottom:16px;">New customers save 10% with code <strong style="color:var(--gold);">WELCOME10</strong></div>
+    <div class="free-ship-bar"><div class="free-shipping-bar"></div></div>
+    <p class="free-shipping-text text-muted small mb-3">Spend Rs. 100 more and get free shipping!</p>
+    <div id="cartOffcanvasItems"></div>
+    <div class="border-top pt-3 mt-3">
+      <div class="d-flex justify-content-between mb-3"><strong>Subtotal</strong><strong id="cartSubtotal">Rs. 0.00</strong></div>
+      <div class="d-flex gap-2">
+        <a href="cart.html" class="btn btn-outline-secondary flex-fill">VIEW CART</a>
+        <a href="#" style="background:var(--text-dark);color:#fff;border:none;border-radius:6px;padding:10px 16px;font-size:.85rem;font-weight:600;flex:1;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;">CHECKOUT</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-content">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb justify-content-center" style="background:none;">
+        <li class="breadcrumb-item"><a href="index.html" style="color:rgba(255,255,255,.7);text-decoration:none;">HOME</a></li>
+        <li class="breadcrumb-item active" style="color:#fff;">STORE LOCATION</li>
+      </ol>
+    </nav>
+    <h1 style="font-size:3rem;color:#fff;">Store Location</h1>
+  </div>
+</div>
+
+  <!-- ── STORE 1 : Valsone shop ── image LEFT, info RIGHT -->
+  <section class="store-section">
+    <div class="container-fluid px-0">
+      <div class="row g-0 align-items-stretch">
+
+        <!-- Image -->
+        <div class="col-12 col-lg-6">
+          <div class="store-img-wrap">
+            <img
+              src="//jelwo.myshopify.com/cdn/shop/files/Valsone-shop.jpg?v=1741696989&width=1024"
+              alt="Valsone shop – gold ring on finger"
+            />
+          </div>
+        </div>
+
+        <!-- Info -->
+        <div class="col-12 col-lg-6">
+          <div class="store-info reveal">
+            <h2 class="store-name">Valsone shop</h2>
+
+            <div class="contact-row">
+              <div class="contact-icon"><i class="bi bi-telephone"></i></div>
+              <div>
+                <div class="contact-label">Let's Talk</div>
+                <div class="contact-value"><a href="tel:+9993222000388">+999 3222 000 388</a></div>
+              </div>
+            </div>
+
+            <div class="contact-row">
+              <div class="contact-icon"><i class="bi bi-envelope"></i></div>
+              <div>
+                <div class="contact-label">Say Hi!</div>
+                <div class="contact-value"><a href="mailto:store@domain.com">store@domain.com</a></div>
+              </div>
+            </div>
+
+            <div class="contact-row">
+              <div class="contact-icon"><i class="bi bi-geo-alt"></i></div>
+              <div>
+                <div class="contact-label">Store Address</div>
+                <div class="contact-value">27 Eden walk eden centre, Broadway, United States</div>
+              </div>
+            </div>
+
+            <div class="contact-row">
+              <div class="contact-icon"><i class="bi bi-clock"></i></div>
+              <div>
+                <div class="contact-label">Opening Hours</div>
+                <div class="contact-value">Mon – Fri : 9:00am – 6:00pm</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="gold-divider"></div>
+
+  <!-- ── STORE 2 : Melbourne place ── info LEFT, image RIGHT -->
+  <section class="store-section">
+    <div class="container-fluid px-0">
+      <div class="row g-0 align-items-stretch row-reverse flex-lg-row-reverse">
+
+        <!-- Image -->
+        <div class="col-12 col-lg-6">
+          <div class="store-img-wrap">
+            <img
+              src="//jelwo.myshopify.com/cdn/shop/files/Melbourne-place.jpg?v=1741696988&width=1024"
+              alt="Melbourne place – pearl necklace"
+            />
+          </div>
+        </div>
+
+        <!-- Info -->
+        <div class="col-12 col-lg-6">
+          <div class="store-info reveal">
+            <h2 class="store-name">Melbourne place</h2>
+
+            <div class="contact-row">
+              <div class="contact-icon"><i class="bi bi-telephone"></i></div>
+              <div>
+                <div class="contact-label">Let's Talk</div>
+                <div class="contact-value"><a href="tel:+9993222000388">+999 3222 000 388</a></div>
+              </div>
+            </div>
+
+            <div class="contact-row">
+              <div class="contact-icon"><i class="bi bi-envelope"></i></div>
+              <div>
+                <div class="contact-label">Say Hi!</div>
+                <div class="contact-value"><a href="mailto:store@domain.com">store@domain.com</a></div>
+              </div>
+            </div>
+
+            <div class="contact-row">
+              <div class="contact-icon"><i class="bi bi-geo-alt"></i></div>
+              <div>
+                <div class="contact-label">Store Address</div>
+                <div class="contact-value">27 Eden walk eden centre, Broadway, United States</div>
+              </div>
+            </div>
+
+            <div class="contact-row">
+              <div class="contact-icon"><i class="bi bi-clock"></i></div>
+              <div>
+                <div class="contact-label">Opening Hours</div>
+                <div class="contact-value">Mon – Fri : 9:00am – 6:00pm</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="gold-divider"></div>
+
+  <!-- ── STORE 3 : Ansolt park ── image LEFT, info RIGHT -->
+  <section class="store-section">
+    <div class="container-fluid px-0">
+      <div class="row g-0 align-items-stretch">
+
+        <!-- Image -->
+        <div class="col-12 col-lg-6">
+          <div class="store-img-wrap">
+            <img
+              src="//jelwo.myshopify.com/cdn/shop/files/Ansolt-park.jpg?v=1741696988&width=1024"
+              alt="Ansolt park – pearl necklace on model"
+            />
+          </div>
+        </div>
+
+        <!-- Info -->
+        <div class="col-12 col-lg-6">
+          <div class="store-info reveal">
+            <h2 class="store-name">Ansolt park</h2>
+
+            <div class="contact-row">
+              <div class="contact-icon"><i class="bi bi-telephone"></i></div>
+              <div>
+                <div class="contact-label">Let's Talk</div>
+                <div class="contact-value"><a href="tel:+9993222000388">+999 3222 000 388</a></div>
+              </div>
+            </div>
+
+            <div class="contact-row">
+              <div class="contact-icon"><i class="bi bi-envelope"></i></div>
+              <div>
+                <div class="contact-label">Say Hi!</div>
+                <div class="contact-value"><a href="mailto:store@domain.com">store@domain.com</a></div>
+              </div>
+            </div>
+
+            <div class="contact-row">
+              <div class="contact-icon"><i class="bi bi-geo-alt"></i></div>
+              <div>
+                <div class="contact-label">Store Address</div>
+                <div class="contact-value">27 Eden walk eden centre,</div>
+              </div>
+            </div>
+
+            <div class="contact-row">
+              <div class="contact-icon"><i class="bi bi-clock"></i></div>
+              <div>
+                <div class="contact-label">Opening Hours</div>
+                <div class="contact-value">Mon – Fri : 9:00am – 6:00pm</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =================== FOOTER =================== -->
+<footer>
+  <div class="container-fluid px-5">
+    <div class="row g-5">
+      <div class="col-md-3">
+        <a href="index.html" class="footer-logo">JELWO</a>
+        <div class="footer-contact">
+          <p><i class="bi bi-geo-alt me-2 text-gold"></i>55 East 10th street, new york,<br>ny 10003, united states</p>
+          <p class="mt-2"><i class="bi bi-telephone me-2"></i><a href="tel:2201234567890">+ (220) 123 456 7890</a></p>
+          <p><i class="bi bi-envelope me-2"></i><a href="mailto:demo123546@gmail.com">demo123546@gmail.com</a></p>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <p class="footer-heading">Information</p>
+        <a href="about.html" class="footer-link">About us</a>
+        <a href="contact.html" class="footer-link">Contact us</a>
+        <a href="faqs.html" class="footer-link">Faq's</a>
+        <a href="news.html" class="footer-link">News</a>
+      </div>
+      <div class="col-md-2">
+        <p class="footer-heading">Privacy &amp; terms</p>
+        <a href="privacy.html" class="footer-link">Privacy policy</a>
+        <a href="refund.html" class="footer-link">Refund policy</a>
+        <a href="shipping.html" class="footer-link">Shipping &amp; return</a>
+        <a href="terms.html" class="footer-link">Terms &amp; condition</a>
+      </div>
+      <div class="col-md-2">
+        <p class="footer-heading">Category</p>
+        <a href="rings.html" class="footer-link">Rings</a>
+        <a href="earring.html" class="footer-link">Earring</a>
+        <a href="pendant.html" class="footer-link">Pendant</a>
+        <a href="necklaces.html" class="footer-link">Necklaces</a>
+        <a href="bracelets.html" class="footer-link">Bracelets</a>
+      </div>
+      <div class="col-md-3">
+        <p class="footer-heading">Visit store</p>
+        <p class="footer-contact" style="font-size:.875rem;color:var(--text-mid);">
+          Mon - sat : 10am - 11pm<br>
+          Sun : 10am - 4pm<br>
+          7 Days a week
+        </p>
+        <div class="mt-4">
+          <p class="footer-heading">Subscribe &amp; get 15% discount.</p>
+          <div class="footer-subscribe">
+            <input type="email" placeholder="Enter your email" id="footerEmail">
+            <button onclick="footerSubscribe()">SUBSCRIBE</button>
+          </div>
+          <p class="text-success small mt-2" id="footerMsg" style="display:none;">Thanks for subscribing, Discount code: <strong>WC5</strong></p>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom d-flex justify-content-between align-items-center flex-wrap gap-3">
+      <div>
+        <div class="footer-social mb-2">
+          <a href="#"><i class="bi bi-facebook"></i></a>
+          <a href="#"><i class="bi bi-twitter-x"></i></a>
+          <a href="#"><i class="bi bi-instagram"></i></a>
+          <a href="#"><i class="bi bi-pinterest"></i></a>
+          <a href="https://youtube.com" target="_blank"><i class="bi bi-youtube"></i></a>
+        </div>
+        Copyright © 2026 by spacingtech
+      </div>
+      <div class="payment-icons">
+        <i class="bi bi-credit-card-2-front"></i>
+        <i class="bi bi-credit-card"></i>
+        <i class="bi bi-paypal"></i>
+        <i class="bi bi-bank"></i>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    <script src="javascript/App.js"></script>
+  <!-- Bootstrap 5.2.3 JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+
+    // =============================================
+// MEGA DROPDOWN POSITION
+// =============================================
+function positionMegaMenus() {
+  const header = document.getElementById('mainHeader');
+  const bottom = header ? header.getBoundingClientRect().bottom : 130;
+  document.querySelectorAll('.mega-menu').forEach(m => m.style.top = 130 + 'px');
+}
+window.addEventListener('scroll', positionMegaMenus);
+window.addEventListener('resize', positionMegaMenus);
+document.addEventListener('DOMContentLoaded', positionMegaMenus);
+// Show/hide on hover
+document.querySelectorAll('.mega-wrap').forEach(wrap => {
+  wrap.addEventListener('mouseenter', () => {
+    positionMegaMenus();
+    wrap.querySelector('.mega-menu').style.display = 'block';
+  });
+  wrap.addEventListener('mouseleave', () => {
+    wrap.querySelector('.mega-menu').style.display = 'none';
+  });
+});
+
+// =============================================
+// PRODUCTS MEGA CAROUSEL
+// =============================================
+let megaCarouselIdx = 0;
+const megaProds = PRODUCTS.slice(0, 4);
+function renderMegaCarousel() {
+  const el = document.getElementById('productsMegaCarousel');
+  if (!el) return;
+  const visible = megaProds.slice(megaCarouselIdx, megaCarouselIdx + 2);
+  el.innerHTML = visible.map(p => `
+    <div class="d-flex gap-2 align-items-center p-2 border rounded" style="min-width:180px;cursor:pointer;" onclick="location.href='collections.html'">
+      <img src="${p.image}" style="width:60px;height:60px;object-fit:cover;border-radius:6px;">
+      <div>
+        <p style="font-size:.8rem;font-weight:500;margin:0;">${p.name}</p>
+        <span style="font-size:.8rem;color:var(--gold);font-weight:600;">Rs. ${p.price.toFixed(2)}</span>
+        ${p.oldPrice ? `<del style="font-size:.7rem;color:#999;margin-left:4px;">Rs. ${p.oldPrice.toFixed(2)}</del>` : ''}
+        <span style="display:block;background:#2ecc71;color:#fff;font-size:.65rem;border-radius:3px;padding:1px 5px;margin-top:3px;width:fit-content;">${p.badge}%</span>
+      </div>
+    </div>`).join('');
+}
+function slideMegaCarousel(dir) {
+  megaCarouselIdx = Math.max(0, Math.min(megaCarouselIdx + dir, megaProds.length - 2));
+  renderMegaCarousel();
+}
+renderMegaCarousel();
+
+// Render cart page
+function renderCartPage() {
+  const el = document.getElementById('cartPageContent');
+  const cart = JelwoStore.cart;
+  if (!el) return;
+  if (cart.length === 0) {
+    el.innerHTML = `
+      <div class="text-center py-5">
+        <i class="bi bi-bag" style="font-size:4rem;color:#ddd;"></i>
+        <h3 style="margin:20px 0 12px;font-family:'Cormorant Garamond',serif;">Your cart is empty</h3>
+        <p class="text-muted mb-4">Looks like you haven't added anything to your cart yet.</p>
+        <a href="index.html" class="btn-primary-jelwo">CONTINUE SHOPPING</a>
+      </div>`;
+    updateSummary();
+    return;
+  }
+  el.innerHTML = `
+    <table class="cart-table w-100">
+      <thead><tr>
+        <th>PRODUCT</th><th>PRICE</th><th>QUANTITY</th><th>TOTAL</th><th></th>
+      </tr></thead>
+      <tbody>${cart.map(item => `
+        <tr class="cart-row">
+          <td>
+            <div class="d-flex align-items-center gap-3">
+              <img src="${item.image}" class="cart-prod-img" alt="${item.name}">
+              <div>
+                <div class="cart-prod-name">${item.name}</div>
+                ${item.variant ? `<div class="cart-prod-variant">Color: ${item.variant}</div>` : ''}
+              </div>
+            </div>
+          </td>
+          <td class="cart-price">Rs. ${item.price.toFixed(2)}</td>
+          <td>
+            <div class="qty-ctrl">
+              <button onclick="JelwoStore.updateCartQty('${item.id}','${item.variant}',${item.qty-1})">−</button>
+              <span>${item.qty}</span>
+              <button onclick="JelwoStore.updateCartQty('${item.id}','${item.variant}',${item.qty+1})">+</button>
+            </div>
+          </td>
+          <td class="cart-price fw-bold">Rs. ${(item.price * item.qty).toFixed(2)}</td>
+          <td><button class="btn-remove" onclick="JelwoStore.removeFromCart('${item.id}','${item.variant}')"><i class="bi bi-trash"></i></button></td>
+        </tr>`).join('')}
+      </tbody>
+    </table>`;
+  updateSummary();
+}
+
+renderCartPage();
+JelwoStore.updateCartUI();
+JelwoStore.updateWishlistUI();
+
+    // Scroll reveal
+    const revealEls = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          // stagger children slightly
+          setTimeout(() => {
+            entry.target.classList.add('visible');
+          }, 80);
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    revealEls.forEach(el => revealObserver.observe(el));
+
+    // Stagger contact rows inside each revealed info block
+    document.querySelectorAll('.store-info').forEach(info => {
+      info.querySelectorAll('.contact-row').forEach((row, i) => {
+        row.style.opacity = '0';
+        row.style.transform = 'translateX(-12px)';
+        row.style.transition = `opacity .5s ease ${i * 0.1 + 0.3}s, transform .5s ease ${i * 0.1 + 0.3}s`;
+      });
+    });
+
+    const rowObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.querySelectorAll('.contact-row').forEach(row => {
+            row.style.opacity = '1';
+            row.style.transform = 'translateX(0)';
+          });
+          rowObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+
+    document.querySelectorAll('.store-info').forEach(el => rowObserver.observe(el));
+  </script>
+
+</body>
+</html>

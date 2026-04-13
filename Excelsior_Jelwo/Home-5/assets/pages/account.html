@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Account – Jelwo ( password: 1 )</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link href="css/account.css" rel="stylesheet"/></head>
+<body>
+
+  <!-- =================== MAIN HEADER =================== -->
+<header class="main-header" id="mainHeader">
+  <div class="header-inner">
+    <a href="index.html" class="logo"><img src="//jelwo.myshopify.com/cdn/shop/files/jewelry-4-logo.png?v=1744805986&width=500"/></a>
+    <span style="border-left: 1px solid #e2e2e2;
+    padding-left: 30px;
+    margin-left: 30px; color:#808080; align-items:center; justify-content:flex-start;"><p>Free UK standard delivery on all orders.</p></span>
+    <!-- HEADER ACTIONS -->
+    <div class="header-actions">
+      <div class="position-relative">
+        <input type="text" id="headerSearch" placeholder="Search product..." class="form-control form-control-sm" style="width:180px;border-radius:20px;border:1px solid #ddd;">
+      </div>
+      <a href="account.html">
+      <button class="icon-btn" ><i class="bi bi-person"></i></button></a>
+      <button class="icon-btn" data-bs-toggle="offcanvas" data-bs-target="#wishlistOffcanvas">
+        <i class="bi bi-heart"></i>
+        <span class="badge-count wishlist-count">0</span>
+      </button>
+      <button class="icon-btn" data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas">
+        <i class="bi bi-bag"></i>
+        <span class="badge-count cart-count">0</span>
+      </button>
+    </div>
+  </div>
+  
+</header>
+
+<div class="header-bar">
+    <a href="tel:2201234567890" class="phone-link"><i class="bi bi-telephone"></i> (220) 123 456 7890</a>
+    <!-- NAV -->
+    <nav class="main-nav">
+
+      <!-- HOME -->
+      <div class="mega-wrap">
+        <a class="nav-link-custom active">HOME <i class="bi bi-chevron-down small"></i></a>
+        <div class="mega-menu home-mega-menu" style="display:none; padding: 28px 40px 24px;">
+          <div style="width:100%;">
+            
+            <div style="display:grid; grid-template-columns:repeat(6,1fr); gap:16px;">
+ 
+              <!-- 06 Classic jewelry (NEW badge) -->
+              <div class="home-theme-card" onclick="location.href='index.html'" style="cursor:pointer;position:relative;">
+                <div style="position:absolute;top:8px;left:8px;z-index:3;background:#2ecc71;color:#fff;font-size:.62rem;font-weight:700;padding:2px 7px;border-radius:3px;letter-spacing:.5px;transform:rotate(-5deg);">NEW</div>
+                <div class="home-theme-img-wrap">
+                  <img src="//jelwo.myshopify.com/cdn/shop/files/home6.jpg?v=1750230396&width=500" alt="Classic jewelry">
+                  <div class="home-theme-overlay"><i class="bi bi-eye" style="font-size:1.2rem;color:#fff;"></i></div>
+                </div>
+                <p class="home-theme-label">06 Classic jewelry</p>
+              </div>
+ 
+              <!-- 01 Unique jewelry -->
+              <div class="home-theme-card" onclick="location.href='index.html'" style="cursor:pointer;">
+                <div class="home-theme-img-wrap">
+                  <img src="//jelwo.myshopify.com/cdn/shop/files/demo-menu-banner-1.jpg?v=1746178520&width=500" alt="Unique jewelry">
+                  <div class="home-theme-overlay"><i class="bi bi-eye" style="font-size:1.2rem;color:#fff;"></i></div>
+                </div>
+                <p class="home-theme-label">01 Unique jewelry</p>
+              </div>
+ 
+              <!-- 02 Modern jewelry -->
+              <div class="home-theme-card" onclick="location.href='index.html'" style="cursor:pointer;">
+                <div class="home-theme-img-wrap">
+                  <img src="//jelwo.myshopify.com/cdn/shop/files/demo-menu-banner-2.jpg?v=1746178520&width=500" alt="Modern jewelry">
+                  <div class="home-theme-overlay"><i class="bi bi-eye" style="font-size:1.2rem;color:#fff;"></i></div>
+                </div>
+                <p class="home-theme-label">02 Modern jewelry</p>
+              </div>
+ 
+              <!-- 03 Traditional jewelry -->
+              <div class="home-theme-card" onclick="location.href='index.html'" style="cursor:pointer;">
+                <div class="home-theme-img-wrap">
+                  <img src="//jelwo.myshopify.com/cdn/shop/files/demo-menu-banner-3.jpg?v=1746178520&width=500" alt="Traditional jewelry">
+                  <div class="home-theme-overlay"><i class="bi bi-eye" style="font-size:1.2rem;color:#fff;"></i></div>
+                </div>
+                <p class="home-theme-label">03 Traditional jewelry</p>
+              </div>
+ 
+              <!-- 04 Luxury jewelry -->
+              <div class="home-theme-card" onclick="location.href='index.html'" style="cursor:pointer;">
+                <div class="home-theme-img-wrap">
+                  <img src="//jelwo.myshopify.com/cdn/shop/files/demo-menu-banner-4.jpg?v=1746178520&width=500" alt="Luxury jewelry">
+                  <div class="home-theme-overlay"><i class="bi bi-eye" style="font-size:1.2rem;color:#fff;"></i></div>
+                </div>
+                <p class="home-theme-label">04 Luxury jewelry</p>
+              </div>
+ 
+              <!-- 05 Elegant jewelry -->
+              <div class="home-theme-card" onclick="location.href='index.html'" style="cursor:pointer;">
+                <div class="home-theme-img-wrap">
+                  <img src="//jelwo.myshopify.com/cdn/shop/files/demo-menu-banner-5.jpg?v=1746178520&width=500" alt="Elegant jewelry">
+                  <div class="home-theme-overlay"><i class="bi bi-eye" style="font-size:1.2rem;color:#fff;"></i></div>
+                </div>
+                <p class="home-theme-label">05 Elegant jewelry</p>
+              </div>
+ 
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SHOP -->
+      <div class="mega-wrap">
+        <a href="shop.html" class="nav-link-custom">SHOP <i class="bi bi-chevron-down small"></i></a>
+        <div class="mega-menu" style="display:none;">
+          <div class="container-fluid">
+            <div class="row g-4">
+              <div class="col-2 mega-menu-col">
+                <h6>Earrings</h6>
+                <a href="flowerjhumka.html">Flower jumkha</a>
+                <a href="flowerjhumka.html">Brown sunglasses</a>
+                <a href="flowerjhumka.html">Bucket shoes</a>
+                <a href="iamondrashmiring.html">Iamond rashmi ring</a>
+                <a href="floralgoldbangle.html">Floral gold bangle</a>
+                <a href="glitterdiamondring.html">Glitter diamond ring</a>
+              </div>
+              <div class="col-2 mega-menu-col">
+                <h6>Necklace</h6>
+                <a href="framedgoldpendant.html">Framed gold pendant</a>
+                <a href="glowernosepin.html">Flower nose pin</a>
+                <a href="goldnosepin.html">Gold nose pin</a>
+                <a href="goldnosepin.html">Color print sandal</a>
+                <a href="blossomdiamondbangle.html">Blossom diamond bangle</a>
+                <a href="simplepearlear.html">Simple Pearl earrings</a>
+              </div>
+              <div class="col-2 mega-menu-col">
+                <h6>Rings</h6>
+                <a href="rosegoldring.html">Rose gold rings</a>
+                <a href="sherbiring.html">Sherbi ring</a>
+                <a href="iamondrashmiring.html">Iamond rashmi ring</a>
+                <a href="glitterdiamondring.html">Glitter diamond ring</a>
+                <a href="diamondring.html">Diamond rings</a>
+                <a href="clusterdiamondring.html">Cluster diamond ring</a>
+              </div>
+              <div class="col-2 mega-menu-col">
+                <h6>Bracelets</h6>
+                <a href="floralgoldbangle.html">Floral gold bangle</a>
+                <a href="modish.html">Modish bracelet</a>
+                <a href="blossomdiamondbangle.html">Blossom diamond bangle</a>
+                <a href="gemstonechainbrac.html">Gemstone chain bracelet</a>
+                <a href="gemstonechainbrac.html">Blue heavy t-shirt</a>
+                <a href="gemstonechainbrac.html">Brown sunglasses</a>
+              </div>
+              <div class="col-4">
+                <div style="background:var(--gold);border-radius:12px;overflow:hidden;position:relative;">
+                  <img src="//jelwo.myshopify.com/cdn/shop/files/jewelry-4-menu-banner.jpg?v=1742635152&width=500" style="width:100%;height:200px;object-fit:cover;opacity:.7;">
+                  <div style="position:absolute;bottom:0;left:0;right:0;padding:16px;color:#fff">
+                    <div style="font-size:.75rem;letter-spacing:2px">SPECIAL OFFER</div>
+                    <div style="font-family:'Cormorant Garamond',serif;font-size:1.6rem">FLAT 30% OFF</div>
+                    <a href="collections.html" class="btn-outline-jelwo mt-2" style="font-size:.72rem;padding:6px 14px;color:#fff;border-color:#fff">SHOP NOW</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRODUCTS -->
+      <div class="mega-wrap">
+        <a class="nav-link-custom">PRODUCTS <i class="bi bi-chevron-down small"></i></a>
+        <div class="mega-menu" style="display:none;">
+          <div class="container-fluid">
+            <div class="row g-4">
+              <div class="col-2 mega-menu-col">
+                <h6>Earrings</h6>
+                <a href="dropgoldear.html">Drop gold earrings</a>
+                <a href="simplepearlear.html">Simple Pearl earrings</a>
+                <a href="gemstonejhumka.html">Gemstone jhumkas</a>
+                <a href="flowerjhumka.html">Flower jhumka</a>
+                <a href="rosegoldbrac.html">Rose gold bracelet</a>
+                <a href="diamondbrac.html">Diamond bracelet</a>
+              </div>
+              <div class="col-2 mega-menu-col">
+                <h6>Bracelets</h6>
+                <a href="rosegoldbrac.html">Rose gold bracelet</a>
+                <a href="diamondbrac.html">Diamond bracelet</a>
+                <a href="goldchain.html">Gold chain</a>
+                <a href="rosegoldbrac.html">Rose gold bracelet</a>
+                <a href="diamondbrac.html">Diamond bracelet</a>
+                <a href="goldchain.html">Gold chain</a>
+              </div>
+              <div class="col-2 mega-menu-col">
+                <h6>Necklace</h6>
+                <a href="diamondnecklace.html">Diamond necklace</a>
+                <a href="goldpendant.html">Gold pendant</a>
+                <a href="flowerpendant.html">Flower pendant</a>
+                <a href="rosegoldbrac.html">Rose gold bracelet</a>
+                <a href="diamondbrac.html">Diamond bracelet</a>
+                <a href="goldchain.html">Gold chain</a>
+              </div>
+              <div class="col-2 mega-menu-col">
+                <h6>Rings</h6>
+                <a href="chicdiamondring.html">Chic diamond ring</a>
+                <a href="glitterdiamondring.html">Glitter diamond ring</a>
+                <a href="sherbiring.html">Sherbi ring</a>
+                <a href="rosegoldbrac.html">Rose gold bracelet</a>
+                <a href="diamondbrac.html">Diamond bracelet</a>
+                <a href="goldchain.html">Gold chain</a>
+              </div>
+              <div class="col-4">
+                <h6>Popular Collection</h6>
+                <div id="productsMegaCarousel" class="d-flex gap-3 overflow-hidden">
+                  <!-- populated by JS -->
+                </div>
+                <div class="d-flex gap-2 mt-3">
+                  <button class="btn btn-sm btn-outline-secondary" onclick="slideMegaCarousel(-1)"><i class="bi bi-chevron-left"></i></button>
+                  <button class="btn btn-sm btn-outline-secondary" onclick="slideMegaCarousel(1)"><i class="bi bi-chevron-right"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BLOG -->
+      <a href="blog.html" class="nav-link-custom">BLOG</a>
+
+      <!-- PAGES -->
+      <div class="normal-wrap">
+        <a class="nav-link-custom">
+          PAGES <i class="bi bi-chevron-down small"></i>
+        </a>
+
+        <div class="normal-menu">
+
+          <!-- About (nested) -->
+          <div class="nested-dropdown-wrap">
+            <a style="cursor:pointer;display:flex;align-items:center;text-align:center;justify-content:space-between;">
+              About us <i class="bi bi-chevron-right small"></i>
+            </a>
+            <div class="nested-dropdown">
+              <a href="about.html">About us</a>
+              <a href="about2.html">About us 2</a>
+            </div>
+          </div>
+
+          <!-- Contact (nested) -->
+          <div class="nested-dropdown-wrap mt-2">
+            <a style="cursor:pointer;display:flex;align-items:center;justify-content:space-between">
+              Contact <i class="bi bi-chevron-right small"></i>
+            </a>
+            <div class="nested-dropdown">
+              <a href="contact.html">Contact us</a>
+              <a href="contact2.html">Contact us 2</a>
+            </div>
+          </div>
+
+          <a href="faqs.html">Faq's</a>
+          <a href="privacy.html">Privacy policy</a>
+          <a href="refund.html">Refund policy</a>
+          <a href="storeloc.html">Store location</a>
+          <a href="shipping.html">Shipping & return</a>
+          <a href="terms.html">Terms & condition</a>
+
+        </div>
+      </div>
+    </nav>
+    <a href="collections.html" class="free-try ms-auto"><i class="bi bi-house"></i> FREE TRY AT HOME</a>
+
+  </div>
+
+<!-- Cart Offcanvas -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="cartOffcanvas" style="width:400px;">
+  <div class="offcanvas-header border-bottom">
+    <h5 class="offcanvas-title">My shopping cart</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div style="background:var(--cream);padding:10px 16px;border-radius:6px;font-size:.8rem;margin-bottom:16px;">New customers save 10% with code <strong style="color:var(--gold);">WELCOME10</strong></div>
+    <div class="free-ship-bar"><div class="free-shipping-bar"></div></div>
+    <p class="free-shipping-text text-muted small mb-3">Spend Rs. 100 more and get free shipping!</p>
+    <div id="cartOffcanvasItems"></div>
+    <div class="border-top pt-3 mt-3">
+      <div class="d-flex justify-content-between mb-3"><strong>Subtotal</strong><strong id="cartSubtotal">Rs. 0.00</strong></div>
+      <div class="d-flex gap-2">
+        <a href="cart.html" class="btn btn-outline-secondary flex-fill">VIEW CART</a>
+        <a href="#" style="background:var(--text-dark);color:#fff;border:none;border-radius:6px;padding:10px 16px;font-size:.85rem;font-weight:600;flex:1;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;">CHECKOUT</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Wishlist Offcanvas -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="wishlistOffcanvas" style="width:400px;">
+  <div class="offcanvas-header border-bottom">
+    <h5 class="offcanvas-title">My Wishlist</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div id="wishlistOffcanvasItems">
+      <div class="text-center py-5"><i class="bi bi-heart fs-1 text-muted"></i><p class="mt-3 text-muted">Your wishlist is empty</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-content">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb justify-content-center" style="background:none;">
+        <li class="breadcrumb-item"><a href="index.html" style="color:rgba(255,255,255,.7);text-decoration:none;">HOME</a></li>
+        <li class="breadcrumb-item active" style="color:#fff;">HOME - ACCOUNT</li>
+      </ol>
+    </nav>
+    <h1 style="font-size:3rem;color:#fff;">Account</h1>
+  </div>
+</div>
+
+  <!-- Login Form -->
+  <div class="account-card">
+    <h2>Login account</h2>
+
+    <!-- Sign in with Shop -->
+    <button class="btn-shop" id="shopSignInBtn">
+      <span class="shop-icon">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+          <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575z" fill="#5a31f4"/>
+        </svg>
+      </span>
+      Sign in with shop
+    </button>
+
+    <div class="or-divider">or</div>
+
+    <!-- Email / Password -->
+    <div class="mb-3">
+      <label class="form-label">Email address</label>
+      <input type="email" class="form-control" placeholder="Email address"/>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Password</label>
+      <input type="password" class="form-control" placeholder="Password"/>
+    </div>
+
+    <div class="d-flex align-items-center justify-content-between mt-4">
+      <button class="btn-signin">Sign In</button>
+      <a href="#" class="forgot-link">Forgot your password?</a>
+    </div>
+
+    <a href="signup.html" class="btn-create">Create Account</a>
+  </div>
+
+  <!-- =================== FOOTER =================== -->
+<footer>
+  <div class="container-fluid px-5">
+    <div class="row g-5">
+      <div class="col-md-3">
+        <a href="index.html" class="footer-logo">JELWO</a>
+        <div class="footer-contact">
+          <p><i class="bi bi-geo-alt me-2 text-gold"></i>55 East 10th street, new york,<br>ny 10003, united states</p>
+          <p class="mt-2"><i class="bi bi-telephone me-2"></i><a href="tel:2201234567890">+ (220) 123 456 7890</a></p>
+          <p><i class="bi bi-envelope me-2"></i><a href="mailto:demo123546@gmail.com">demo123546@gmail.com</a></p>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <p class="footer-heading">Information</p>
+        <a href="about.html" class="footer-link">About us</a>
+        <a href="contact.html" class="footer-link">Contact us</a>
+        <a href="faqs.html" class="footer-link">Faq's</a>
+        <a href="news.html" class="footer-link">News</a>
+      </div>
+      <div class="col-md-2">
+        <p class="footer-heading">Privacy &amp; terms</p>
+        <a href="privacy.html" class="footer-link">Privacy policy</a>
+        <a href="refund.html" class="footer-link">Refund policy</a>
+        <a href="shipping.html" class="footer-link">Shipping &amp; return</a>
+        <a href="terms.html" class="footer-link">Terms &amp; condition</a>
+      </div>
+      <div class="col-md-2">
+        <p class="footer-heading">Category</p>
+        <a href="rings.html" class="footer-link">Rings</a>
+        <a href="earring.html" class="footer-link">Earring</a>
+        <a href="pendant.html" class="footer-link">Pendant</a>
+        <a href="necklaces.html" class="footer-link">Necklaces</a>
+        <a href="bracelets.html" class="footer-link">Bracelets</a>
+      </div>
+      <div class="col-md-3">
+        <p class="footer-heading">Visit store</p>
+        <p class="footer-contact" style="font-size:.875rem;color:var(--text-mid);">
+          Mon - sat : 10am - 11pm<br>
+          Sun : 10am - 4pm<br>
+          7 Days a week
+        </p>
+        <div class="mt-4">
+          <p class="footer-heading">Subscribe &amp; get 15% discount.</p>
+          <div class="footer-subscribe">
+            <input type="email" placeholder="Enter your email" id="footerEmail">
+            <button onclick="footerSubscribe()">SUBSCRIBE</button>
+          </div>
+          <p class="text-success small mt-2" id="footerMsg" style="display:none;">Thanks for subscribing, Discount code: <strong>WC5</strong></p>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom d-flex justify-content-between align-items-center flex-wrap gap-3">
+      <div>
+        <div class="footer-social mb-2">
+          <a href="#"><i class="bi bi-facebook"></i></a>
+          <a href="#"><i class="bi bi-twitter-x"></i></a>
+          <a href="#"><i class="bi bi-instagram"></i></a>
+          <a href="#"><i class="bi bi-pinterest"></i></a>
+          <a href="https://youtube.com" target="_blank"><i class="bi bi-youtube"></i></a>
+        </div>
+        Copyright © 2026 by spacingtech
+      </div>
+      <div class="payment-icons">
+        <i class="bi bi-credit-card-2-front"></i>
+        <i class="bi bi-credit-card"></i>
+        <i class="bi bi-paypal"></i>
+        <i class="bi bi-bank"></i>
+      </div>
+    </div>
+  </div>
+</footer>
+
+  <!-- ── Shop Sign-In Overlay ── -->
+  <div class="shop-overlay" id="shopOverlay">
+    <div class="shop-modal">
+      <button class="close-btn" id="closeShopModal">&times;</button>
+
+      <!-- Logos -->
+      <div class="logos">
+        <div class="shop-logo-circle">
+          <!-- Shop bag icon -->
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <line x1="3" y1="6" x2="21" y2="6" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+            <path d="M16 10a4 4 0 01-8 0" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="dots-connector">
+          <span></span><span></span><span></span>
+        </div>
+        <div class="store-logo-circle">JP</div>
+      </div>
+
+      <h2>Sign in to Shop</h2>
+      <p class="sub">To continue to <strong>Jelwo ( password: 1 )</strong></p>
+
+      <input type="email" class="form-control" placeholder="Enter your email" id="shopEmail"/>
+
+      <button class="btn-shop-continue">Continue</button>
+
+      <a href="#" class="passkey-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2"/>
+          <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        Sign in with a passkey
+      </a>
+
+      <p class="legal">
+        By continuing, you agree to Shop's
+        <a href="#">terms</a>, <a href="#">privacy policy</a>, and to
+        sharing your name, avatar, and email with Jelwo ( password: 1 ).
+        See their <a href="#">terms</a> and <a href="#">privacy policy</a>.
+      </p>
+    </div>
+  </div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="javascript/App.js"></script>  
+  <script>
+
+    // =============================================
+// MEGA DROPDOWN POSITION
+// =============================================
+function positionMegaMenus() {
+  const header = document.getElementById('mainHeader');
+  const bottom = header ? header.getBoundingClientRect().bottom : 130;
+  document.querySelectorAll('.mega-menu').forEach(m => m.style.top = 130 + 'px');
+}
+window.addEventListener('scroll', positionMegaMenus);
+window.addEventListener('resize', positionMegaMenus);
+document.addEventListener('DOMContentLoaded', positionMegaMenus);
+// Show/hide on hover
+document.querySelectorAll('.mega-wrap').forEach(wrap => {
+  wrap.addEventListener('mouseenter', () => {
+    positionMegaMenus();
+    wrap.querySelector('.mega-menu').style.display = 'block';
+  });
+  wrap.addEventListener('mouseleave', () => {
+    wrap.querySelector('.mega-menu').style.display = 'none';
+  });
+});
+
+// =============================================
+// PRODUCTS MEGA CAROUSEL
+// =============================================
+let megaCarouselIdx = 0;
+const megaProds = PRODUCTS.slice(0, 4);
+function renderMegaCarousel() {
+  const el = document.getElementById('productsMegaCarousel');
+  if (!el) return;
+  const visible = megaProds.slice(megaCarouselIdx, megaCarouselIdx + 2);
+  el.innerHTML = visible.map(p => `
+    <div class="d-flex gap-2 align-items-center p-2 border rounded" style="min-width:180px;cursor:pointer;" onclick="location.href='collections.html'">
+      <img src="${p.image}" style="width:60px;height:60px;object-fit:cover;border-radius:6px;">
+      <div>
+        <p style="font-size:.8rem;font-weight:500;margin:0;">${p.name}</p>
+        <span style="font-size:.8rem;color:var(--gold);font-weight:600;">Rs. ${p.price.toFixed(2)}</span>
+        ${p.oldPrice ? `<del style="font-size:.7rem;color:#999;margin-left:4px;">Rs. ${p.oldPrice.toFixed(2)}</del>` : ''}
+        <span style="display:block;background:#2ecc71;color:#fff;font-size:.65rem;border-radius:3px;padding:1px 5px;margin-top:3px;width:fit-content;">${p.badge}%</span>
+      </div>
+    </div>`).join('');
+}
+function slideMegaCarousel(dir) {
+  megaCarouselIdx = Math.max(0, Math.min(megaCarouselIdx + dir, megaProds.length - 2));
+  renderMegaCarousel();
+}
+renderMegaCarousel();
+
+// =============================================
+// FOOTER SUBSCRIBE
+// =============================================
+function footerSubscribe() {
+  const email = document.getElementById('footerEmail').value;
+  if (!email) return;
+  document.getElementById('footerMsg').style.display = 'block';
+  document.getElementById('footerEmail').value = '';
+}
+
+// =============================================
+// CART RECS
+// =============================================
+function renderCartRecs() {
+  const el = document.getElementById('cartRecsCarousel');
+  if (!el) return;
+  el.innerHTML = PRODUCTS.slice(0, 3).map(p => `
+    <div style="min-width:130px;text-align:center;cursor:pointer;" onclick="location.href='collections.html'">
+      <img src="${p.image}" style="width:90px;height:90px;object-fit:cover;border-radius:8px;margin-bottom:6px;">
+      <p style="font-size:.75rem;font-weight:500;margin:0;">${p.name}</p>
+      <span style="font-size:.75rem;color:var(--gold);">Rs. ${p.price.toFixed(2)}</span>
+    </div>`).join('');
+}
+renderCartRecs();
+
+// =============================================
+// WISHLIST OFFCANVAS RENDER
+// =============================================
+function renderWishlistOffcanvas() {
+  const el = document.getElementById('wishlistOffcanvasItems');
+  if (!el) return;
+  if (JelwoStore.wishlist.length === 0) {
+    el.innerHTML = `<div class="text-center py-5"><i class="bi bi-heart fs-1 text-muted"></i><p class="mt-3 text-muted">Your wishlist is empty</p></div>`;
+    return;
+  }
+  el.innerHTML = JelwoStore.wishlist.map(item => `
+    <div class="d-flex gap-3 mb-3 pb-3 border-bottom align-items-center">
+      <img src="${item.image}" style="width:70px;height:70px;object-fit:cover;border-radius:8px;">
+      <div class="flex-grow-1">
+        <div class="fw-semibold small">${item.name}</div>
+        <div style="color:var(--gold);font-size:.85rem;">Rs. ${item.price.toFixed(2)}</div>
+        <button class="btn btn-sm btn-primary-jelwo mt-1" style="font-size:.7rem;padding:4px 10px;" onclick="handleAddToCart('${item.id}')">Add to Cart</button>
+      </div>
+      <button class="btn btn-link text-danger p-0" onclick="JelwoStore.removeFromWishlist('${item.id}');renderWishlistOffcanvas();"><i class="bi bi-trash"></i></button>
+    </div>`).join('');
+}
+
+// Override updateWishlistUI to also render offcanvas
+const _origUpdateWishlist = JelwoStore.updateWishlistUI.bind(JelwoStore);
+JelwoStore.updateWishlistUI = function() { _origUpdateWishlist(); renderWishlistOffcanvas(); };
+
+document.getElementById('wishlistOffcanvas').addEventListener('show.bs.offcanvas', renderWishlistOffcanvas);
+
+// Init
+JelwoStore.updateCartUI();
+JelwoStore.updateWishlistUI();
+renderWishlistOffcanvas();
+
+    var overlay    = document.getElementById('shopOverlay');
+    var openBtn    = document.getElementById('shopSignInBtn');
+    var closeBtn   = document.getElementById('closeShopModal');
+
+    openBtn.addEventListener('click', function () {
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+
+    function closeModal() {
+      overlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    closeBtn.addEventListener('click', closeModal);
+
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay) closeModal();
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeModal();
+    });
+  </script>
+</body>
+</html>

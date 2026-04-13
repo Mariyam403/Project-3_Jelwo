@@ -1,0 +1,1308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Collections – JELWO</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #b08c5a;
+  --gold-light: #d4aa7d;
+  --gold-dark: #8a6a3a;
+  --cream: #f8f3ee;
+  --cream-dark: #ede5d8;
+  --text-dark: #1a1a1a;
+  --text-mid: #5a5a5a;
+  --white: #ffffff;
+  --transition: .3s ease;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body { font-family: 'Jost', sans-serif; background: #fff; color: var(--text-dark);overflow-x: hidden; }
+h1,h2,h3 { font-family: 'Cormorant Garamond', serif; }
+
+/* ---- TOAST ---- */
+.jelwo-toast {
+  position: fixed; bottom: 30px; right: 30px; z-index: 9999;
+  background: var(--text-dark); color: #fff; padding: 12px 20px;
+  border-radius: 8px; font-size: .9rem; transform: translateY(80px);
+  opacity: 0; transition: all .4s ease; pointer-events: none;
+}
+.jelwo-toast.show { transform: translateY(0); opacity: 1; }
+
+/* ---- HEADER ---- */
+.top-bar { background: var(--text-dark); color: #fff; font-size: .8rem; padding: 6px 0; }
+.top-bar a { color: #ccc; text-decoration: none; }
+.main-header {
+  position: sticky; top: 0; z-index: 1050;
+  background: #fff; border-bottom: 1px solid #e8e0d4;
+  box-shadow: 0 2px 20px rgba(0,0,0,.06);
+}
+.header-inner { display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; gap: 16px; }
+.logo { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 600; color: var(--text-dark); text-decoration: none; letter-spacing: 2px; }
+.logo span { color: var(--gold); }
+.header-bar { background: var(--cream); padding: 8px 24px; display: flex; align-items: center; gap: 24px; }
+.phone-link { font-size: .85rem; color: var(--text-dark); text-decoration: none; display: flex; align-items: center; gap: 6px; }
+.phone-link:hover { color: var(--gold); }
+.main-nav { display: flex; align-items: center; gap: 8px; flex-grow: 1; justify-content: center; }
+.nav-link-custom {
+  font-size: .85rem; font-weight: 500; letter-spacing: .8px;
+  color: var(--text-dark); text-decoration: none; padding: 4px 12px;
+  text-transform: uppercase; transition: color var(--transition);
+  display: flex; align-items: center; gap: 4px; cursor: pointer;
+}
+.nav-link-custom:hover, .nav-link-custom.active { color: var(--gold); }
+.header-actions { display: flex; align-items: center; gap: 16px; }
+.icon-btn {
+  position: relative; background: none; border: none; cursor: pointer;
+  font-size: 1.25rem; color: var(--text-dark); transition: color var(--transition);
+  padding: 4px;
+}
+.icon-btn:hover { color: var(--gold); }
+.badge-count {
+  position: absolute; top: -6px; right: -6px;
+  background: var(--gold); color: #fff; border-radius: 50%;
+  width: 18px; height: 18px; font-size: .65rem; display: none;
+  align-items: center; justify-content: center; font-weight: 600;
+}
+.free-try { font-size: .8rem; font-weight: 500; letter-spacing: .5px; color: var(--text-dark); display: flex; align-items: center; gap: 6px; text-decoration: none; }
+.free-try:hover { color: var(--gold); }
+
+/* ---- MEGA DROPDOWN ---- */
+.mega-wrap { position: relative; }
+.mega-menu {
+  position: fixed; left: 0; right: 0;
+  top: 0; /* will be set by JS */
+  background: #fff; box-shadow: 0 8px 40px rgba(0,0,0,.12);
+  border-top: 2px solid var(--gold); padding: 32px 40px;
+  display: none; z-index: 1040;
+}
+.mega-wrap:hover .mega-menu { display: flex; }
+.mega-menu-col h6 { font-family: 'Jost', sans-serif; font-weight: 600; font-size: .8rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+.mega-menu-col a { display: block; font-size: .85rem; color: var(--text-mid); text-decoration: none; margin-bottom: 6px; transition: color var(--transition); }
+.mega-menu-col a:hover { color: var(--gold); padding-left: 4px; }
+.mega-promo { border-radius: 8px; overflow: hidden; }
+.mega-promo img { width: 100%; height: 180px; object-fit: cover; }
+
+/* Products mega - carousel */
+.products-mega-carousel .mini-product { text-align: center; padding: 8px; }
+.products-mega-carousel .mini-product img { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; margin-bottom: 6px; }
+.products-mega-carousel .mini-product p { font-size: .75rem; color: var(--text-mid); margin: 0; }
+.products-mega-carousel .mini-product span { font-size: .8rem; color: var(--gold); font-weight: 600; }
+
+/* Nested dropdown (Pages > About) */
+.nested-dropdown-wrap { position: relative; }
+.nested-dropdown {
+  position: absolute; left: 100%; top: 0;
+  background: #fff; box-shadow: 4px 4px 20px rgba(0,0,0,.1);
+  border-left: 2px solid var(--gold); min-width: 160px; padding: 8px 0;
+  display: none; z-index: 1041;
+}
+.nested-dropdown-wrap:hover .nested-dropdown { display: block; }
+.nested-dropdown a { display: block; padding: 8px 16px; font-size: .85rem; color: var(--text-mid); text-decoration: none; }
+.nested-dropdown a:hover { color: var(--gold); background: var(--cream); }
+
+/* ---- HOME MEGA THEME CARDS ---- */
+.home-mega-menu { padding: 28px 40px 24px !important; }
+.home-theme-card { text-align: center; }
+  .home-theme-img-wrap {
+    position: relative; border-radius: 10px; overflow: hidden;
+    border: 2px solid transparent; transition: border-color var(--transition), box-shadow var(--transition);
+    background: var(--cream);
+  }
+  .home-theme-card:hover .home-theme-img-wrap {
+    border-color: var(--gold);
+    box-shadow: 0 6px 24px rgba(176,140,90,.25);
+  }
+  .home-theme-img-wrap img {
+    width: 100%; height: 160px; object-fit: cover; display: block;
+    transition: transform .4s ease;
+  }
+  .home-theme-card:hover .home-theme-img-wrap img { transform: scale(1.04); }
+  .home-theme-overlay {
+    position: absolute; inset: 0; background: rgba(176,140,90,.5);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity var(--transition);
+  }
+  .home-theme-card:hover .home-theme-overlay { opacity: 1; }
+  .home-theme-label {
+    font-size: .78rem; color: var(--text-mid); margin: 8px 0 0;
+    font-weight: 500; letter-spacing: .3px; transition: color var(--transition);
+  }
+  .home-theme-card:hover .home-theme-label { color: var(--gold); }
+
+  @media (max-width: 992px) {
+    .mega-menu { padding: 24px; }
+    .main-nav { display: none; }
+    .promo-grid { grid-template-columns: 1fr; }
+    .hero-inner { padding: 40px 24px; min-height: 60vh; }
+    .hero-img-right { display: none; }
+  }
+
+/* Page Hero */
+.page-hero{position:relative;background:url('//jelwo.myshopify.com/cdn/shop/files/jewelry-3-breadcrumb.jpg?v=1742473987&width=1920') center/cover;min-height:180px;display:flex;align-items:center;justify-content:center;}
+.page-hero::after{content:'';position:absolute;inset:0;background:rgba(0,0,0,.5);}
+.page-hero-content{position:relative;z-index:2;text-align:center;color:#fff;}
+
+  /* normal pages dropdown */
+.normal-wrap{
+  position: relative;
+}
+.normal-menu{
+  position: absolute;   /* changed from fixed */
+  top: 100%;            /* appear below menu */
+  left: 0;              /* align left */
+  min-width: 220px;     /* normal dropdown width */
+  
+  background: #fff;
+  box-shadow: 0 8px 40px rgba(0,0,0,.12);
+  border-top: 2px solid var(--gold);
+  padding: 12px 0;      /* smaller padding */
+
+  display: none;
+  z-index: 1040;
+}
+.normal-wrap:hover .normal-menu{
+  display:block;
+}
+
+.normal-menu .container-fluid , .normal-menu .row , .normal-menu .col-2{
+  all:unset;
+  display:block;
+}
+.normal-menu a{
+  display: block;
+    font-size: .85rem;
+    color: var(--text-mid);
+    text-decoration: none;
+    margin-bottom: 6px;
+    transition: color var(--transition);
+    padding-left: 15%;
+}
+
+/* Sidebar */
+.filter-sidebar{background:var(--cream);border-radius:12px;padding:20px;position:sticky;top:80px;}
+.filter-section-title{font-size:.75rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-dark);margin-bottom:10px;}
+.filter-group{margin-bottom:0;padding:14px 0;border-bottom:1px solid var(--cream-dark);}
+.filter-group:last-child{border-bottom:none;}
+
+/* Scrollable filter sections */
+.filter-scroll-list{max-height:180px;overflow-y:auto;padding-right:4px;}
+.filter-scroll-list::-webkit-scrollbar{width:4px;}
+.filter-scroll-list::-webkit-scrollbar-track{background:var(--cream-dark);border-radius:2px;}
+.filter-scroll-list::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px;}
+.filter-group label{font-size:.85rem;color:var(--text-mid);cursor:pointer;display:flex;align-items:center;gap:8px;margin-bottom:6px;line-height:1.4;}
+.filter-group label:hover{color:var(--gold);}
+.filter-group input[type="checkbox"]{accent-color:var(--gold);cursor:pointer;}
+.color-dot{width:16px;height:16px;border-radius:50%;display:inline-block;flex-shrink:0;border:1px solid rgba(0,0,0,.1);}
+
+/* Price range */
+.price-range{width:100%;accent-color:var(--gold);}
+.price-inputs{display:flex;gap:6px;align-items:center;margin-top:8px;}
+.price-inputs input{border:1px solid #ddd;border-radius:6px;padding:5px 8px;font-size:.8rem;width:70px;background:#fff;}
+
+/* Active filters */
+.active-filters-wrap{padding:10px 0 0;}
+.active-filter-tag{display:inline-flex;align-items:center;gap:4px;background:#fff;border:1px solid var(--cream-dark);border-radius:20px;padding:3px 10px;font-size:.75rem;color:var(--text-mid);margin:3px 2px;}
+.active-filter-tag button{background:none;border:none;padding:0;cursor:pointer;font-size:.8rem;color:var(--text-mid);line-height:1;}
+.active-filter-tag button:hover{color:red;}
+.btn-clear-all{background:none;border:none;font-size:.75rem;color:var(--gold);cursor:pointer;padding:0;text-decoration:underline;}
+
+/* Special product sidebar carousel */
+.special-product-carousel{overflow:hidden;position:relative;}
+.special-product-track{display:flex;flex-direction:column;gap:0;transition:transform 0.5s ease;}
+.special-product-item{background:#fff;border-radius:8px;padding:10px;display:flex;gap:10px;align-items:center;border:1px solid var(--cream-dark);min-height:80px;flex-shrink:0;width:100%;margin-bottom:8px;}
+.special-product-item img{width:60px;height:60px;object-fit:cover;border-radius:6px;flex-shrink:0;}
+.special-product-item .sp-name{font-size:.82rem;font-weight:500;line-height:1.3;}
+.special-product-item .sp-price{font-size:.8rem;color:var(--gold);font-weight:600;margin-top:2px;}
+.special-promo-img{border-radius:8px;overflow:hidden;margin-top:10px;}
+.special-promo-img img{width:100%;border-radius:8px;object-fit:cover;}
+
+/* Sort bar */
+.sort-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid var(--cream-dark);}
+.view-btns button{background:none;border:1px solid #ddd;padding:6px 10px;cursor:pointer;transition:all var(--transition);color:var(--text-dark);}
+.view-btns button:hover,.view-btns button.active{background:var(--gold);border-color:var(--gold);color:#fff;}
+.view-btns button:first-child{border-radius:4px 0 0 4px;}
+.view-btns button:last-child{border-radius:0 4px 4px 0;}
+
+/* Product cards */
+.product-card{border-radius:8px;overflow:hidden;background:#fff;transition:box-shadow var(--transition);border:1px solid transparent;}
+.product-card:hover{box-shadow:0 12px 40px rgba(0,0,0,.12);border-color:var(--cream-dark);}
+.product-img-wrap{position:relative;overflow:hidden;background:var(--cream);}
+.product-img-wrap img{width:100%;height:210px;object-fit:cover;transition:transform .5s;display:block;}
+.product-card:hover .product-img-wrap img{transform:scale(1.06);}
+.product-badge{position:absolute;top:10px;left:10px;background:#2ecc71;color:#fff;font-size:.72rem;font-weight:700;padding:3px 8px;border-radius:4px;z-index:2;}
+.product-overlay{position:absolute;inset:0;background:rgba(0,0,0,.12);display:flex;align-items:center;justify-content:center;gap:10px;opacity:0;transition:opacity var(--transition);}
+.product-card:hover .product-overlay{opacity:1;}
+.overlay-btn{width:38px;height:38px;border-radius:50%;background:#fff;border:none;display:flex;align-items:center;justify-content:center;font-size:.95rem;cursor:pointer;transform:translateY(10px);transition:all .3s ease;}
+.product-card:hover .overlay-btn{transform:translateY(0);}
+.overlay-btn:hover,.overlay-btn.active{background:var(--gold);color:#fff;}
+.product-countdown{display:flex;gap:6px;padding:8px 10px;background:#fff;font-size:.72rem;font-weight:600;border-top:1px solid var(--cream-dark);}
+.product-countdown span{display:flex;flex-direction:column;align-items:center;background:var(--cream);padding:4px 6px;border-radius:4px;min-width:38px;}
+.product-countdown small{font-size:.58rem;font-weight:400;color:var(--text-mid);letter-spacing:.5px;text-transform:uppercase;}
+.product-info{padding:12px 14px 14px;}
+.product-category{font-size:.68rem;letter-spacing:2px;text-transform:uppercase;color:var(--text-mid);margin-bottom:3px;}
+.product-name{font-weight:500;margin-bottom:5px;font-size:.92rem;line-height:1.3;}
+.product-price{color:var(--gold);font-weight:600;font-size:.88rem;}
+.product-price del{color:var(--text-mid);font-weight:400;font-size:.78rem;margin-left:4px;}
+.product-actions{display:flex;gap:6px;align-items:center;margin-top:8px;}
+.variant-select{flex:1;border:1px solid #ddd;border-radius:6px;padding:5px 6px;font-size:.78rem;background:#fff;}
+.qty-control{display:flex;align-items:center;gap:4px;border:1px solid #ddd;border-radius:6px;padding:3px 7px;}
+.qty-control button{background:none;border:none;cursor:pointer;font-size:.9rem;color:var(--text-dark);}
+.qty-control span{font-size:.82rem;min-width:18px;text-align:center;}
+.btn-atc{background:var(--gold);color:#fff;border:none;border-radius:6px;font-size:.75rem;font-weight:600;letter-spacing:.8px;text-transform:uppercase;padding:7px 10px;cursor:pointer;transition:all var(--transition);white-space:nowrap;}
+.btn-atc:hover{background:var(--gold-dark);}
+
+/* List view */
+.product-list-card{display:flex;gap:20px;padding:16px;background:#fff;border:1px solid var(--cream-dark);border-radius:8px;transition:box-shadow var(--transition);}
+.product-list-card:hover{box-shadow:0 8px 30px rgba(0,0,0,.1);}
+.product-list-card img{width:130px;height:130px;object-fit:cover;border-radius:8px;flex-shrink:0;}
+.product-list-desc{font-size:.82rem;color:var(--text-mid);line-height:1.5;margin:4px 0 8px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
+.product-list-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.list-icon-btn{width:34px;height:34px;border-radius:50%;background:var(--cream);border:1px solid var(--cream-dark);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.9rem;transition:all var(--transition);}
+.list-icon-btn:hover,.list-icon-btn.active{background:var(--gold);color:#fff;border-color:var(--gold);}
+
+/* Toast */
+.jelwo-toast{position:fixed;bottom:30px;right:30px;z-index:9999;background:var(--text-dark);color:#fff;padding:12px 20px;border-radius:8px;font-size:.88rem;transform:translateY(80px);opacity:0;transition:all .4s ease;pointer-events:none;}
+.jelwo-toast.show{transform:translateY(0);opacity:1;}
+
+/* Offcanvas */
+.offcanvas-title{font-family:'Cormorant Garamond',serif;font-size:1.4rem;}
+.free-ship-bar{background:var(--cream-dark);border-radius:6px;height:6px;overflow:hidden;}
+.free-shipping-bar{height:100%;background:var(--gold);border-radius:6px;transition:width .4s ease;width:0%;}
+
+/* ---- FOOTER ---- */
+footer { background: var(--cream); padding: 60px 0 30px; }
+.footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 600; color: var(--text-dark); letter-spacing: 2px; display: block; margin-bottom: 20px; text-decoration: none; }
+.footer-contact { font-size: .875rem; color: var(--text-mid); line-height: 1.8; }
+.footer-contact a { color: var(--text-mid); text-decoration: none; }
+.footer-contact a:hover { color: var(--gold); }
+.footer-heading { font-family: 'Jost', sans-serif; font-weight: 600; font-size: .8rem; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dark); margin-bottom: 16px; }
+.footer-link { display: block; font-size: .875rem; color: var(--text-mid); text-decoration: none; margin-bottom: 8px; transition: color var(--transition); }
+.footer-link:hover { color: var(--gold); padding-left: 4px; }
+.footer-social a { display: inline-flex; width: 36px; height: 36px; border-radius: 50%; background: var(--cream-dark); align-items: center; justify-content: center; color: var(--text-dark); text-decoration: none; transition: all var(--transition); margin-right: 8px; }
+.footer-social a:hover { background: var(--gold); color: #fff; }
+.footer-subscribe { display: flex; gap: 8px; }
+.footer-subscribe input { flex: 1; border: 1px solid #ddd; border-radius: 6px; padding: 10px 14px; font-size: .85rem; background: #fff; }
+.footer-subscribe button { background: var(--gold); color: #fff; border: none; border-radius: 6px; padding: 10px 20px; font-size: .85rem; font-weight: 600; cursor: pointer; transition: background var(--transition); }
+.footer-subscribe button:hover { background: var(--gold-dark); }
+.footer-bottom { border-top: 1px solid var(--cream-dark); margin-top: 40px; padding-top: 20px; font-size: .8rem; color: var(--text-mid); }
+.payment-icons i { font-size: 1.8rem; margin-left: 8px; opacity: .6; }
+
+/* Collection banner */
+.collection-banner{border-radius:10px;overflow:hidden;margin-bottom:24px;}
+.collection-banner img{width:100%;height:180px;object-fit:cover;display:block;}
+
+/* Responsive */
+@media(max-width:768px){
+  .filter-sidebar{position:static;}
+  .product-list-card img{width:90px;height:90px;}
+}
+</style>
+</head>
+<body>
+<!-- =================== MAIN HEADER =================== -->
+<header class="main-header" id="mainHeader">
+  <div class="header-inner">
+    <a href="index.html" class="logo"><img src="//jelwo.myshopify.com/cdn/shop/files/jewelry-4-logo.png?v=1744805986&width=500"/></a>
+    <span style="border-left: 1px solid #e2e2e2;
+    padding-left: 30px;
+    margin-left: 30px; color:#808080; align-items:center; justify-content:flex-start;"><p>Free UK standard delivery on all orders.</p></span>
+    <!-- HEADER ACTIONS -->
+    <div class="header-actions">
+      <div class="position-relative">
+        <input type="text" id="headerSearch" placeholder="Search product..." class="form-control form-control-sm" style="width:180px;border-radius:20px;border:1px solid #ddd;">
+      </div>
+      <a href="account.html">
+      <button class="icon-btn" ><i class="bi bi-person"></i></button></a>
+      <button class="icon-btn" data-bs-toggle="offcanvas" data-bs-target="#wishlistOffcanvas">
+        <i class="bi bi-heart"></i>
+        <span class="badge-count wishlist-count">0</span>
+      </button>
+      <button class="icon-btn" data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas">
+        <i class="bi bi-bag"></i>
+        <span class="badge-count cart-count">0</span>
+      </button>
+    </div>
+  </div>
+  
+</header>
+
+<div class="header-bar">
+    <a href="tel:2201234567890" class="phone-link"><i class="bi bi-telephone"></i> (220) 123 456 7890</a>
+    <!-- NAV -->
+    <nav class="main-nav">
+
+      <!-- HOME -->
+      <div class="mega-wrap">
+        <a class="nav-link-custom active">HOME <i class="bi bi-chevron-down small"></i></a>
+        <div class="mega-menu home-mega-menu" style="display:none; padding: 28px 40px 24px;">
+          <div style="width:100%;">
+            
+            <div style="display:grid; grid-template-columns:repeat(6,1fr); gap:16px;">
+ 
+              <!-- 06 Classic jewelry (NEW badge) -->
+              <div class="home-theme-card" onclick="location.href='index.html'" style="cursor:pointer;position:relative;">
+                <div style="position:absolute;top:8px;left:8px;z-index:3;background:#2ecc71;color:#fff;font-size:.62rem;font-weight:700;padding:2px 7px;border-radius:3px;letter-spacing:.5px;transform:rotate(-5deg);">NEW</div>
+                <div class="home-theme-img-wrap">
+                  <img src="//jelwo.myshopify.com/cdn/shop/files/home6.jpg?v=1750230396&width=500" alt="Classic jewelry">
+                  <div class="home-theme-overlay"><i class="bi bi-eye" style="font-size:1.2rem;color:#fff;"></i></div>
+                </div>
+                <p class="home-theme-label">06 Classic jewelry</p>
+              </div>
+ 
+              <!-- 01 Unique jewelry -->
+              <div class="home-theme-card" onclick="location.href='index.html'" style="cursor:pointer;">
+                <div class="home-theme-img-wrap">
+                  <img src="//jelwo.myshopify.com/cdn/shop/files/demo-menu-banner-1.jpg?v=1746178520&width=500" alt="Unique jewelry">
+                  <div class="home-theme-overlay"><i class="bi bi-eye" style="font-size:1.2rem;color:#fff;"></i></div>
+                </div>
+                <p class="home-theme-label">01 Unique jewelry</p>
+              </div>
+ 
+              <!-- 02 Modern jewelry -->
+              <div class="home-theme-card" onclick="location.href='index.html'" style="cursor:pointer;">
+                <div class="home-theme-img-wrap">
+                  <img src="//jelwo.myshopify.com/cdn/shop/files/demo-menu-banner-2.jpg?v=1746178520&width=500" alt="Modern jewelry">
+                  <div class="home-theme-overlay"><i class="bi bi-eye" style="font-size:1.2rem;color:#fff;"></i></div>
+                </div>
+                <p class="home-theme-label">02 Modern jewelry</p>
+              </div>
+ 
+              <!-- 03 Traditional jewelry -->
+              <div class="home-theme-card" onclick="location.href='index.html'" style="cursor:pointer;">
+                <div class="home-theme-img-wrap">
+                  <img src="//jelwo.myshopify.com/cdn/shop/files/demo-menu-banner-3.jpg?v=1746178520&width=500" alt="Traditional jewelry">
+                  <div class="home-theme-overlay"><i class="bi bi-eye" style="font-size:1.2rem;color:#fff;"></i></div>
+                </div>
+                <p class="home-theme-label">03 Traditional jewelry</p>
+              </div>
+ 
+              <!-- 04 Luxury jewelry -->
+              <div class="home-theme-card" onclick="location.href='index.html'" style="cursor:pointer;">
+                <div class="home-theme-img-wrap">
+                  <img src="//jelwo.myshopify.com/cdn/shop/files/demo-menu-banner-4.jpg?v=1746178520&width=500" alt="Luxury jewelry">
+                  <div class="home-theme-overlay"><i class="bi bi-eye" style="font-size:1.2rem;color:#fff;"></i></div>
+                </div>
+                <p class="home-theme-label">04 Luxury jewelry</p>
+              </div>
+ 
+              <!-- 05 Elegant jewelry -->
+              <div class="home-theme-card" onclick="location.href='index.html'" style="cursor:pointer;">
+                <div class="home-theme-img-wrap">
+                  <img src="//jelwo.myshopify.com/cdn/shop/files/demo-menu-banner-5.jpg?v=1746178520&width=500" alt="Elegant jewelry">
+                  <div class="home-theme-overlay"><i class="bi bi-eye" style="font-size:1.2rem;color:#fff;"></i></div>
+                </div>
+                <p class="home-theme-label">05 Elegant jewelry</p>
+              </div>
+ 
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SHOP -->
+      <div class="mega-wrap">
+        <a href="shop.html" class="nav-link-custom">SHOP <i class="bi bi-chevron-down small"></i></a>
+        <div class="mega-menu" style="display:none;">
+          <div class="container-fluid">
+            <div class="row g-4">
+              <div class="col-2 mega-menu-col">
+                <h6>Earrings</h6>
+                <a href="flowerjhumka.html">Flower jumkha</a>
+                <a href="flowerjhumka.html">Brown sunglasses</a>
+                <a href="flowerjhumka.html">Bucket shoes</a>
+                <a href="iamondrashmiring.html">Iamond rashmi ring</a>
+                <a href="floralgoldbangle.html">Floral gold bangle</a>
+                <a href="glitterdiamondring.html">Glitter diamond ring</a>
+              </div>
+              <div class="col-2 mega-menu-col">
+                <h6>Necklace</h6>
+                <a href="framedgoldpendant.html">Framed gold pendant</a>
+                <a href="glowernosepin.html">Flower nose pin</a>
+                <a href="goldnosepin.html">Gold nose pin</a>
+                <a href="goldnosepin.html">Color print sandal</a>
+                <a href="blossomdiamondbangle.html">Blossom diamond bangle</a>
+                <a href="simplepearlear.html">Simple Pearl earrings</a>
+              </div>
+              <div class="col-2 mega-menu-col">
+                <h6>Rings</h6>
+                <a href="rosegoldring.html">Rose gold rings</a>
+                <a href="sherbiring.html">Sherbi ring</a>
+                <a href="iamondrashmiring.html">Iamond rashmi ring</a>
+                <a href="glitterdiamondring.html">Glitter diamond ring</a>
+                <a href="diamondring.html">Diamond rings</a>
+                <a href="clusterdiamondring.html">Cluster diamond ring</a>
+              </div>
+              <div class="col-2 mega-menu-col">
+                <h6>Bracelets</h6>
+                <a href="floralgoldbangle.html">Floral gold bangle</a>
+                <a href="modish.html">Modish bracelet</a>
+                <a href="blossomdiamondbangle.html">Blossom diamond bangle</a>
+                <a href="gemstonechainbrac.html">Gemstone chain bracelet</a>
+                <a href="gemstonechainbrac.html">Blue heavy t-shirt</a>
+                <a href="gemstonechainbrac.html">Brown sunglasses</a>
+              </div>
+              <div class="col-4">
+                <div style="background:var(--gold);border-radius:12px;overflow:hidden;position:relative;">
+                  <img src="//jelwo.myshopify.com/cdn/shop/files/jewelry-4-menu-banner.jpg?v=1742635152&width=500" style="width:100%;height:200px;object-fit:cover;opacity:.7;">
+                  <div style="position:absolute;bottom:0;left:0;right:0;padding:16px;color:#fff">
+                    <div style="font-size:.75rem;letter-spacing:2px">SPECIAL OFFER</div>
+                    <div style="font-family:'Cormorant Garamond',serif;font-size:1.6rem">FLAT 30% OFF</div>
+                    <a href="collections.html" class="btn-outline-jelwo mt-2" style="font-size:.72rem;padding:6px 14px;color:#fff;border-color:#fff">SHOP NOW</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRODUCTS -->
+      <div class="mega-wrap">
+        <a class="nav-link-custom">PRODUCTS <i class="bi bi-chevron-down small"></i></a>
+        <div class="mega-menu" style="display:none;">
+          <div class="container-fluid">
+            <div class="row g-4">
+              <div class="col-2 mega-menu-col">
+                <h6>Earrings</h6>
+                <a href="dropgoldear.html">Drop gold earrings</a>
+                <a href="simplepearlear.html">Simple Pearl earrings</a>
+                <a href="gemstonejhumka.html">Gemstone jhumkas</a>
+                <a href="flowerjhumka.html">Flower jhumka</a>
+                <a href="rosegoldbrac.html">Rose gold bracelet</a>
+                <a href="diamondbrac.html">Diamond bracelet</a>
+              </div>
+              <div class="col-2 mega-menu-col">
+                <h6>Bracelets</h6>
+                <a href="rosegoldbrac.html">Rose gold bracelet</a>
+                <a href="diamondbrac.html">Diamond bracelet</a>
+                <a href="goldchain.html">Gold chain</a>
+                <a href="rosegoldbrac.html">Rose gold bracelet</a>
+                <a href="diamondbrac.html">Diamond bracelet</a>
+                <a href="goldchain.html">Gold chain</a>
+              </div>
+              <div class="col-2 mega-menu-col">
+                <h6>Necklace</h6>
+                <a href="diamondnecklace.html">Diamond necklace</a>
+                <a href="goldpendant.html">Gold pendant</a>
+                <a href="flowerpendant.html">Flower pendant</a>
+                <a href="rosegoldbrac.html">Rose gold bracelet</a>
+                <a href="diamondbrac.html">Diamond bracelet</a>
+                <a href="goldchain.html">Gold chain</a>
+              </div>
+              <div class="col-2 mega-menu-col">
+                <h6>Rings</h6>
+                <a href="chicdiamondring.html">Chic diamond ring</a>
+                <a href="glitterdiamondring.html">Glitter diamond ring</a>
+                <a href="sherbiring.html">Sherbi ring</a>
+                <a href="rosegoldbrac.html">Rose gold bracelet</a>
+                <a href="diamondbrac.html">Diamond bracelet</a>
+                <a href="goldchain.html">Gold chain</a>
+              </div>
+              <div class="col-4">
+                <h6>Popular Collection</h6>
+                <div id="productsMegaCarousel" class="d-flex gap-3 overflow-hidden">
+                  <!-- populated by JS -->
+                </div>
+                <div class="d-flex gap-2 mt-3">
+                  <button class="btn btn-sm btn-outline-secondary" onclick="slideMegaCarousel(-1)"><i class="bi bi-chevron-left"></i></button>
+                  <button class="btn btn-sm btn-outline-secondary" onclick="slideMegaCarousel(1)"><i class="bi bi-chevron-right"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BLOG -->
+      <a href="blog.html" class="nav-link-custom">BLOG</a>
+
+      <!-- PAGES -->
+      <div class="normal-wrap">
+        <a class="nav-link-custom">
+          PAGES <i class="bi bi-chevron-down small"></i>
+        </a>
+
+        <div class="normal-menu">
+
+          <!-- About (nested) -->
+          <div class="nested-dropdown-wrap">
+            <a style="cursor:pointer;display:flex;align-items:center;text-align:center;justify-content:space-between;">
+              About us <i class="bi bi-chevron-right small"></i>
+            </a>
+            <div class="nested-dropdown">
+              <a href="about.html">About us</a>
+              <a href="about2.html">About us 2</a>
+            </div>
+          </div>
+
+          <!-- Contact (nested) -->
+          <div class="nested-dropdown-wrap mt-2">
+            <a style="cursor:pointer;display:flex;align-items:center;justify-content:space-between">
+              Contact <i class="bi bi-chevron-right small"></i>
+            </a>
+            <div class="nested-dropdown">
+              <a href="contact.html">Contact us</a>
+              <a href="contact2.html">Contact us 2</a>
+            </div>
+          </div>
+
+          <a href="faqs.html">Faq's</a>
+          <a href="privacy.html">Privacy policy</a>
+          <a href="refund.html">Refund policy</a>
+          <a href="storeloc.html">Store location</a>
+          <a href="shipping.html">Shipping & return</a>
+          <a href="terms.html">Terms & condition</a>
+
+        </div>
+      </div>
+    </nav>
+    <a href="collections.html" class="free-try ms-auto"><i class="bi bi-house"></i> FREE TRY AT HOME</a>
+
+  </div>
+
+<!-- Cart Offcanvas -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="cartOffcanvas" style="width:400px;">
+  <div class="offcanvas-header border-bottom">
+    <h5 class="offcanvas-title">My shopping cart</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div style="background:var(--cream);padding:10px 16px;border-radius:6px;font-size:.8rem;margin-bottom:16px;">New customers save 10% with code <strong style="color:var(--gold);">WELCOME10</strong></div>
+    <div class="free-ship-bar mb-1"><div class="free-shipping-bar"></div></div>
+    <p class="free-shipping-text text-muted small mb-3">Spend Rs. 100 more and get free shipping!</p>
+    <div id="cartOffcanvasItems"></div>
+    <div class="border-top pt-3 mt-3">
+      <div class="d-flex justify-content-between mb-3"><strong>Subtotal</strong><strong id="cartSubtotal">Rs. 0.00</strong></div>
+      <div class="d-flex gap-2">
+        <a href="cart.html" class="btn btn-outline-secondary flex-fill">VIEW CART</a>
+        <a href="#" style="background:var(--text-dark);color:#fff;border:none;border-radius:6px;padding:10px 16px;font-size:.85rem;font-weight:600;flex:1;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;">CHECKOUT</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Wishlist Offcanvas -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="wishlistOffcanvas" style="width:400px; padding-top:90px;">
+  <div class="offcanvas-header border-bottom">
+    <h5 class="offcanvas-title">My Wishlist</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+  </div>
+  <div class="offcanvas-body" id="wishlistOffcanvasItems">
+    <div class="text-center py-5"><i class="bi bi-heart fs-1 text-muted"></i><p class="mt-3 text-muted">Empty</p></div>
+  </div>
+</div>
+
+<!-- Quick View Modal -->
+<div class="modal fade" id="quickViewModal" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content" style="border-radius:12px;overflow:hidden;">
+      <div class="modal-body p-0" style="position:relative;">
+        <button class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" style="z-index:5;"></button>
+        <div class="row g-0">
+          <div class="col-md-5"><img src="" class="qv-img" style="width:100%;height:360px;object-fit:cover;"></div>
+          <div class="col-md-7 p-4">
+            <h2 class="qv-name mb-2" style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;"></h2>
+            <p class="qv-price mb-3" style="color:var(--gold);font-size:1.1rem;font-weight:600;"></p>
+            <select class="form-select mb-3 qv-variants" style="max-width:180px;"></select>
+            <button class="btn-atc w-100 qv-atc">ADD TO CART</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-content">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb justify-content-center" style="background:none;">
+        <li class="breadcrumb-item"><a href="index.html" style="color:rgba(255,255,255,.7);text-decoration:none;">HOME</a></li>
+        <li class="breadcrumb-item active" style="color:#fff;">Earrings</li>
+      </ol>
+    </nav>
+    <h1 style="font-size:2.8rem;color:#fff;">Earrings</h1>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<section style="padding:36px 0;">
+  <div class="container-fluid px-4">
+    <div class="row g-4">
+
+      <!-- LEFT SIDEBAR -->
+      <div class="col-lg-3 col-md-4">
+        <div class="filter-sidebar">
+
+          <!-- Categories (scrollable) -->
+          <div class="filter-group">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="filter-section-title mb-0">Categories</span>
+            </div>
+            <div class="filter-scroll-list" id="catList">
+              <label><input type="checkbox" class="cat-filter" value="Rings" onchange="applyFilters()"> Rings <span class="ms-auto text-muted" style="font-size:.75rem;">(12)</span></label>
+              <label><input type="checkbox" class="cat-filter" value="Earrings" onchange="applyFilters()"> Earrings <span class="ms-auto text-muted" style="font-size:.75rem;">(12)</span></label>
+              <label><input type="checkbox" class="cat-filter" value="Bracelets" onchange="applyFilters()"> Bracelets <span class="ms-auto text-muted" style="font-size:.75rem;">(12)</span></label>
+              <label><input type="checkbox" class="cat-filter" value="Necklaces" onchange="applyFilters()"> Necklaces <span class="ms-auto text-muted" style="font-size:.75rem;">(12)</span></label>
+              <label><input type="checkbox" class="cat-filter" value="Bangles" onchange="applyFilters()"> Bangles <span class="ms-auto text-muted" style="font-size:.75rem;">(12)</span></label>
+              <label><input type="checkbox" class="cat-filter" value="Pendants" onchange="applyFilters()"> Pendants <span class="ms-auto text-muted" style="font-size:.75rem;">(8)</span></label>
+              <label><input type="checkbox" class="cat-filter" value="Nose pins" onchange="applyFilters()"> Nose pins <span class="ms-auto text-muted" style="font-size:.75rem;">(12)</span></label>
+              <label><input type="checkbox" class="cat-filter" value="Brooch" onchange="applyFilters()"> Brooch <span class="ms-auto text-muted" style="font-size:.75rem;">(12)</span></label>
+              <label><input type="checkbox" class="cat-filter" value="Rose gold" onchange="applyFilters()"> Rose gold <span class="ms-auto text-muted" style="font-size:.75rem;">(12)</span></label>
+              <label><input type="checkbox" class="cat-filter" value="Best seller" onchange="applyFilters()"> Best seller <span class="ms-auto text-muted" style="font-size:.75rem;">(12)</span></label>
+              <label><input type="checkbox" class="cat-filter" value="Trending product" onchange="applyFilters()"> Trending product <span class="ms-auto text-muted" style="font-size:.75rem;">(12)</span></label>
+              <label><input type="checkbox" class="cat-filter" value="New product" onchange="applyFilters()"> New product <span class="ms-auto text-muted" style="font-size:.75rem;">(12)</span></label>
+            </div>
+          </div>
+
+          <!-- Filter heading -->
+          <div class="filter-group">
+            <div class="d-flex justify-content-between align-items-center">
+              <span class="filter-section-title mb-0" style="font-size:.9rem;font-weight:600;letter-spacing:0;">Filter</span>
+            </div>
+          </div>
+
+          <!-- Availability -->
+          <div class="filter-group">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="filter-section-title mb-0">Availability</span>
+              <button class="btn-clear-all" onclick="resetAvailability()">Reset</button>
+            </div>
+            <p style="font-size:.78rem;color:var(--text-mid);margin-bottom:6px;">0 selected</p>
+            <label><input type="checkbox" id="f-instock" onchange="applyFilters()"> In stock <span class="ms-1 text-muted" style="font-size:.75rem;">(12)</span></label>
+            <label><input type="checkbox" id="f-outstock" onchange="applyFilters()"> Out of stock <span class="ms-1 text-muted" style="font-size:.75rem;">(1)</span></label>
+          </div>
+
+          <!-- Price -->
+          <div class="filter-group">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="filter-section-title mb-0">Price</span>
+              <button class="btn-clear-all" onclick="resetPrice()">Reset</button>
+            </div>
+            <p style="font-size:.78rem;color:var(--text-mid);margin-bottom:8px;">The highest price is Rs. 35.00</p>
+            <input type="range" class="price-range" id="priceRange" min="0" max="35" value="35" oninput="document.getElementById('priceTo').value=this.value;applyFilters();">
+            <div class="price-inputs">
+              <span style="font-size:.82rem;">₹</span>
+              <input type="number" value="0" id="priceFrom" min="0" max="35" onchange="applyFilters()">
+              <span>-</span>
+              <span style="font-size:.82rem;">₹</span>
+              <input type="number" value="35" id="priceTo" min="0" max="35" onchange="document.getElementById('priceRange').value=this.value;applyFilters();">
+            </div>
+          </div>
+
+          <!-- Color (scrollable) -->
+          <div class="filter-group">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="filter-section-title mb-0">Color</span>
+              <button class="btn-clear-all" onclick="resetColors()">Reset</button>
+            </div>
+            <p style="font-size:.78rem;color:var(--text-mid);margin-bottom:6px;">0 selected</p>
+            <div class="filter-scroll-list">
+              <label><input type="checkbox" class="color-filter" value="Beige" onchange="applyFilters()"> <span class="color-dot" style="background:#f5f0e8;"></span> Beige <span class="ms-auto text-muted" style="font-size:.75rem;">(5)</span></label>
+              <label><input type="checkbox" class="color-filter" value="Bronze" onchange="applyFilters()"> <span class="color-dot" style="background:#cd7f32;"></span> Bronze <span class="ms-auto text-muted" style="font-size:.75rem;">(1)</span></label>
+              <label><input type="checkbox" class="color-filter" value="Brown" onchange="applyFilters()"> <span class="color-dot" style="background:#8b6348;"></span> Brown <span class="ms-auto text-muted" style="font-size:.75rem;">(7)</span></label>
+              <label><input type="checkbox" class="color-filter" value="Gold" onchange="applyFilters()"> <span class="color-dot" style="background:#ffd700;"></span> Gold <span class="ms-auto text-muted" style="font-size:.75rem;">(12)</span></label>
+              <label><input type="checkbox" class="color-filter" value="Orange" onchange="applyFilters()"> <span class="color-dot" style="background:#ff8c42;"></span> Orange <span class="ms-auto text-muted" style="font-size:.75rem;">(4)</span></label>
+              <label><input type="checkbox" class="color-filter" value="Silver" onchange="applyFilters()"> <span class="color-dot" style="background:#c0c0c0;"></span> Silver <span class="ms-auto text-muted" style="font-size:.75rem;">(3)</span></label>
+              <label><input type="checkbox" class="color-filter" value="Yellow" onchange="applyFilters()"> <span class="color-dot" style="background:#ffe066;"></span> Yellow <span class="ms-auto text-muted" style="font-size:.75rem;">(4)</span></label>
+              <label><input type="checkbox" class="color-filter" value="Rose Gold" onchange="applyFilters()"> <span class="color-dot" style="background:#e8b4b8;"></span> Rose Gold <span class="ms-auto text-muted" style="font-size:.75rem;">(3)</span></label>
+            </div>
+          </div>
+
+          <!-- Active filter tags -->
+          <div class="filter-group" id="activeFiltersSection" style="display:none;">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="filter-section-title mb-0">Active Filters</span>
+              <button class="btn-clear-all" onclick="resetFilters()">Clear All</button>
+            </div>
+            <div id="activeFilterTags" class="active-filters-wrap"></div>
+          </div>
+
+          <!-- Special Product Sidebar -->
+          <div class="filter-group">
+            <span class="filter-section-title">Special product</span>
+            <div class="special-product-carousel">
+              <div id="specialProductTrack" style="overflow:hidden;">
+                <!-- items injected by JS -->
+              </div>
+            </div>
+            <!-- Promo image -->
+            <div class="special-promo-img mt-3">
+              <img src="//jelwo.myshopify.com/cdn/shop/files/jewelry-4-collection-side-banner.jpg?v=1742637512&width=500" alt="Gold for every event" style="width:100%;border-radius:8px;height:100%;object-fit:cover;">
+              
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- RIGHT: Collection banner + Sort + Products -->
+      <div class="col-lg-9 col-md-8">
+
+        <!-- Collection Banner -->
+        <div class="collection-banner">
+          <div style="position:relative;border-radius:10px;overflow:hidden;">
+            <img src="//jelwo.myshopify.com/cdn/shop/files/jewelry-4-collection-banner.jpg?v=1742641202&width=1920" alt="Collection Banner" style="width:100%;height:180px;object-fit:cover;display:block;">
+          </div>
+        </div>
+
+        <!-- Care text -->
+        <p style="font-size:1.42vw; color:var(--text-mid);margin-bottom:16px;line-height:1.6;">Care for fiber: 30% more recycled polyester. We label garments manufactured using environmentally friendly technologies and raw materials with the Join Life label.</p>
+
+        <!-- Sort Bar -->
+        <div class="sort-bar">
+          <p id="productCount" style="font-size:.85rem;color:#808080;margin:0;">Showing 12 products</p>
+          <div class="d-flex align-items-center gap-3">
+            <div class="view-btns">
+              <button class="active" id="gridBtn" onclick="setView('grid',this)" title="Grid view"><i class="bi bi-grid-3x3-gap"></i></button>
+              <button id="listBtn" onclick="setView('list',this)" title="List view"><i class="bi bi-list-ul"></i></button>
+            </div>
+            <select class="form-select form-select-sm" style="width:auto;" onchange="sortProducts(this.value)">
+              <option value="featured">Featured</option>
+              <option value="best">Best selling</option>
+              <option value="az">Alphabetically, A-Z</option>
+              <option value="za">Alphabetically, Z-A</option>
+              <option value="price-low">Price, low to high</option>
+              <option value="price-high">Price, high to low</option>
+              <option value="newest">Date, new to old</option>
+              <option value="oldest">Date, old to new</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Products grid/list container -->
+        <div id="collectionsGrid" class="row g-4"></div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== FOOTER =================== -->
+<footer>
+  <div class="container-fluid px-5">
+    <div class="row g-5">
+      <div class="col-md-3">
+        <a href="index.html" class="footer-logo">JELWO</a>
+        <div class="footer-contact">
+          <p><i class="bi bi-geo-alt me-2 text-gold"></i>55 East 10th street, new york,<br>ny 10003, united states</p>
+          <p class="mt-2"><i class="bi bi-telephone me-2"></i><a href="tel:2201234567890">+ (220) 123 456 7890</a></p>
+          <p><i class="bi bi-envelope me-2"></i><a href="mailto:demo123546@gmail.com">demo123546@gmail.com</a></p>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <p class="footer-heading">Information</p>
+        <a href="about.html" class="footer-link">About us</a>
+        <a href="contact.html" class="footer-link">Contact us</a>
+        <a href="faqs.html" class="footer-link">Faq's</a>
+        <a href="news.html" class="footer-link">News</a>
+      </div>
+      <div class="col-md-2">
+        <p class="footer-heading">Privacy &amp; terms</p>
+        <a href="privacy.html" class="footer-link">Privacy policy</a>
+        <a href="refund.html" class="footer-link">Refund policy</a>
+        <a href="shipping.html" class="footer-link">Shipping &amp; return</a>
+        <a href="terms.html" class="footer-link">Terms &amp; condition</a>
+      </div>
+      <div class="col-md-2">
+        <p class="footer-heading">Category</p>
+        <a href="rings.html" class="footer-link">Rings</a>
+        <a href="earring.html" class="footer-link">Earring</a>
+        <a href="pendant.html" class="footer-link">Pendant</a>
+        <a href="necklaces.html" class="footer-link">Necklaces</a>
+        <a href="bracelets.html" class="footer-link">Bracelets</a>
+      </div>
+      <div class="col-md-3">
+        <p class="footer-heading">Visit store</p>
+        <p class="footer-contact" style="font-size:.875rem;color:var(--text-mid);">
+          Mon - sat : 10am - 11pm<br>
+          Sun : 10am - 4pm<br>
+          7 Days a week
+        </p>
+        <div class="mt-4">
+          <p class="footer-heading">Subscribe &amp; get 15% discount.</p>
+          <div class="footer-subscribe">
+            <input type="email" placeholder="Enter your email" id="footerEmail">
+            <button onclick="footerSubscribe()">SUBSCRIBE</button>
+          </div>
+          <p class="text-success small mt-2" id="footerMsg" style="display:none;">Thanks for subscribing, Discount code: <strong>WC5</strong></p>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom d-flex justify-content-between align-items-center flex-wrap gap-3">
+      <div>
+        <div class="footer-social mb-2">
+          <a href="#"><i class="bi bi-facebook"></i></a>
+          <a href="#"><i class="bi bi-twitter-x"></i></a>
+          <a href="#"><i class="bi bi-instagram"></i></a>
+          <a href="#"><i class="bi bi-pinterest"></i></a>
+          <a href="https://youtube.com" target="_blank"><i class="bi bi-youtube"></i></a>
+        </div>
+        Copyright © 2026 by spacingtech
+      </div>
+      <div class="payment-icons">
+        <i class="bi bi-credit-card-2-front"></i>
+        <i class="bi bi-credit-card"></i>
+        <i class="bi bi-paypal"></i>
+        <i class="bi bi-bank"></i>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+<div class="jelwo-toast" id="jelwoToast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="javascript/App.js"></script>
+<script>
+
+  // =============================================
+// MEGA DROPDOWN POSITION
+// =============================================
+function positionMegaMenus() {
+  const header = document.getElementById('mainHeader');
+  const bottom = header ? header.getBoundingClientRect().bottom : 130;
+  document.querySelectorAll('.mega-menu').forEach(m => m.style.top = 130 + 'px');
+}
+window.addEventListener('scroll', positionMegaMenus);
+window.addEventListener('resize', positionMegaMenus);
+document.addEventListener('DOMContentLoaded', positionMegaMenus);
+// Show/hide on hover
+document.querySelectorAll('.mega-wrap').forEach(wrap => {
+  wrap.addEventListener('mouseenter', () => {
+    positionMegaMenus();
+    wrap.querySelector('.mega-menu').style.display = 'block';
+  });
+  wrap.addEventListener('mouseleave', () => {
+    wrap.querySelector('.mega-menu').style.display = 'none';
+  });
+});
+
+// =============================================
+// PRODUCTS MEGA CAROUSEL
+// =============================================
+let megaCarouselIdx = 0;
+const megaProds = PRODUCTS.slice(0, 4);
+function renderMegaCarousel() {
+  const el = document.getElementById('productsMegaCarousel');
+  if (!el) return;
+  const visible = megaProds.slice(megaCarouselIdx, megaCarouselIdx + 2);
+  el.innerHTML = visible.map(p => `
+    <div class="d-flex gap-2 align-items-center p-2 border rounded" style="min-width:180px;cursor:pointer;" onclick="location.href='collections.html'">
+      <img src="${p.image}" style="width:60px;height:60px;object-fit:cover;border-radius:6px;">
+      <div>
+        <p style="font-size:.8rem;font-weight:500;margin:0;">${p.name}</p>
+        <span style="font-size:.8rem;color:var(--gold);font-weight:600;">Rs. ${p.price.toFixed(2)}</span>
+        ${p.oldPrice ? `<del style="font-size:.7rem;color:#999;margin-left:4px;">Rs. ${p.oldPrice.toFixed(2)}</del>` : ''}
+        <span style="display:block;background:#2ecc71;color:#fff;font-size:.65rem;border-radius:3px;padding:1px 5px;margin-top:3px;width:fit-content;">${p.badge}%</span>
+      </div>
+    </div>`).join('');
+}
+function slideMegaCarousel(dir) {
+  megaCarouselIdx = Math.max(0, Math.min(megaCarouselIdx + dir, megaProds.length - 2));
+  renderMegaCarousel();
+}
+renderMegaCarousel();
+
+
+/* =====================================================
+   COLLECTIONS PAGE LOGIC
+   ===================================================== */
+let filteredProducts = [];
+let viewMode = 'grid';
+let currentSort = 'featured';
+let searchQuery = '';
+
+// ---- COUNTDOWN TIMER ----
+function getCountdownHTML(targetDays) {
+  // Static display - in real app would be dynamic
+  return `
+    <div class="product-countdown">
+      <span>${String(targetDays).padStart(4,'0')}<small>DAY</small></span>
+      <span>09<small>HRS</small></span>
+      <span>00<small>MIN</small></span>
+      <span>--<small>SEC</small></span>
+    </div>`;
+}
+
+// Live countdown
+function startCountdowns() {
+  // All cards share a reference target time (just for display demo)
+  const target = new Date();
+  target.setDate(target.getDate() + 1616);
+  
+  setInterval(() => {
+    const now = new Date();
+    const diff = target - now;
+    if (diff <= 0) return;
+    const days = Math.floor(diff / (1000*60*60*24));
+    const hrs = Math.floor((diff % (1000*60*60*24))/(1000*60*60));
+    const mins = Math.floor((diff % (1000*60*60))/(1000*60));
+    const secs = Math.floor((diff % (1000*60))/1000);
+    document.querySelectorAll('.cd-day').forEach(el => el.textContent = String(days).padStart(4,'0'));
+    document.querySelectorAll('.cd-hrs').forEach(el => el.textContent = String(hrs).padStart(2,'0'));
+    document.querySelectorAll('.cd-min').forEach(el => el.textContent = String(mins).padStart(2,'0'));
+    document.querySelectorAll('.cd-sec').forEach(el => el.textContent = String(secs).padStart(2,'0'));
+  }, 1000);
+}
+
+// ---- BUILD GRID CARD ----
+function buildGridCard(p) {
+  const discount = p.oldPrice ? Math.round((1 - p.price/p.oldPrice)*100) : 0;
+  const inWish = typeof JelwoStore !== 'undefined' ? JelwoStore.isInWishlist(p.id) : false;
+  return `
+  <div class="col-md-4 col-sm-6">
+    <div class="product-card h-100">
+      <div class="product-img-wrap">
+        <img src="${p.image}" alt="${p.name}" loading="lazy">
+        ${discount>0?`<div class="product-badge">${discount}%</div>`:''}
+        <div class="product-overlay">
+          <button class="overlay-btn ${inWish?'active':''}" data-wishlist-btn="${p.id}" onclick="handleWishlistToggle(this,'${p.id}')">
+            <i class="bi bi-heart${inWish?'-fill':''}"></i>
+          </button>
+          <button class="overlay-btn" onclick="handleAddToCart('${p.id}')"><i class="bi bi-bag-plus"></i></button>
+          <button class="overlay-btn" onclick="openQuickView('${p.id}')"><i class="bi bi-eye"></i></button>
+        </div>
+      </div>
+      <div class="product-countdown">
+        <span><span class="cd-day">1616</span><small>DAY</small></span>
+        <span><span class="cd-hrs">09</span><small>HRS</small></span>
+        <span><span class="cd-min">00</span><small>MIN</small></span>
+        <span><span class="cd-sec">00</span><small>SEC</small></span>
+      </div>
+      <div class="product-info">
+        <div class="product-category">${p.category ? p.category.toUpperCase() : 'JEWELRY'}</div>
+        <div class="product-name">${p.name}</div>
+        <div class="product-price">Rs. ${p.price.toFixed(2)} ${p.oldPrice?`<del>Rs. ${p.oldPrice.toFixed(2)}</del>`:''}</div>
+        <div class="product-actions">
+          <select class="variant-select" id="var-${p.id}">${(p.variants||['Default']).map(v=>`<option>${v}</option>`).join('')}</select>
+          <div class="qty-control">
+            <button onclick="changeQty('${p.id}',-1)">−</button>
+            <span id="qty-${p.id}">1</span>
+            <button onclick="changeQty('${p.id}',1)">+</button>
+          </div>
+          <button class="btn-atc" onclick="handleAddToCart('${p.id}')">ADD TO CART</button>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+// ---- BUILD LIST CARD ----
+function buildListCard(p) {
+  const discount = p.oldPrice ? Math.round((1 - p.price/p.oldPrice)*100) : 0;
+  const inWish = typeof JelwoStore !== 'undefined' ? JelwoStore.isInWishlist(p.id) : false;
+  const desc = "Product Specifications Care for fiber: 30% more recycled polyester. We label garments manufactured using environmentally friendly technologies and raw materials with the Join Life label. Washing Instructions Iron maximum 100°C. Do not bleach/bleach. Do not...";
+  return `
+  <div class="col-12">
+    <div class="product-list-card">
+      <div style="position:relative;flex-shrink:0;">
+        ${discount>0?`<div class="product-badge">${discount}%</div>`:''}
+        <img src="${p.image}" alt="${p.name}" style="width:140px;height:140px;object-fit:cover;border-radius:8px;">
+      </div>
+      <div class="flex-grow-1">
+        <div class="product-category">${p.category ? p.category.toUpperCase() : 'JEWELRY'}</div>
+        <div class="product-name" style="font-size:1rem;font-weight:600;">${p.name}</div>
+        <div class="product-price mb-1">Rs. ${p.price.toFixed(2)} ${p.oldPrice?`<del>Rs. ${p.oldPrice.toFixed(2)}</del>`:''}</div>
+        <p class="product-list-desc">${desc}</p>
+        <div class="product-list-actions">
+          <button class="list-icon-btn ${inWish?'active':''}" data-wishlist-btn="${p.id}" onclick="handleWishlistToggle(this,'${p.id}')" title="Wishlist">
+            <i class="bi bi-heart${inWish?'-fill':''}"></i>
+          </button>
+          <button class="list-icon-btn" onclick="handleAddToCart('${p.id}')" title="Add to cart"><i class="bi bi-bag-plus"></i></button>
+          <button class="list-icon-btn" onclick="openQuickView('${p.id}')" title="Quick view"><i class="bi bi-eye"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+// ---- RENDER ----
+function renderCollections() {
+  const grid = document.getElementById('collectionsGrid');
+  const count = document.getElementById('productCount');
+  if (!grid) return;
+  if (count) count.textContent = `${filteredProducts.length} products`;
+
+  if (viewMode === 'list') {
+    grid.className = 'row g-3';
+    grid.innerHTML = filteredProducts.length === 0
+      ? `<div class="col-12 text-center py-5 text-muted">No products found.</div>`
+      : filteredProducts.map(p => buildListCard(p)).join('');
+  } else {
+    grid.className = 'row g-4';
+    grid.innerHTML = filteredProducts.length === 0
+      ? `<div class="col-12 text-center py-5 text-muted">No products found.</div>`
+      : filteredProducts.map(p => buildGridCard(p)).join('');
+  }
+  startCountdowns();
+}
+
+// ---- VIEW TOGGLE ----
+function setView(mode, btn) {
+  viewMode = mode;
+  document.querySelectorAll('.view-btns button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderCollections();
+}
+
+// ---- APPLY FILTERS ----
+function applyFilters() {
+  const maxPrice = parseFloat(document.getElementById('priceTo').value) || 35;
+  const minPrice = parseFloat(document.getElementById('priceFrom').value) || 0;
+  const selColors = [...document.querySelectorAll('.color-filter:checked')].map(c => c.value);
+  const selCats = [...document.querySelectorAll('.cat-filter:checked')].map(c => c.value);
+  const inStock = document.getElementById('f-instock').checked;
+  const outStock = document.getElementById('f-outstock').checked;
+
+  filteredProducts = PRODUCTS.filter(p => {
+    if (p.price < minPrice || p.price > maxPrice) return false;
+    if (selColors.length && !p.variants.some(v => selColors.includes(v))) return false;
+    if (selCats.length && !selCats.includes(p.category)) return false;
+    if (searchQuery && !p.name.toLowerCase().includes(searchQuery.toLowerCase())) return false;
+    return true;
+  });
+
+  // Update color count display
+  const colorChecked = document.querySelectorAll('.color-filter:checked').length;
+  const colorCountEl = document.querySelector('#colorSelectedCount');
+  if (colorCountEl) colorCountEl.textContent = colorChecked + ' selected';
+
+  sortProductsArr(currentSort);
+  renderCollections();
+  renderActiveFilters();
+  updateColorSelectedCount();
+  updateAvailCount();
+}
+
+function updateColorSelectedCount() {
+  const n = document.querySelectorAll('.color-filter:checked').length;
+  const el = document.querySelector('.color-selected-count');
+  if (el) el.textContent = n + ' selected';
+}
+function updateAvailCount() {
+  const n = (document.getElementById('f-instock').checked?1:0) + (document.getElementById('f-outstock').checked?1:0);
+  const el = document.querySelector('.avail-selected-count');
+  if (el) el.textContent = n + ' selected';
+}
+
+// ---- ACTIVE FILTER TAGS ----
+function renderActiveFilters() {
+  const tags = [];
+  const selColors = [...document.querySelectorAll('.color-filter:checked')].map(c => c.value);
+  const selCats = [...document.querySelectorAll('.cat-filter:checked')].map(c => c.value);
+  const minP = document.getElementById('priceFrom').value;
+  const maxP = document.getElementById('priceTo').value;
+  if (document.getElementById('f-instock').checked) tags.push({label:'In stock', clear:()=>{document.getElementById('f-instock').checked=false;applyFilters();}});
+  if (document.getElementById('f-outstock').checked) tags.push({label:'Out of stock', clear:()=>{document.getElementById('f-outstock').checked=false;applyFilters();}});
+  if (parseFloat(minP)>0||parseFloat(maxP)<35) tags.push({label:`₹${minP}-₹${maxP}`, clear:resetPrice});
+  selColors.forEach(c => tags.push({label:c, clear:()=>{document.querySelector(`.color-filter[value="${c}"]`).checked=false;applyFilters();}}));
+  selCats.forEach(c => tags.push({label:c, clear:()=>{document.querySelector(`.cat-filter[value="${c}"]`).checked=false;applyFilters();}}));
+  if (searchQuery) tags.push({label:`"${searchQuery}"`, clear:()=>{searchQuery='';document.querySelector('.form-control[placeholder]').value='';applyFilters();}});
+
+  const sec = document.getElementById('activeFiltersSection');
+  const container = document.getElementById('activeFilterTags');
+  if (tags.length === 0) { sec.style.display='none'; return; }
+  sec.style.display='block';
+  container.innerHTML = tags.map((t,i)=>`
+    <span class="active-filter-tag">
+      ${t.label}
+      <button onclick="clearTag(${i})" title="Remove">×</button>
+    </span>`).join('');
+  // store tags for clearTag
+  window._activeTags = tags;
+}
+
+function clearTag(i) {
+  if (window._activeTags && window._activeTags[i]) window._activeTags[i].clear();
+}
+
+// ---- RESETS ----
+function resetFilters() {
+  document.querySelectorAll('.color-filter, .cat-filter, #f-instock, #f-outstock').forEach(el => el.checked = false);
+  resetPrice();
+  searchQuery = '';
+  filteredProducts = [...PRODUCTS];
+  sortProductsArr(currentSort);
+  renderCollections();
+  renderActiveFilters();
+}
+function resetAvailability() {
+  document.getElementById('f-instock').checked = false;
+  document.getElementById('f-outstock').checked = false;
+  applyFilters();
+}
+function resetPrice() {
+  document.getElementById('priceRange').value = 35;
+  document.getElementById('priceTo').value = 35;
+  document.getElementById('priceFrom').value = 0;
+  applyFilters();
+}
+function resetColors() {
+  document.querySelectorAll('.color-filter').forEach(el => el.checked = false);
+  applyFilters();
+}
+
+// ---- SORT ----
+function sortProducts(val) {
+  currentSort = val;
+  sortProductsArr(val);
+  renderCollections();
+}
+function sortProductsArr(val) {
+  if (val==='price-low') filteredProducts.sort((a,b)=>a.price-b.price);
+  else if (val==='price-high') filteredProducts.sort((a,b)=>b.price-a.price);
+  else if (val==='newest'||val==='az') filteredProducts.sort((a,b)=>a.name.localeCompare(b.name));
+  else if (val==='za') filteredProducts.sort((a,b)=>b.name.localeCompare(a.name));
+  else if (val==='oldest') filteredProducts.sort((a,b)=>a.id.localeCompare(b.id));
+}
+
+// ---- SEARCH ----
+function handleSearch(val) {
+  searchQuery = val;
+  applyFilters();
+}
+
+// ---- QTY ----
+function changeQty(id, delta) {
+  const el = document.getElementById('qty-'+id);
+  if (!el) return;
+  let v = parseInt(el.textContent) + delta;
+  if (v < 1) v = 1;
+  el.textContent = v;
+}
+
+// ---- QUICK VIEW ----
+function openQuickView(id) {
+  const p = PRODUCTS.find(x=>x.id===id);
+  if (!p) return;
+  document.querySelector('.qv-img').src = p.image;
+  document.querySelector('.qv-name').textContent = p.name;
+  document.querySelector('.qv-price').textContent = `Rs. ${p.price.toFixed(2)}`;
+  const sel = document.querySelector('.qv-variants');
+  sel.innerHTML = (p.variants||['Default']).map(v=>`<option>${v}</option>`).join('');
+  document.querySelector('.qv-atc').onclick = () => handleAddToCart(id);
+  new bootstrap.Modal(document.getElementById('quickViewModal')).show();
+}
+
+// ---- WISHLIST TOGGLE ----
+function handleWishlistToggle(btn, id) {
+  if (typeof JelwoStore === 'undefined') return;
+  if (JelwoStore.isInWishlist(id)) {
+    JelwoStore.removeFromWishlist(id);
+    btn.classList.remove('active');
+    btn.innerHTML = '<i class="bi bi-heart"></i>';
+    showToast('Removed from wishlist');
+  } else {
+    const p = PRODUCTS.find(x=>x.id===id);
+    JelwoStore.addToWishlist(p);
+    btn.classList.add('active');
+    btn.innerHTML = '<i class="bi bi-heart-fill"></i>';
+    showToast('Added to wishlist ♥');
+  }
+  // update all wishlist buttons for this product
+  document.querySelectorAll(`[data-wishlist-btn="${id}"]`).forEach(b => {
+    const isNow = JelwoStore.isInWishlist(id);
+    b.classList.toggle('active', isNow);
+    b.querySelector('i').className = `bi bi-heart${isNow?'-fill':''}`;
+  });
+  JelwoStore.updateWishlistUI();
+}
+
+// ---- ADD TO CART ----
+function handleAddToCart(id) {
+  if (typeof JelwoStore === 'undefined') return;
+  const p = PRODUCTS.find(x=>x.id===id);
+  if (!p) return;
+  const varEl = document.getElementById('var-'+id);
+  const qtyEl = document.getElementById('qty-'+id);
+  const variant = varEl ? varEl.value : (p.variants?.[0] || 'Default');
+  const qty = qtyEl ? parseInt(qtyEl.textContent) : 1;
+  for (let i=0;i<qty;i++) JelwoStore.addToCart(p, variant);
+  JelwoStore.updateCartUI();
+  showToast(`${p.name} added to cart!`);
+}
+
+// ---- TOAST ----
+function showToast(msg) {
+  const t = document.getElementById('jelwoToast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2500);
+}
+
+// ---- SPECIAL PRODUCTS CAROUSEL (sidebar) ----
+let spIndex = 0;
+let spItems = [];
+function initSpecialProductCarousel() {
+  if (typeof PRODUCTS === 'undefined') return;
+  spItems = PRODUCTS.filter((p,i)=>i<6);
+  renderSPCarousel();
+  setInterval(()=>{
+    spIndex = (spIndex+1) % Math.max(1, spItems.length-1);
+    renderSPCarousel();
+  }, 5000);
+}
+
+function renderSPCarousel() {
+  const track = document.getElementById('specialProductTrack');
+  if (!track || spItems.length === 0) return;
+  // Show 2 items at a time, sliding effect via translateY equivalent (show/hide)
+  const a = spItems[spIndex % spItems.length];
+  const b = spItems[(spIndex+1) % spItems.length];
+  track.style.transition = 'opacity .5s ease';
+  track.style.opacity = '0';
+  setTimeout(()=>{
+    track.innerHTML = [a,b].map(p=>`
+      <div class="special-product-item">
+        <img src="${p.image}" alt="${p.name}">
+        <div>
+          <div class="sp-name">${p.name}</div>
+          <div class="sp-price">Rs. ${p.price.toFixed(2)}</div>
+        </div>
+      </div>
+    `).join('');
+    track.style.opacity = '1';
+  }, 300);
+}
+
+// ---- WISHLIST OFFCANVAS ----
+document.getElementById('wishlistOffcanvas').addEventListener('show.bs.offcanvas', () => {
+  const el = document.getElementById('wishlistOffcanvasItems');
+  if (!el || typeof JelwoStore === 'undefined') return;
+  if (JelwoStore.wishlist.length === 0) {
+    el.innerHTML = `<div class="text-center py-5"><i class="bi bi-heart fs-1 text-muted"></i><p class="mt-3 text-muted">Your wishlist is empty</p></div>`;
+    return;
+  }
+  el.innerHTML = JelwoStore.wishlist.map(item => `
+    <div class="d-flex gap-3 mb-3 pb-3 border-bottom align-items-center">
+      <img src="${item.image}" style="width:70px;height:70px;object-fit:cover;border-radius:8px;">
+      <div class="flex-grow-1">
+        <div class="fw-semibold small">${item.name}</div>
+        <div style="color:var(--gold);font-size:.85rem;">Rs. ${item.price.toFixed(2)}</div>
+        <button class="btn-atc mt-1" style="font-size:.7rem;padding:4px 10px;" onclick="handleAddToCart('${item.id}')">Add to Cart</button>
+      </div>
+      <button class="btn btn-link text-danger p-0" onclick="JelwoStore.removeFromWishlist('${item.id}');document.getElementById('wishlistOffcanvas').dispatchEvent(new Event('show.bs.offcanvas'));JelwoStore.updateWishlistUI();"><i class="bi bi-trash"></i></button>
+    </div>`).join('');
+});
+
+// ---- INIT ----
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof PRODUCTS !== 'undefined') {
+    filteredProducts = [...PRODUCTS];
+    renderCollections();
+    initSpecialProductCarousel();
+    if (typeof JelwoStore !== 'undefined') {
+      JelwoStore.updateCartUI();
+      JelwoStore.updateWishlistUI();
+    }
+  }
+});
+</script>
+</body>
+</html>

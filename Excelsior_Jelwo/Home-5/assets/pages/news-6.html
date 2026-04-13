@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Jewels as unique as your journey. – Jelwo</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --gold: #a07850;
+      --gold-dark: #7a5c38;
+      --gold-light: #c4956a;
+      --orange: #c96a1a;
+      --text-dark: #222;
+      --text-body: #444;
+      --text-muted: #777;
+      --border: #e8e0d8;
+      --bg: #fff;
+      --sidebar-w: 310px;
+      --cream:#faf8f4;
+    }
+/* ---- TOAST ---- */
+.jelwo-toast {
+  position: fixed; bottom: 30px; right: 30px; z-index: 9999;
+  background: var(--text-dark); color: #fff; padding: 12px 20px;
+  border-radius: 8px; font-size: .9rem; transform: translateY(80px);
+  opacity: 0; transition: all .4s ease; pointer-events: none;
+}
+.jelwo-toast.show { transform: translateY(0); opacity: 1; }
+
+/* ---- HEADER ---- */
+.top-bar { background: var(--text-dark); color: #fff; font-size: .8rem; padding: 6px 0; }
+.top-bar a { color: #ccc; text-decoration: none; }
+.main-header {
+  position: sticky; top: 0; z-index: 1050;
+  background: #fff; border-bottom: 1px solid #e8e0d4;
+  box-shadow: 0 2px 20px rgba(0,0,0,.06);
+}
+.header-inner { display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; gap: 16px; }
+.logo { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 600; color: var(--text-dark); text-decoration: none; letter-spacing: 2px; }
+.logo span { color: var(--gold); }
+.header-bar { background: var(--cream); padding: 8px 24px; display: flex; align-items: center; gap: 24px; }
+.phone-link { font-size: .85rem; color: var(--text-dark); text-decoration: none; display: flex; align-items: center; gap: 6px; }
+.phone-link:hover { color: var(--gold); }
+.main-nav { display: flex; align-items: center; gap: 8px; flex-grow: 1; justify-content: center; }
+.nav-link-custom {
+  font-size: .85rem; font-weight: 500; letter-spacing: .8px;
+  color: var(--text-dark); text-decoration: none; padding: 4px 12px;
+  text-transform: uppercase; transition: color var(--transition);
+  display: flex; align-items: center; gap: 4px; cursor: pointer;
+}
+.nav-link-custom:hover, .nav-link-custom.active { color: var(--gold); }
+.header-actions { display: flex; align-items: center; gap: 16px; }
+.icon-btn {
+  position: relative; background: none; border: none; cursor: pointer;
+  font-size: 1.25rem; color: var(--text-dark); transition: color var(--transition);
+  padding: 4px;
+}
+.icon-btn:hover { color: var(--gold); }
+.badge-count {
+  position: absolute; top: -6px; right: -6px;
+  background: var(--gold); color: #fff; border-radius: 50%;
+  width: 18px; height: 18px; font-size: .65rem; display: none;
+  align-items: center; justify-content: center; font-weight: 600;
+}
+.free-try { font-size: .8rem; font-weight: 500; letter-spacing: .5px; color: var(--text-dark); display: flex; align-items: center; gap: 6px; text-decoration: none; }
+.free-try:hover { color: var(--gold); }
+
+/* ---- MEGA DROPDOWN ---- */
+.mega-wrap { position: relative; }
+.mega-menu {
+  position: fixed; left: 0; right: 0;
+  top: 0; /* will be set by JS */
+  background: #fff; box-shadow: 0 8px 40px rgba(0,0,0,.12);
+  border-top: 2px solid var(--gold); padding: 32px 40px;
+  display: none; z-index: 1040;
+}
+.mega-wrap:hover .mega-menu { display: flex; }
+.mega-menu-col h6 { font-family: 'Jost', sans-serif; font-weight: 600; font-size: .8rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+.mega-menu-col a { display: block; font-size: .85rem; color: var(--text-mid); text-decoration: none; margin-bottom: 6px; transition: color var(--transition); }
+.mega-menu-col a:hover { color: var(--gold); padding-left: 4px; }
+.mega-promo { border-radius: 8px; overflow: hidden; }
+.mega-promo img { width: 100%; height: 180px; object-fit: cover; }
+
+/* Products mega - carousel */
+.products-mega-carousel .mini-product { text-align: center; padding: 8px; }
+.products-mega-carousel .mini-product img { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; margin-bottom: 6px; }
+.products-mega-carousel .mini-product p { font-size: .75rem; color: var(--text-mid); margin: 0; }
+.products-mega-carousel .mini-product span { font-size: .8rem; color: var(--gold); font-weight: 600; }
+
+/* Nested dropdown (Pages > About) */
+.nested-dropdown-wrap { position: relative; }
+.nested-dropdown {
+  position: absolute; left: 100%; top: 0;
+  background: #fff; box-shadow: 4px 4px 20px rgba(0,0,0,.1);
+  border-left: 2px solid var(--gold); min-width: 160px; padding: 8px 0;
+  display: none; z-index: 1041;
+}
+.nested-dropdown-wrap:hover .nested-dropdown { display: block; }
+.nested-dropdown a { display: block; padding: 8px 16px; font-size: .85rem; color: var(--text-mid); text-decoration: none; }
+.nested-dropdown a:hover { color: var(--gold); background: var(--cream); }
+
+/* ---- HOME MEGA THEME CARDS ---- */
+.home-mega-menu { padding: 28px 40px 24px !important; }
+.home-theme-card { text-align: center; }
+  .home-theme-img-wrap {
+    position: relative; border-radius: 10px; overflow: hidden;
+    border: 2px solid transparent; transition: border-color var(--transition), box-shadow var(--transition);
+    background: var(--cream);
+  }
+  .home-theme-card:hover .home-theme-img-wrap {
+    border-color: var(--gold);
+    box-shadow: 0 6px 24px rgba(176,140,90,.25);
+  }
+  .home-theme-img-wrap img {
+    width: 100%; height: 160px; object-fit: cover; display: block;
+    transition: transform .4s ease;
+  }
+  .home-theme-card:hover .home-theme-img-wrap img { transform: scale(1.04); }
+  .home-theme-overlay {
+    position: absolute; inset: 0; background: rgba(176,140,90,.5);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity var(--transition);
+  }
+  .home-theme-card:hover .home-theme-overlay { opacity: 1; }
+  .home-theme-label {
+    font-size: .78rem; color: var(--text-mid); margin: 8px 0 0;
+    font-weight: 500; letter-spacing: .3px; transition: color var(--transition);
+  }
+  .home-theme-card:hover .home-theme-label { color: var(--gold); }
+
+  @media (max-width: 992px) {
+    .mega-menu { padding: 24px; }
+    .main-nav { display: none; }
+    .promo-grid { grid-template-columns: 1fr; }
+    .hero-inner { padding: 40px 24px; min-height: 60vh; }
+    .hero-img-right { display: none; }
+  }
+  
+    /* ── Layout ── */
+    .page-wrap {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 28px 80px;
+      display: grid;
+      grid-template-columns: var(--sidebar-w) 1fr;
+      gap: 56px;
+      align-items: start;
+      margin-top: 48px;
+    }
+
+    /* ══════════════ SIDEBAR ══════════════ */
+    .sidebar { position: sticky; top: 80px; }
+
+    /* Search */
+    .sidebar-search {
+      display: flex; align-items: center;
+      border-bottom: 1px solid #ccc; padding-bottom: 10px;
+      margin-bottom: 36px;
+    }
+    .sidebar-search input {
+      border: none; outline: none; flex: 1;
+      font-size: 0.88rem; color: #555;
+      background: transparent;
+    }
+    .sidebar-search input::placeholder { color: #bbb; }
+    .sidebar-search button {
+      background: none; border: none; cursor: pointer; color: #999; padding: 0 4px;
+    }
+    .sidebar-search button:hover { color: var(--gold); }
+    .sidebar-search svg { width: 17px; height: 17px; }
+
+    /* Section titles */
+    .sidebar h3 {
+      font-family: 'Lato', sans-serif;
+      font-size: 0.95rem; font-weight: 700;
+      color: var(--text-dark); letter-spacing: 0.3px;
+      margin-bottom: 20px;
+    }
+
+    /* Recent posts */
+    .recent-posts { margin-bottom: 36px; }
+    .recent-post {
+      display: flex; gap: 14px;
+      margin-bottom: 22px; cursor: pointer;
+      text-decoration: none; color: inherit;
+      align-items: flex-start;
+    }
+    .recent-post:hover .rp-title { color: var(--gold); }
+    .rp-img {
+      width: 80px; height: 65px; flex-shrink: 0;
+      border-radius: 2px; overflow: hidden;
+    }
+    .rp-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.35s; }
+    .recent-post:hover .rp-img img { transform: scale(1.07); }
+    .rp-meta { font-size: 0.75rem; color: var(--text-muted); letter-spacing: 0.5px; margin-bottom: 5px; text-transform: uppercase; }
+    .rp-title { font-size: 0.88rem; color: var(--text-dark); line-height: 1.45; font-weight: 400; transition: color 0.2s; }
+
+    /* Tags sidebar */
+    .sidebar-tags { margin-bottom: 36px; }
+    .tag-wrap { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tag-btn {
+      border: 1px solid #ccc; background: #fff;
+      color: #555; font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 1.2px; text-transform: uppercase;
+      padding: 6px 14px; border-radius: 2px;
+      cursor: pointer; text-decoration: none;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+    }
+    .tag-btn:hover {
+      background: var(--gold);
+      color: #fff;
+      border-color: var(--gold);
+    }
+
+    /* Newsletter */
+    .sidebar-newsletter { margin-bottom: 36px; }
+    .newsletter-input-wrap {
+      display: flex; align-items: center;
+      border-bottom: 1px solid #ccc; padding-bottom: 10px;
+    }
+    .newsletter-input-wrap input {
+      border: none; outline: none; flex: 1;
+      font-size: 0.85rem; color: #555; background: transparent;
+    }
+    .newsletter-input-wrap input::placeholder { color: #bbb; }
+    .newsletter-input-wrap button {
+      background: none; border: none; cursor: pointer; color: #999;
+    }
+    .newsletter-input-wrap button:hover { color: var(--gold); }
+    .newsletter-input-wrap svg { width: 17px; height: 17px; }
+
+    /* Instagram grid */
+    .sidebar-instagram h3 { margin-bottom: 16px; }
+    .ig-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px;
+    }
+    .ig-item {
+      position: relative; aspect-ratio: 1/1;
+      overflow: hidden; border-radius: 2px; cursor: pointer;
+    }
+    .ig-item img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      transition: transform 0.35s, filter 0.35s;
+    }
+    .ig-item:hover img { transform: scale(1.08); filter: brightness(0.62); }
+    .ig-overlay {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transition: opacity 0.3s;
+      pointer-events: none;
+    }
+    .ig-item:hover .ig-overlay { opacity: 1; }
+    .ig-overlay svg { width: 28px; height: 28px; color: #fff; }
+
+    /* ══════════════ MAIN CONTENT ══════════════ */
+    .post-content {}
+
+    /* Hero image */
+    .post-hero-img {
+      width: 100%; aspect-ratio: 16/9;
+      object-fit: cover; display: block;
+      border-radius: 2px; margin-bottom: 28px;
+    }
+
+    /* Meta */
+    .post-meta {
+      font-size: 0.82rem; color: var(--text-muted);
+      margin-bottom: 16px; display: flex; gap: 14px; align-items: center;
+    }
+    .post-meta span { display: flex; align-items: center; gap: 5px; }
+    .post-meta .sep { color: #ccc; }
+
+    /* Title */
+    .post-title {
+      font-family: 'Lato', sans-serif;
+      font-size: 1.85rem; font-weight: 700;
+      color: var(--text-dark); line-height: 1.3;
+      margin-bottom: 24px;
+    }
+
+    /* Body text */
+    .post-body p {
+      font-size: 0.93rem; color: var(--text-body);
+      line-height: 1.85; margin-bottom: 20px;
+    }
+
+    /* 2-col images */
+    .post-images-2col {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 16px; margin: 28px 0;
+    }
+    .post-images-2col img {
+      width: 100%; aspect-ratio: 4/3;
+      object-fit: cover; display: block; border-radius: 2px;
+    }
+
+    /* Blockquote */
+    .post-quote {
+      display: flex; gap: 20px; align-items: flex-start;
+      padding: 24px 0; margin: 8px 0 24px;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .quote-icon {
+      font-size: 2.4rem; color: var(--gold);
+      line-height: 1; flex-shrink: 0;
+      font-family: Georgia, serif; margin-top: -4px;
+    }
+    .post-quote p {
+      font-size: 1.05rem !important;
+      font-style: italic;
+      color: var(--text-dark) !important;
+      line-height: 1.65 !important;
+      margin: 0 !important;
+    }
+
+    /* Post tags row */
+    .post-tags-row {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      margin: 28px 0 20px;
+    }
+    .post-tag {
+      border: 1px solid #ccc; background: #fff;
+      color: #555; font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 1.2px; text-transform: uppercase;
+      padding: 6px 16px; border-radius: 2px;
+      cursor: pointer; text-decoration: none;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .post-tag:hover { border-color: var(--orange); color: var(--orange); text-decoration: none; }
+
+    /* Social share */
+    .share-row {
+      display: flex; gap: 12px; margin-bottom: 36px;
+    }
+    .share-btn {
+      width: 36px; height: 36px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; text-decoration: none;
+      transition: transform 0.2s, opacity 0.2s;
+    }
+    .share-btn:hover { transform: translateY(-2px); opacity: 0.82; }
+    .share-btn.fb { background: #1877f2; }
+    .share-btn.tw { background: #000; }
+    .share-btn.pt { background: #e60023; }
+    .share-btn svg { width: 16px; height: 16px; color: #fff; }
+
+      /* normal pages dropdown */
+.normal-wrap{
+  position: relative;
+}
+.normal-menu{
+  position: absolute;   /* changed from fixed */
+  top: 100%;            /* appear below menu */
+  left: 0;              /* align left */
+  min-width: 220px;     /* normal dropdown width */
+  
+  background: #fff;
+  box-shadow: 0 8px 40px rgba(0,0,0,.12);
+  border-top: 2px solid var(--gold);
+  padding: 12px 0;      /* smaller padding */
+
+  display: none;
+  z-index: 1040;
+}
+.normal-wrap:hover .normal-menu{
+  display:block;
+}
+
+.normal-menu .container-fluid , .normal-menu .row , .normal-menu .col-2{
+  all:unset;
+  display:block;
+}
+.normal-menu a{
+  display: block;
+    font-size: .85rem;
+    color: var(--text-mid);
+    text-decoration: none;
+    margin-bottom: 6px;
+    transition: color var(--transition);
+    padding-left: 15%;
+}
+
+    /* Prev / Next */
+    .post-nav {
+      display: flex; justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 18px 0; margin-bottom: 40px;
+    }
+    .post-nav-btn {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 0.82rem; font-weight: 700;
+      letter-spacing: 1px; text-transform: uppercase;
+      color: var(--text-dark); text-decoration: none;
+      transition: color 0.2s;
+    }
+    .post-nav-btn:hover { color: var(--orange); text-decoration: none; }
+    .post-nav-btn svg { width: 16px; height: 16px; }
+
+    /* Comments */
+    .comments-section { margin-bottom: 40px; }
+    .comments-section h3 {
+      font-size: 1rem; font-weight: 700;
+      color: var(--text-dark); margin-bottom: 28px;
+    }
+    .comment-item { display: flex; gap: 16px; margin-bottom: 28px; }
+    .comment-avatar {
+      width: 42px; height: 42px; border-radius: 4px;
+      background: var(--gold); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.82rem; font-weight: 700;
+      letter-spacing: 0.5px; flex-shrink: 0;
+    }
+    .comment-avatar.alt { background: #8a6a4e; }
+    .comment-avatar.alt2 { background: #6a8a50; }
+    .comment-name { font-size: 0.88rem; font-weight: 700; color: var(--text-dark); }
+    .comment-date { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 6px; }
+    .comment-text { font-size: 0.88rem; color: var(--text-body); line-height: 1.6; }
+
+    /* Leave comment form */
+    .leave-comment h3 {
+      font-size: 1rem; font-weight: 700;
+      color: var(--text-dark); margin-bottom: 24px;
+    }
+    .leave-comment .form-label {
+      font-size: 0.8rem; letter-spacing: 0.5px; color: #555; margin-bottom: 6px;
+    }
+    .leave-comment .form-control {
+      border: 1px solid #e0d8d0; border-radius: 2px;
+      padding: 12px 16px; font-size: 0.88rem; color: #444;
+      background: #fff; transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .leave-comment .form-control:focus {
+      border-color: var(--gold); box-shadow: 0 0 0 3px rgba(160,120,80,0.1); outline: none;
+    }
+    .leave-comment textarea { min-height: 120px; resize: vertical; }
+    .btn-post-comment {
+      background: var(--gold); color: #fff; border: none;
+      border-radius: 50px; padding: 13px 40px;
+      font-size: 0.78rem; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase;
+      cursor: pointer; margin-top: 8px;
+      transition: background 0.25s, transform 0.15s;
+    }
+    .btn-post-comment:hover { background: var(--gold-dark); transform: translateY(-1px); }
+
+    /* Scroll top */
+    .scroll-top {
+      position: fixed; bottom: 28px; right: 28px;
+      width: 42px; height: 42px; background: #fff;
+      border: 1px solid #ddd; border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      opacity: 0; pointer-events: none; transition: opacity 0.3s; z-index: 300;
+    }
+    .scroll-top.visible { opacity: 1; pointer-events: all; }
+    .scroll-top:hover { background: #f5f0eb; }
+    .scroll-top svg { width: 15px; height: 15px; color: #666; }
+
+        /* Page Hero */
+.page-hero{position:relative;background:url('//jelwo.myshopify.com/cdn/shop/files/jewelry-3-breadcrumb.jpg?v=1742473987&width=1920') center/cover;min-height:180px;display:flex;align-items:center;justify-content:center;}
+.page-hero::after{content:'';position:absolute;inset:0;background:rgba(0,0,0,.5);}
+.page-hero-content{position:relative;z-index:2;text-align:center;color:#fff;}
+
+/* Toast */
+.jelwo-toast{position:fixed;bottom:30px;right:30px;z-index:9999;background:var(--text-dark);color:#fff;padding:12px 20px;border-radius:8px;font-size:.88rem;transform:translateY(80px);opacity:0;transition:all .4s ease;pointer-events:none;}
+.jelwo-toast.show{transform:translateY(0);opacity:1;}
+
+/* Offcanvas */
+.offcanvas-title{font-family:'Cormorant Garamond',serif;font-size:1.4rem;}
+.free-ship-bar{background:var(--cream-dark);border-radius:6px;height:6px;overflow:hidden;}
+.free-shipping-bar{height:100%;background:var(--gold);border-radius:6px;transition:width .4s ease;width:0%;}
+
+/* ---- FOOTER ---- */
+footer { background: var(--cream); padding: 60px 0 30px; }
+.footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 600; color: var(--text-dark); letter-spacing: 2px; display: block; margin-bottom: 20px; text-decoration: none; }
+.footer-contact { font-size: .875rem; color: var(--text-mid); line-height: 1.8; }
+.footer-contact a { color: var(--text-mid); text-decoration: none; }
+.footer-contact a:hover { color: var(--gold); }
+.footer-heading { font-family: 'Jost', sans-serif; font-weight: 600; font-size: .8rem; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dark); margin-bottom: 16px; }
+.footer-link { display: block; font-size: .875rem; color: var(--text-mid); text-decoration: none; margin-bottom: 8px; transition: color var(--transition); }
+.footer-link:hover { color: var(--gold); padding-left: 4px; }
+.footer-social a { display: inline-flex; width: 36px; height: 36px; border-radius: 50%; background: var(--cream-dark); align-items: center; justify-content: center; color: var(--text-dark); text-decoration: none; transition: all var(--transition); margin-right: 8px; }
+.footer-social a:hover { background: var(--gold); color: #fff; }
+.footer-subscribe { display: flex; gap: 8px; }
+.footer-subscribe input { flex: 1; border: 1px solid #ddd; border-radius: 6px; padding: 10px 14px; font-size: .85rem; background: #fff; }
+.footer-subscribe button { background: var(--gold); color: #fff; border: none; border-radius: 6px; padding: 10px 20px; font-size: .85rem; font-weight: 600; cursor: pointer; transition: background var(--transition); }
+.footer-subscribe button:hover { background: var(--gold-dark); }
+.footer-bottom { border-top: 1px solid var(--cream-dark); margin-top: 40px; padding-top: 20px; font-size: .8rem; color: var(--text-mid); }
+.payment-icons i { font-size: 1.8rem; margin-left: 8px; opacity: .6; }
+
+/* Collection banner */
+.collection-banner{border-radius:10px;overflow:hidden;margin-bottom:24px;}
+.collection-banner img{width:100%;height:180px;object-fit:cover;display:block;}
+
+
+    /* ── Responsive ── */
+    @media (max-width: 991px) {
+      .page-wrap { grid-template-columns: 1fr; gap: 40px; }
+      .sidebar { position: static; }
+      .footer-cols { grid-template-columns: 1fr 1fr; }
+      .nav-promo { display: none; }
+    }
+    @media (max-width: 576px) {
+      .page-wrap { padding: 0 16px 60px; margin-top: 32px; }
+      .post-images-2col { grid-template-columns: 1fr; }
+      .post-title { font-size: 1.4rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =================== MAIN HEADER =================== -->
+<header class="main-header" id="mainHeader">
+  <div class="header-inner">
+    <a href="index.html" class="logo"><img src="//jelwo.myshopify.com/cdn/shop/files/jewelry-4-logo.png?v=1744805986&width=500"/></a>
+    <span style="border-left: 1px solid #e2e2e2;
+    padding-left: 30px;
+    margin-left: 30px; color:#808080; align-items:center; justify-content:flex-start;"><p>Free UK standard delivery on all orders.</p></span>
+    <!-- HEADER ACTIONS -->
+    <div class="header-actions">
+      <div class="position-relative">
+        <input type="text" id="headerSearch" placeholder="Search product..." class="form-control form-control-sm" style="width:180px;border-radius:20px;border:1px solid #ddd;">
+      </div>
+      <a href="account.html">
+      <button class="icon-btn" ><i class="bi bi-person"></i></button></a>
+      <a href="wishlist.html">
+      <button class="icon-btn" data-bs-toggle="offcanvas" data-bs-target="#wishlistOffcanvas">
+        <i class="bi bi-heart"></i>
+        <span class="badge-count wishlist-count">0</span>
+      </button> </a>
+      <button class="icon-btn" data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas">
+        <i class="bi bi-bag"></i>
+        <span class="badge-count cart-count">0</span>
+      </button>
+    </div>
+  </div>
+  
+</header>
+
+<div class="header-bar">
+    <a href="tel:2201234567890" class="phone-link"><i class="bi bi-telephone"></i> (220) 123 456 7890</a>
+    <!-- NAV -->
+    <nav class="main-nav">
+
+      <!-- HOME -->
+      <div class="mega-wrap">
+        <a class="nav-link-custom active">HOME <i class="bi bi-chevron-down small"></i></a>
+        <div class="mega-menu home-mega-menu" style="display:none; padding: 28px 40px 24px;">
+          <div style="width:100%;">
+            
+            <div style="display:grid; grid-template-columns:repeat(6,1fr); gap:16px;">
+ 
+              <!-- 06 Classic jewelry (NEW badge) -->
+              <div class="home-theme-card" onclick="location.href='index.html'" style="cursor:pointer;position:relative;">
+                <div style="position:absolute;top:8px;left:8px;z-index:3;background:#2ecc71;color:#fff;font-size:.62rem;font-weight:700;padding:2px 7px;border-radius:3px;letter-spacing:.5px;transform:rotate(-5deg);">NEW</div>
+                <div class="home-theme-img-wrap">
+                  <img src="//jelwo.myshopify.com/cdn/shop/files/home6.jpg?v=1750230396&width=500" alt="Classic jewelry">
+                  <div class="home-theme-overlay"><i class="bi bi-eye" style="font-size:1.2rem;color:#fff;"></i></div>
+                </div>
+                <p class="home-theme-label">06 Classic jewelry</p>
+              </div>
+ 
+              <!-- 01 Unique jewelry -->
+              <div class="home-theme-card" onclick="location.href='index.html'" style="cursor:pointer;">
+                <div class="home-theme-img-wrap">
+                  <img src="//jelwo.myshopify.com/cdn/shop/files/demo-menu-banner-1.jpg?v=1746178520&width=500" alt="Unique jewelry">
+                  <div class="home-theme-overlay"><i class="bi bi-eye" style="font-size:1.2rem;color:#fff;"></i></div>
+                </div>
+                <p class="home-theme-label">01 Unique jewelry</p>
+              </div>
+ 
+              <!-- 02 Modern jewelry -->
+              <div class="home-theme-card" onclick="location.href='index.html'" style="cursor:pointer;">
+                <div class="home-theme-img-wrap">
+                  <img src="//jelwo.myshopify.com/cdn/shop/files/demo-menu-banner-2.jpg?v=1746178520&width=500" alt="Modern jewelry">
+                  <div class="home-theme-overlay"><i class="bi bi-eye" style="font-size:1.2rem;color:#fff;"></i></div>
+                </div>
+                <p class="home-theme-label">02 Modern jewelry</p>
+              </div>
+ 
+              <!-- 03 Traditional jewelry -->
+              <div class="home-theme-card" onclick="location.href='index.html'" style="cursor:pointer;">
+                <div class="home-theme-img-wrap">
+                  <img src="//jelwo.myshopify.com/cdn/shop/files/demo-menu-banner-3.jpg?v=1746178520&width=500" alt="Traditional jewelry">
+                  <div class="home-theme-overlay"><i class="bi bi-eye" style="font-size:1.2rem;color:#fff;"></i></div>
+                </div>
+                <p class="home-theme-label">03 Traditional jewelry</p>
+              </div>
+ 
+              <!-- 04 Luxury jewelry -->
+              <div class="home-theme-card" onclick="location.href='index.html'" style="cursor:pointer;">
+                <div class="home-theme-img-wrap">
+                  <img src="//jelwo.myshopify.com/cdn/shop/files/demo-menu-banner-4.jpg?v=1746178520&width=500" alt="Luxury jewelry">
+                  <div class="home-theme-overlay"><i class="bi bi-eye" style="font-size:1.2rem;color:#fff;"></i></div>
+                </div>
+                <p class="home-theme-label">04 Luxury jewelry</p>
+              </div>
+ 
+              <!-- 05 Elegant jewelry -->
+              <div class="home-theme-card" onclick="location.href='index.html'" style="cursor:pointer;">
+                <div class="home-theme-img-wrap">
+                  <img src="//jelwo.myshopify.com/cdn/shop/files/demo-menu-banner-5.jpg?v=1746178520&width=500" alt="Elegant jewelry">
+                  <div class="home-theme-overlay"><i class="bi bi-eye" style="font-size:1.2rem;color:#fff;"></i></div>
+                </div>
+                <p class="home-theme-label">05 Elegant jewelry</p>
+              </div>
+ 
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SHOP -->
+      <div class="mega-wrap">
+        <a href="shop.html" class="nav-link-custom">SHOP <i class="bi bi-chevron-down small"></i></a>
+        <div class="mega-menu" style="display:none;">
+          <div class="container-fluid">
+            <div class="row g-4">
+              <div class="col-2 mega-menu-col">
+                <h6>Earrings</h6>
+                <a href="flowerjhumka.html">Flower jumkha</a>
+                <a href="flowerjhumka.html">Brown sunglasses</a>
+                <a href="flowerjhumka.html">Bucket shoes</a>
+                <a href="iamondrashmiring.html">Iamond rashmi ring</a>
+                <a href="floralgoldbangle.html">Floral gold bangle</a>
+                <a href="glitterdiamondring.html">Glitter diamond ring</a>
+              </div>
+              <div class="col-2 mega-menu-col">
+                <h6>Necklace</h6>
+                <a href="framedgoldpendant.html">Framed gold pendant</a>
+                <a href="glowernosepin.html">Flower nose pin</a>
+                <a href="goldnosepin.html">Gold nose pin</a>
+                <a href="goldnosepin.html">Color print sandal</a>
+                <a href="blossomdiamondbangle.html">Blossom diamond bangle</a>
+                <a href="simplepearlear.html">Simple Pearl earrings</a>
+              </div>
+              <div class="col-2 mega-menu-col">
+                <h6>Rings</h6>
+                <a href="rosegoldring.html">Rose gold rings</a>
+                <a href="sherbiring.html">Sherbi ring</a>
+                <a href="iamondrashmiring.html">Iamond rashmi ring</a>
+                <a href="glitterdiamondring.html">Glitter diamond ring</a>
+                <a href="diamondring.html">Diamond rings</a>
+                <a href="clusterdiamondring.html">Cluster diamond ring</a>
+              </div>
+              <div class="col-2 mega-menu-col">
+                <h6>Bracelets</h6>
+                <a href="floralgoldbangle.html">Floral gold bangle</a>
+                <a href="modish.html">Modish bracelet</a>
+                <a href="blossomdiamondbangle.html">Blossom diamond bangle</a>
+                <a href="gemstonechainbrac.html">Gemstone chain bracelet</a>
+                <a href="gemstonechainbrac.html">Blue heavy t-shirt</a>
+                <a href="gemstonechainbrac.html">Brown sunglasses</a>
+              </div>
+              <div class="col-4">
+                <div style="background:var(--gold);border-radius:12px;overflow:hidden;position:relative;">
+                  <img src="//jelwo.myshopify.com/cdn/shop/files/jewelry-4-menu-banner.jpg?v=1742635152&width=500" style="width:100%;height:200px;object-fit:cover;opacity:.7;">
+                  <div style="position:absolute;bottom:0;left:0;right:0;padding:16px;color:#fff">
+                    <div style="font-size:.75rem;letter-spacing:2px">SPECIAL OFFER</div>
+                    <div style="font-family:'Cormorant Garamond',serif;font-size:1.6rem">FLAT 30% OFF</div>
+                    <a href="collections.html" class="btn-outline-jelwo mt-2" style="font-size:.72rem;padding:6px 14px;color:#fff;border-color:#fff">SHOP NOW</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRODUCTS -->
+      <div class="mega-wrap">
+        <a class="nav-link-custom">PRODUCTS <i class="bi bi-chevron-down small"></i></a>
+        <div class="mega-menu" style="display:none;">
+          <div class="container-fluid">
+            <div class="row g-4">
+              <div class="col-2 mega-menu-col">
+                <h6>Earrings</h6>
+                <a href="dropgoldear.html">Drop gold earrings</a>
+                <a href="simplepearlear.html">Simple Pearl earrings</a>
+                <a href="gemstonejhumka.html">Gemstone jhumkas</a>
+                <a href="flowerjhumka.html">Flower jhumka</a>
+                <a href="rosegoldbrac.html">Rose gold bracelet</a>
+                <a href="diamondbrac.html">Diamond bracelet</a>
+              </div>
+              <div class="col-2 mega-menu-col">
+                <h6>Bracelets</h6>
+                <a href="rosegoldbrac.html">Rose gold bracelet</a>
+                <a href="diamondbrac.html">Diamond bracelet</a>
+                <a href="goldchain.html">Gold chain</a>
+                <a href="rosegoldbrac.html">Rose gold bracelet</a>
+                <a href="diamondbrac.html">Diamond bracelet</a>
+                <a href="goldchain.html">Gold chain</a>
+              </div>
+              <div class="col-2 mega-menu-col">
+                <h6>Necklace</h6>
+                <a href="diamondnecklace.html">Diamond necklace</a>
+                <a href="goldpendant.html">Gold pendant</a>
+                <a href="flowerpendant.html">Flower pendant</a>
+                <a href="rosegoldbrac.html">Rose gold bracelet</a>
+                <a href="diamondbrac.html">Diamond bracelet</a>
+                <a href="goldchain.html">Gold chain</a>
+              </div>
+              <div class="col-2 mega-menu-col">
+                <h6>Rings</h6>
+                <a href="chicdiamondring.html">Chic diamond ring</a>
+                <a href="glitterdiamondring.html">Glitter diamond ring</a>
+                <a href="sherbiring.html">Sherbi ring</a>
+                <a href="rosegoldbrac.html">Rose gold bracelet</a>
+                <a href="diamondbrac.html">Diamond bracelet</a>
+                <a href="goldchain.html">Gold chain</a>
+              </div>
+              <div class="col-4">
+                <h6>Popular Collection</h6>
+                <div id="productsMegaCarousel" class="d-flex gap-3 overflow-hidden">
+                  <!-- populated by JS -->
+                </div>
+                <div class="d-flex gap-2 mt-3">
+                  <button class="btn btn-sm btn-outline-secondary" onclick="slideMegaCarousel(-1)"><i class="bi bi-chevron-left"></i></button>
+                  <button class="btn btn-sm btn-outline-secondary" onclick="slideMegaCarousel(1)"><i class="bi bi-chevron-right"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BLOG -->
+      <a href="blog.html" class="nav-link-custom">BLOG</a>
+
+      <!-- PAGES -->
+      <div class="normal-wrap">
+        <a class="nav-link-custom">
+          PAGES <i class="bi bi-chevron-down small"></i>
+        </a>
+
+        <div class="normal-menu">
+
+          <!-- About (nested) -->
+          <div class="nested-dropdown-wrap">
+            <a style="cursor:pointer;display:flex;align-items:center;text-align:center;justify-content:space-between;">
+              About us <i class="bi bi-chevron-right small"></i>
+            </a>
+            <div class="nested-dropdown">
+              <a href="about.html">About us</a>
+              <a href="about2.html">About us 2</a>
+            </div>
+          </div>
+
+          <!-- Contact (nested) -->
+          <div class="nested-dropdown-wrap mt-2">
+            <a style="cursor:pointer;display:flex;align-items:center;justify-content:space-between">
+              Contact <i class="bi bi-chevron-right small"></i>
+            </a>
+            <div class="nested-dropdown">
+              <a href="contact.html">Contact us</a>
+              <a href="contact2.html">Contact us 2</a>
+            </div>
+          </div>
+
+          <a href="faqs.html">Faq's</a>
+          <a href="privacy.html">Privacy policy</a>
+          <a href="refund.html">Refund policy</a>
+          <a href="storeloc.html">Store location</a>
+          <a href="shipping.html">Shipping & return</a>
+          <a href="terms.html">Terms & condition</a>
+
+        </div>
+      </div>
+    </nav>
+    <a href="collections.html" class="free-try ms-auto"><i class="bi bi-house"></i> FREE TRY AT HOME</a>
+
+  </div>
+
+<!-- Cart Offcanvas -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="cartOffcanvas" style="width:400px;">
+  <div class="offcanvas-header border-bottom">
+    <h5 class="offcanvas-title">My shopping cart</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div style="background:var(--cream);padding:10px 16px;border-radius:6px;font-size:.8rem;margin-bottom:16px;">New customers save 10% with code <strong style="color:var(--gold);">WELCOME10</strong></div>
+    <div class="free-ship-bar mb-1"><div class="free-shipping-bar"></div></div>
+    <p class="free-shipping-text text-muted small mb-3">Spend Rs. 100 more and get free shipping!</p>
+    <div id="cartOffcanvasItems"></div>
+    <div class="border-top pt-3 mt-3">
+      <div class="d-flex justify-content-between mb-3"><strong>Subtotal</strong><strong id="cartSubtotal">Rs. 0.00</strong></div>
+      <div class="d-flex gap-2">
+        <a href="cart.html" class="btn btn-outline-secondary flex-fill">VIEW CART</a>
+        <a href="checkout.html" style="background:var(--text-dark);color:#fff;border:none;border-radius:6px;padding:10px 16px;font-size:.85rem;font-weight:600;flex:1;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;">CHECKOUT</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-content">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb justify-content-center" style="background:none;">
+        <li class="breadcrumb-item"><a href="index.html" style="color:rgba(255,255,255,.7);text-decoration:none;">HOME</a></li>
+        <li class="breadcrumb-item active" style="color:#fff;">NEWS</li>
+      </ol>
+    </nav>
+    <h1 style="font-size:2.8rem;color:#fff;">News</h1>
+  </div>
+</div>
+
+  <!-- Page Layout -->
+  <div class="page-wrap">
+
+    <!-- ══ SIDEBAR ══ -->
+    <aside class="sidebar">
+
+      <!-- Search -->
+      <div class="sidebar-search">
+        <input type="text" placeholder="Search"/>
+        <button>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        </button>
+      </div>
+
+      <!-- Recent Posts -->
+      <div class="recent-posts">
+        <h3>Recent posts</h3>
+
+        <a class="recent-post" href="news-1.html">
+          <div class="rp-img">
+            <img src="//jelwo.myshopify.com/cdn/shop/articles/jewelry-blog-8_1c3cdfa3-a7b1-4343-be06-30d5638e370b.jpg?v=1750223543&width=300" alt="Gold chain bracelet"/>
+          </div>
+          <div>
+            <div class="rp-meta">Mar 10, 2025</div>
+            <div class="rp-title">Jewels as unique as your journey.</div>
+          </div>
+        </a>
+
+        <a class="recent-post" href="news-2.html">
+          <div class="rp-img">
+            <img src="//jelwo.myshopify.com/cdn/shop/articles/jewelry-blog-1_66fd95ae-8368-4800-8123-8c69f48dff27.jpg?v=1750223539&width=300" alt="Diamond earrings"/>
+          </div>
+          <div>
+            <div class="rp-meta">Mar 02, 2025</div>
+            <div class="rp-title">Crafted for the moments that matter.</div>
+          </div>
+        </a>
+
+        <a class="recent-post" href="news-3.html">
+          <div class="rp-img">
+            <img src="//jelwo.myshopify.com/cdn/shop/articles/jewelry-blog-2_f99fac11-0d22-4081-94bc-cd2ec791c782.jpg?v=1750223483&width=300" alt="Timeless jewelry"/>
+          </div>
+          <div>
+            <div class="rp-meta">Mar 02, 2025</div>
+            <div class="rp-title">Timeless treasures moments.</div>
+          </div>
+        </a>
+      </div>
+
+      <!-- Tags -->
+      <div class="sidebar-tags">
+        <h3>Tags</h3>
+        <div class="tag-wrap">
+          <a class="tag-btn" href="blog.html">Accessories</a>
+          <a class="tag-btn" href="blog.html">Blog</a>
+          <a class="tag-btn active" href="blog.html">Clothing</a>
+          <a class="tag-btn" href="blog.html">Fashion</a>
+          <a class="tag-btn" href="blog.html">Handmad</a>
+        </div>
+      </div>
+
+      <!-- Newsletter -->
+      <div class="sidebar-newsletter">
+        <h3>Newsletter</h3>
+        <div class="newsletter-input-wrap">
+          <input type="email" placeholder="Enter your email"/>
+          <button>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Instagram -->
+      <div class="sidebar-instagram">
+        <h3>Instagram</h3>
+        <div class="ig-grid">
+          <a class="ig-item" href="https://www.instagram.com" target="_blank">
+            <img src="//jelwo.myshopify.com/cdn/shop/files/jewelry-1-insta-1.jpg?v=1741599446&width=300" alt="Instagram"/>
+            <div class="ig-overlay">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </div>
+          </a>
+          <a class="ig-item" href="https://www.instagram.com" target="_blank">
+            <img src="//jelwo.myshopify.com/cdn/shop/files/jewelry-1-insta-2.jpg?v=1741599446&width=300" alt="Instagram"/>
+            <div class="ig-overlay">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </div>
+          </a>
+          <a class="ig-item" href="https://www.instagram.com" target="_blank">
+            <img src="//jelwo.myshopify.com/cdn/shop/files/jewelry-1-insta-3.jpg?v=1741599447&width=300" alt="Instagram"/>
+            <div class="ig-overlay">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </div>
+          </a>
+          <a class="ig-item" href="https://www.instagram.com" target="_blank">
+            <img src="//jelwo.myshopify.com/cdn/shop/files/jewelry-1-insta-4.jpg?v=1741599447&width=300" alt="Instagram"/>
+            <div class="ig-overlay">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </div>
+          </a>
+          <a class="ig-item" href="https://www.instagram.com" target="_blank">
+            <img src="//jelwo.myshopify.com/cdn/shop/files/jewelry-1-insta-5.jpg?v=1741599447&width=300" alt="Instagram"/>
+            <div class="ig-overlay">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </div>
+          </a>
+          <a class="ig-item" href="https://www.instagram.com" target="_blank">
+            <img src="//jelwo.myshopify.com/cdn/shop/files/jewelry-1-insta-6.jpg?v=1741599447&width=300" alt="Instagram"/>
+            <div class="ig-overlay">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </div>
+          </a>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- ══ MAIN CONTENT ══ -->
+    <main class="post-content">
+
+      <!-- Hero image -->
+      <img
+        class="post-hero-img"
+        src="//jelwo.myshopify.com/cdn/shop/articles/jewelry-blog-5_3cf647c3-7ce1-4f2c-bcc8-8289878be83c.jpg?v=1750223524&width=3000"
+        alt="Jewels as unique as your journey"
+      />
+
+      <!-- Meta -->
+      <div class="post-meta">
+        <span>Mar 10, 2025</span>
+        <span class="sep">/</span>
+        <span>By Andrew johns</span>
+        <span class="sep">/</span>
+        <span>3 comments</span>
+      </div>
+
+      <!-- Title -->
+      <h1 class="post-title">Jewels as unique as your journey.</h1>
+
+      <!-- Body -->
+      <div class="post-body">
+        <p>As part of our mission create space for women to express their sensuality without shame fear or the patriarchal gaze we're asking women to invite us into their most intimate space. Fashion you can buy, but style you possess. The key to style is learning who you are, which takes years. There's no how-to road map to style.</p>
+        <p>Style is the only thing you can't buy. It's not in a shopping bag, a label, or a price tag. It's something reflected from our soul to the outside world - an emotion. I thank you for the recognition of the brilliance.</p>
+      </div>
+
+      <!-- 2-col images -->
+      <div class="post-images-2col">
+        <img src="https://cdn.shopify.com/s/files/1/0728/4994/8973/files/artical-des2.jpg?v=1704446013" alt="Post image 1"/>
+        <img src="https://cdn.shopify.com/s/files/1/0728/4994/8973/files/artical-des1.jpg?v=1704446013" alt="Post image 2"/>
+      </div>
+
+      <!-- Blockquote -->
+      <div class="post-quote">
+        <div class="quote-icon">"</div>
+        <p>I thank you for the recognition of the brilliance. It's something reflected from our soul to the outside world - an emotion.</p>
+      </div>
+
+      <!-- More body -->
+      <div class="post-body">
+        <p>Fashion is what you're offered four times a year by designers. And style is what you choose. I think there is beauty in everything. What 'normal' people would perceive as ugly, I can usually see something of beauty in it. Shoes transform your body language and attitude. They lift you physically and emotionally.</p>
+      </div>
+
+      <!-- Post tags -->
+      <div class="post-tags-row">
+        <a class="post-tag" href="blog.html">Accessories</a>
+        <a class="post-tag" href="blog.html">Blog</a>
+        <a class="post-tag" href="blog.html">Clothing</a>
+        <a class="post-tag" href="blog.html">Fashion</a>
+        <a class="post-tag" href="blog.html">Handmad</a>
+      </div>
+
+      <!-- Social share -->
+      <div class="share-row">
+        <a class="share-btn fb" href="#" title="Share on Facebook">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        </a>
+        <a class="share-btn tw" href="#" title="Share on X">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+        <a class="share-btn pt" href="#" title="Share on Pinterest">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 0 1 .083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.632-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>
+        </a>
+      </div>
+
+      <!-- Prev / Next navigation -->
+      <div class="post-nav">
+        <a class="post-nav-btn" href="news-5.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+          Prev Post
+        </a>
+        <a class="post-nav-btn" href="news-7.html">
+          Next Post
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+
+      <!-- Comments list -->
+      <div class="comments-section">
+        <h3>Comment (3)</h3>
+
+        <div class="comment-item">
+          <div class="comment-avatar">FS</div>
+          <div>
+            <div class="comment-name">fsfef</div>
+            <div class="comment-date">Oct 03, 2025</div>
+            <div class="comment-text">ergdgdfgrgg</div>
+          </div>
+        </div>
+
+        <div class="comment-item">
+          <div class="comment-avatar alt">SD</div>
+          <div>
+            <div class="comment-name">sdfj</div>
+            <div class="comment-date">Aug 28, 2025</div>
+            <div class="comment-text">test comment</div>
+          </div>
+        </div>
+
+        <div class="comment-item">
+          <div class="comment-avatar alt2">CJ</div>
+          <div>
+            <div class="comment-name">Cjj kvkvkkv</div>
+            <div class="comment-date">Jun 28, 2025</div>
+            <div class="comment-text">Jcjvvjvjvhcccj</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Leave a comment form -->
+      <div class="leave-comment">
+        <h3>Leave a comment</h3>
+        <div class="row g-3">
+          <div class="col-12">
+            <label class="form-label">Name*</label>
+            <input type="text" class="form-control" placeholder="Name"/>
+          </div>
+          <div class="col-12">
+            <label class="form-label">Email address*</label>
+            <input type="email" class="form-control" placeholder="Email address"/>
+          </div>
+          <div class="col-12">
+            <label class="form-label">Message*</label>
+            <textarea class="form-control" placeholder="Message"></textarea>
+          </div>
+          <div class="col-12">
+            <button class="btn-post-comment">Post Comment</button>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- =================== FOOTER =================== -->
+<footer>
+  <div class="container-fluid px-5">
+    <div class="row g-5">
+      <div class="col-md-3">
+        <a href="index.html" class="footer-logo">JELWO</a>
+        <div class="footer-contact">
+          <p><i class="bi bi-geo-alt me-2 text-gold"></i>55 East 10th street, new york,<br>ny 10003, united states</p>
+          <p class="mt-2"><i class="bi bi-telephone me-2"></i><a href="tel:2201234567890">+ (220) 123 456 7890</a></p>
+          <p><i class="bi bi-envelope me-2"></i><a href="mailto:demo123546@gmail.com">demo123546@gmail.com</a></p>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <p class="footer-heading">Information</p>
+        <a href="about.html" class="footer-link">About us</a>
+        <a href="contact.html" class="footer-link">Contact us</a>
+        <a href="faqs.html" class="footer-link">Faq's</a>
+        <a href="news.html" class="footer-link">News</a>
+      </div>
+      <div class="col-md-2">
+        <p class="footer-heading">Privacy &amp; terms</p>
+        <a href="privacy.html" class="footer-link">Privacy policy</a>
+        <a href="refund.html" class="footer-link">Refund policy</a>
+        <a href="shipping.html" class="footer-link">Shipping &amp; return</a>
+        <a href="terms.html" class="footer-link">Terms &amp; condition</a>
+      </div>
+      <div class="col-md-2">
+        <p class="footer-heading">Category</p>
+        <a href="rings.html" class="footer-link">Rings</a>
+        <a href="earring.html" class="footer-link">Earring</a>
+        <a href="pendant.html" class="footer-link">Pendant</a>
+        <a href="necklaces.html" class="footer-link">Necklaces</a>
+        <a href="bracelets.html" class="footer-link">Bracelets</a>
+      </div>
+      <div class="col-md-3">
+        <p class="footer-heading">Visit store</p>
+        <p class="footer-contact" style="font-size:.875rem;color:var(--text-mid);">
+          Mon - sat : 10am - 11pm<br>
+          Sun : 10am - 4pm<br>
+          7 Days a week
+        </p>
+        <div class="mt-4">
+          <p class="footer-heading">Subscribe &amp; get 15% discount.</p>
+          <div class="footer-subscribe">
+            <input type="email" placeholder="Enter your email" id="footerEmail">
+            <button onclick="footerSubscribe()">SUBSCRIBE</button>
+          </div>
+          <p class="text-success small mt-2" id="footerMsg" style="display:none;">Thanks for subscribing, Discount code: <strong>WC5</strong></p>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom d-flex justify-content-between align-items-center flex-wrap gap-3">
+      <div>
+        <div class="footer-social mb-2">
+          <a href="#"><i class="bi bi-facebook"></i></a>
+          <a href="#"><i class="bi bi-twitter-x"></i></a>
+          <a href="#"><i class="bi bi-instagram"></i></a>
+          <a href="#"><i class="bi bi-pinterest"></i></a>
+          <a href="https://youtube.com" target="_blank"><i class="bi bi-youtube"></i></a>
+        </div>
+        Copyright © 2026 by spacingtech
+      </div>
+      <div class="payment-icons">
+        <i class="bi bi-credit-card-2-front"></i>
+        <i class="bi bi-credit-card"></i>
+        <i class="bi bi-paypal"></i>
+        <i class="bi bi-bank"></i>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scroll to top -->
+  <button class="scroll-top" id="scrollTopBtn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 15l-6-6-6 6"/></svg>
+  </button>
+
+  <script src="javascript/App.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Scroll to top
+    var scrollBtn = document.getElementById('scrollTopBtn');
+    window.addEventListener('scroll', function () {
+      scrollBtn.classList.toggle('visible', window.scrollY > 300);
+    });
+    scrollBtn.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Comment form submission (client-side demo)
+    var postBtn = document.querySelector('.btn-post-comment');
+    postBtn.addEventListener('click', function () {
+      var name    = document.querySelectorAll('.leave-comment .form-control')[0].value.trim();
+      var email   = document.querySelectorAll('.leave-comment .form-control')[1].value.trim();
+      var message = document.querySelector('.leave-comment textarea').value.trim();
+
+      if (!name || !email || !message) {
+        alert('Please fill in all fields.');
+        return;
+      }
+
+      // Build initials
+      var parts    = name.split(' ');
+      var initials = parts.map(function(p){ return p[0].toUpperCase(); }).join('').slice(0,2);
+      var colors   = ['#a07850','#8a6a4e','#6a8a50','#5a7a8a','#7a5a8a'];
+      var bg       = colors[Math.floor(Math.random() * colors.length)];
+
+      var now = new Date();
+      var dateStr = now.toLocaleString('en-US', { month: 'short', day: '2-digit', year: 'numeric' }).replace(',','');
+
+      var section  = document.querySelector('.comments-section');
+      var heading  = section.querySelector('h3');
+
+      // Update count
+      var current  = parseInt(heading.textContent.match(/\d+/)[0]);
+      heading.textContent = 'Comment (' + (current + 1) + ')';
+
+      // Append new comment
+      var div = document.createElement('div');
+      div.className = 'comment-item';
+      div.innerHTML =
+        '<div class="comment-avatar" style="background:' + bg + '">' + initials + '</div>' +
+        '<div>' +
+          '<div class="comment-name">' + name + '</div>' +
+          '<div class="comment-date">' + dateStr + '</div>' +
+          '<div class="comment-text">' + message + '</div>' +
+        '</div>';
+      section.appendChild(div);
+
+      // Clear fields
+      document.querySelectorAll('.leave-comment .form-control')[0].value = '';
+      document.querySelectorAll('.leave-comment .form-control')[1].value = '';
+      document.querySelector('.leave-comment textarea').value = '';
+
+      div.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+    // =============================================
+// MEGA DROPDOWN POSITION
+// =============================================
+function positionMegaMenus() {
+  const header = document.getElementById('mainHeader');
+  const bottom = header ? header.getBoundingClientRect().bottom : 130;
+  document.querySelectorAll('.mega-menu').forEach(m => m.style.top = 130 + 'px');
+}
+window.addEventListener('scroll', positionMegaMenus);
+window.addEventListener('resize', positionMegaMenus);
+document.addEventListener('DOMContentLoaded', positionMegaMenus);
+// Show/hide on hover
+document.querySelectorAll('.mega-wrap').forEach(wrap => {
+  wrap.addEventListener('mouseenter', () => {
+    positionMegaMenus();
+    wrap.querySelector('.mega-menu').style.display = 'block';
+  });
+  wrap.addEventListener('mouseleave', () => {
+    wrap.querySelector('.mega-menu').style.display = 'none';
+  });
+});
+
+// =============================================
+// PRODUCTS MEGA CAROUSEL
+// =============================================
+let megaCarouselIdx = 0;
+const megaProds = PRODUCTS.slice(0, 4);
+function renderMegaCarousel() {
+  const el = document.getElementById('productsMegaCarousel');
+  if (!el) return;
+  const visible = megaProds.slice(megaCarouselIdx, megaCarouselIdx + 2);
+  el.innerHTML = visible.map(p => `
+    <div class="d-flex gap-2 align-items-center p-2 border rounded" style="min-width:180px;cursor:pointer;" onclick="location.href='collections.html'">
+      <img src="${p.image}" style="width:60px;height:60px;object-fit:cover;border-radius:6px;">
+      <div>
+        <p style="font-size:.8rem;font-weight:500;margin:0;">${p.name}</p>
+        <span style="font-size:.8rem;color:var(--gold);font-weight:600;">Rs. ${p.price.toFixed(2)}</span>
+        ${p.oldPrice ? `<del style="font-size:.7rem;color:#999;margin-left:4px;">Rs. ${p.oldPrice.toFixed(2)}</del>` : ''}
+        <span style="display:block;background:#2ecc71;color:#fff;font-size:.65rem;border-radius:3px;padding:1px 5px;margin-top:3px;width:fit-content;">${p.badge}%</span>
+      </div>
+    </div>`).join('');
+}
+function slideMegaCarousel(dir) {
+  megaCarouselIdx = Math.max(0, Math.min(megaCarouselIdx + dir, megaProds.length - 2));
+  renderMegaCarousel();
+}
+renderMegaCarousel();
+
+// =============================================
+// FOOTER SUBSCRIBE
+// =============================================
+function footerSubscribe() {
+  const email = document.getElementById('footerEmail').value;
+  if (!email) return;
+  document.getElementById('footerMsg').style.display = 'block';
+  document.getElementById('footerEmail').value = '';
+}
+
+// =============================================
+// CART RECS
+// =============================================
+function renderCartRecs() {
+  const el = document.getElementById('cartRecsCarousel');
+  if (!el) return;
+  el.innerHTML = PRODUCTS.slice(0, 3).map(p => `
+    <div style="min-width:130px;text-align:center;cursor:pointer;" onclick="location.href='collections.html'">
+      <img src="${p.image}" style="width:90px;height:90px;object-fit:cover;border-radius:8px;margin-bottom:6px;">
+      <p style="font-size:.75rem;font-weight:500;margin:0;">${p.name}</p>
+      <span style="font-size:.75rem;color:var(--gold);">Rs. ${p.price.toFixed(2)}</span>
+    </div>`).join('');
+}
+renderCartRecs();
+  </script>
+</body>
+</html>

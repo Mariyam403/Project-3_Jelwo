@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Modish Bracelet – JELWO</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --gold:#c9a84c;--gold-light:#e8d08a;--gold-dark:#8c6d2f;
+  --cream:#faf8f4;--off-white:#f5f2ed;--text:#1a1612;--muted:#7a7068;
+  --brown:#a0785a;--border:#e8e2d8;--cream-dark: #ede5d8;
+  --text-dark: #1a1a1a;--text-mid: #5a5a5a;
+  --white: #ffffff;--transition: .3s ease;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Jost', sans-serif; background: var(--white); color: var(--text-dark); overflow-x: hidden; }
+h1,h2,h3,h4 { font-family: 'Cormorant Garamond', serif; }
+
+.jelwo-toast {
+  position: fixed; bottom: 30px; right: 30px; z-index: 9999;
+  background: var(--text-dark); color: #fff; padding: 12px 20px;
+  border-radius: 8px; font-size: .9rem; transform: translateY(80px);
+  opacity: 0; transition: all .4s ease; pointer-events: none;
+}
+.jelwo-toast.show { transform: translateY(0); opacity: 1; }
+
+.top-bar { background: var(--text-dark); color: #fff; font-size: .8rem; padding: 6px 0; }
+.top-bar a { color: #ccc; text-decoration: none; }
+.main-header {
+  position: sticky; top: 0; z-index: 1050;
+  background: #fff; border-bottom: 1px solid #e8e0d4;
+  box-shadow: 0 2px 20px rgba(0,0,0,.06);
+}
+.header-inner { display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; gap: 16px; }
+.logo { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 600; color: var(--text-dark); text-decoration: none; letter-spacing: 2px; }
+.logo span { color: var(--gold); }
+.header-bar { background: var(--cream); padding: 8px 24px; display: flex; align-items: center; gap: 24px; }
+.phone-link { font-size: .85rem; color: var(--text-dark); text-decoration: none; display: flex; align-items: center; gap: 6px; }
+.phone-link:hover { color: var(--gold); }
+.main-nav { display: flex; align-items: center; gap: 8px; flex-grow: 1; justify-content: center; }
+.nav-link-custom {
+  font-size: .85rem; font-weight: 500; letter-spacing: .8px;
+  color: var(--text-dark); text-decoration: none; padding: 4px 12px;
+  text-transform: uppercase; transition: color var(--transition);
+  display: flex; align-items: center; gap: 4px; cursor: pointer;
+}
+.nav-link-custom:hover, .nav-link-custom.active { color: var(--gold); }
+.header-actions { display: flex; align-items: center; gap: 16px; }
+.icon-btn {
+  position: relative; background: none; border: none; cursor: pointer;
+  font-size: 1.25rem; color: var(--text-dark); transition: color var(--transition);
+  padding: 4px;
+}
+.icon-btn:hover { color: var(--gold); }
+.badge-count {
+  position: absolute; top: -6px; right: -6px;
+  background: var(--gold); color: #fff; border-radius: 50%;
+  width: 18px; height: 18px; font-size: .65rem; display: none;
+  align-items: center; justify-content: center; font-weight: 600;
+}
+.free-try { font-size: .8rem; font-weight: 500; letter-spacing: .5px; color: var(--text-dark); display: flex; align-items: center; gap: 6px; text-decoration: none; }
+.free-try:hover { color: var(--gold); }
+
+  /* normal pages dropdown */
+.normal-wrap{
+  position: relative;
+}
+.normal-menu{
+  position: absolute;   /* changed from fixed */
+  top: 100%;            /* appear below menu */
+  left: 0;              /* align left */
+  min-width: 220px;     /* normal dropdown width */
+  
+  background: #fff;
+  box-shadow: 0 8px 40px rgba(0,0,0,.12);
+  border-top: 2px solid var(--gold);
+  padding: 12px 0;      /* smaller padding */
+
+  display: none;
+  z-index: 1040;
+}
+.normal-wrap:hover .normal-menu{
+  display:block;
+}
+
+.normal-menu .container-fluid , .normal-menu .row , .normal-menu .col-2{
+  all:unset;
+  display:block;
+}
+.normal-menu a{
+  display: block;
+    font-size: .85rem;
+    color: var(--text-mid);
+    text-decoration: none;
+    margin-bottom: 6px;
+    transition: color var(--transition);
+    padding-left: 15%;
+}
+
+.mega-wrap { position: relative; }
+.mega-menu {
+  position: fixed; left: 0; right: 0; top: 0;
+  background: #fff; box-shadow: 0 8px 40px rgba(0,0,0,.12);
+  border-top: 2px solid var(--gold); padding: 32px 40px;
+  display: none; z-index: 1040;
+}
+.mega-wrap:hover .mega-menu { display: flex; }
+.mega-menu-col h6 { font-family: 'Jost', sans-serif; font-weight: 600; font-size: .8rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+.mega-menu-col a { display: block; font-size: .85rem; color: var(--text-mid); text-decoration: none; margin-bottom: 6px; transition: color var(--transition); }
+.mega-menu-col a:hover { color: var(--gold); padding-left: 4px; }
+.mega-promo { border-radius: 8px; overflow: hidden; }
+.mega-promo img { width: 100%; height: 180px; object-fit: cover; }
+
+.products-mega-carousel .mini-product { text-align: center; padding: 8px; }
+.products-mega-carousel .mini-product img { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; margin-bottom: 6px; }
+.products-mega-carousel .mini-product p { font-size: .75rem; color: var(--text-mid); margin: 0; }
+.products-mega-carousel .mini-product span { font-size: .8rem; color: var(--gold); font-weight: 600; }
+
+.nested-dropdown-wrap { position: relative; }
+.nested-dropdown {
+  position: absolute; left: 100%; top: 0;
+  background: #fff; box-shadow: 4px 4px 20px rgba(0,0,0,.1);
+  border-left: 2px solid var(--gold); min-width: 160px; padding: 8px 0;
+  display: none; z-index: 1041;
+}
+.nested-dropdown-wrap:hover .nested-dropdown { display: block; }
+.nested-dropdown a { display: block; padding: 8px 16px; font-size: .85rem; color: var(--text-mid); text-decoration: none; }
+.nested-dropdown a:hover { color: var(--gold); background: var(--cream); }
+
+.breadcrumb-wrap{padding:14px 40px;font-size:13px;color:var(--muted);}
+.breadcrumb-wrap a{color:var(--muted);text-decoration:none;}
+.breadcrumb-wrap a:hover{color:var(--gold);}
+
+.product-section{padding:20px 40px 40px;}
+
+.main-img-wrap{background:var(--cream);border-radius:4px;overflow:hidden;position:relative;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;}
+.main-img-wrap img{max-width:90%;max-height:90%;object-fit:contain;transition:opacity .3s;}
+.thumb-strip{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;}
+.thumb-item{width:110px;height:110px;background:var(--cream);border:2px solid transparent;border-radius:4px;cursor:pointer;overflow:hidden;display:flex;align-items:center;justify-content:center;transition:border-color .2s;}
+.thumb-item.active,.thumb-item:hover{border-color:var(--gold);}
+.thumb-item img{max-width:85%;max-height:85%;object-fit:contain;}
+
+.product-title{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:500;line-height:1.2;margin-bottom:8px;}
+.stars{color:#f5c518;font-size:15px;}
+.review-link{font-size:13px;color:var(--muted);text-decoration:underline;cursor:pointer;}
+.price-row{margin:12px 0 4px;}
+.price-now{font-size:28px;font-weight:600;color:#d32f2f;}
+.price-old{font-size:16px;color:var(--muted);text-decoration:line-through;margin-left:10px;}
+.sale-badge{background:#2e7d32;color:#fff;font-size:12px;font-weight:600;padding:3px 10px;border-radius:3px;margin-left:8px;}
+.tax-note{font-size:12px;color:var(--muted);margin-bottom:10px;}
+.stock-indicator{display:flex;align-items:center;gap:7px;font-size:13px;margin-bottom:14px;}
+.stock-dot{width:9px;height:9px;background:#2e7d32;border-radius:50%;}
+.care-note{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:14px;}
+
+.timer-box{background:#fff8f0;border:1px solid #f5e0c8;border-radius:4px;padding:12px 18px;display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
+.timer-label{font-size:13px;font-weight:600;color:#c62828;}
+.timer-digits{font-size:17px;font-weight:700;color:#c62828;letter-spacing:1px;}
+
+.opt-label{font-size:13px;font-weight:600;margin-bottom:8px;margin-top:14px;}
+.size-btns{display:flex;gap:8px;flex-wrap:wrap;}
+.size-btn{height:44px;padding:0 14px;border:1.5px solid var(--border);border-radius:4px;background:#fff;font-size:13px;cursor:pointer;font-family:'Jost',sans-serif;transition:all .2s;white-space:nowrap;}
+.size-btn.active{border-color:var(--text);background:var(--text);color:#fff;}
+.size-btn:hover:not(.active){border-color:var(--gold);}
+
+.color-btns{display:flex;gap:10px;margin-top:8px;}
+.color-btn{width:36px;height:36px;border-radius:50%;border:3px solid transparent;cursor:pointer;transition:border-color .2s;}
+.color-btn.active,.color-btn:hover{border-color:var(--text);}
+
+.qty-box{display:flex;align-items:center;border:1.5px solid var(--border);border-radius:4px;overflow:hidden;width:120px;margin-top:10px;}
+.qty-box button{width:36px;height:40px;background:#fff;border:none;font-size:18px;cursor:pointer;color:var(--text);}
+.qty-box button:hover{background:var(--off-white);}
+.qty-box span{flex:1;text-align:center;font-size:15px;font-weight:500;}
+
+.btn-atc{background:#fff;border:1.5px solid var(--text);color:var(--text);font-size:13px;font-weight:600;letter-spacing:2px;padding:14px 24px;border-radius:4px;transition:all .2s;font-family:'Jost',sans-serif;}
+.btn-atc:hover{background:var(--text);color:#fff;}
+.btn-buy{background:var(--text);border:1.5px solid var(--text);color:#fff;font-size:13px;font-weight:600;letter-spacing:2px;padding:14px 24px;border-radius:4px;transition:all .2s;font-family:'Jost',sans-serif;}
+.btn-buy:hover{background:#333;}
+.action-links{display:flex;gap:22px;margin-top:16px;}
+.action-link{font-size:13px;color:var(--muted);cursor:pointer;display:flex;align-items:center;gap:5px;text-decoration:none;border:none;background:none;font-family:'Jost',sans-serif;}
+.action-link:hover{color:var(--gold);}
+
+.delivery-row{margin-top:14px;font-size:13px;color:var(--muted);}
+.delivery-row strong{color:var(--text);}
+.sku-row{margin-top:8px;font-size:13px;color:var(--muted);}
+
+.payment-box{background:var(--cream);border-radius:4px;padding:16px;margin-top:20px;}
+.payment-box h6{font-size:13px;font-weight:600;margin-bottom:10px;}
+.payment-icons{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;}
+.payment-icons img{height:24px;}
+.payment-note{font-size:12px;color:var(--muted);}
+
+.trust-strip{display:flex;gap:0;border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-top:16px;}
+.trust-item{flex:1;display:flex;flex-direction:column;align-items:center;padding:14px 8px;font-size:12px;text-align:center;border-right:1px solid var(--border);}
+.trust-item:last-child{border-right:none;}
+.trust-item i{font-size:20px;margin-bottom:5px;color:var(--muted);}
+
+.jelwo-accordion{border-top:1px solid var(--border);margin-top:40px;}
+.jelwo-acc-item{border-bottom:1px solid var(--border);}
+.jelwo-acc-btn{width:100%;background:#fff;border:none;text-align:left;padding:18px 0;font-size:15px;font-weight:500;font-family:'Jost',sans-serif;color:var(--text);display:flex;justify-content:space-between;align-items:center;cursor:pointer;}
+.jelwo-acc-btn .icon{font-size:18px;transition:transform .3s;color:var(--muted);}
+.jelwo-acc-btn.open .icon{transform:rotate(45deg);}
+.jelwo-acc-body{display:none;padding:0 0 20px;}
+.jelwo-acc-body.open{display:block;}
+
+/* VIDEO EMBED */
+.video-embed-wrap {
+  position: relative; width: 100%; padding-bottom: 40%;
+  border-radius: 8px; overflow: hidden; background: #000;
+}
+.video-embed-wrap iframe {
+  position: absolute; top: 0; left: 0;
+  width: 100%; height: 100%; border: none;
+}
+
+.desc-panel{display:grid;grid-template-columns:220px 1fr 1fr;gap:28px;align-items:start;}
+.desc-panel img{width:220px;height:220px;object-fit:cover;border-radius:50%;}
+.desc-col h6{font-size:14px;font-weight:600;margin-bottom:8px;}
+.desc-col p{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:10px;}
+.wash-item{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);margin-bottom:6px;}
+.wash-item i{font-size:16px;}
+
+.info-table{width:100%;border-collapse:collapse;}
+.info-table td{padding:12px 16px;font-size:13px;border:1px solid var(--border);}
+.info-table td:first-child{color:var(--muted);width:160px;}
+
+.return-text{font-size:13px;color:var(--muted);line-height:1.8;}
+.return-text ul{padding-left:20px;margin:8px 0;}
+
+.promo-section{margin-top:50px;}
+.promo-block{display:grid;grid-template-columns:1fr 1fr;min-height:420px;overflow:hidden;}
+.promo-block.reverse{direction:rtl;}
+.promo-block.reverse > *{direction:ltr;}
+.promo-img{overflow:hidden;}
+.promo-img img{width:100%;height:100%;object-fit:cover;display:block;}
+.promo-text{display:flex;flex-direction:column;justify-content:center;padding:50px 60px;background:#fff;}
+.promo-text h2{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:500;line-height:1.3;margin-bottom:16px;}
+.promo-text p{font-size:14px;color:var(--muted);line-height:1.8;margin-bottom:24px;}
+.btn-shop{background:var(--brown);color:#fff;border:none;border-radius:40px;padding:13px 30px;font-size:13px;font-weight:600;letter-spacing:1.5px;cursor:pointer;font-family:'Jost',sans-serif;text-decoration:none;}
+.btn-shop:hover{background:#8c6248;color:#fff;}
+
+.rec-section{padding:50px 60px;background:#fff;}
+.rec-section .sec-label{text-align:center;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+.rec-section h3{text-align:center;font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:500;margin-bottom:30px;}
+.carousel-track-outer{overflow:hidden;position:relative;}
+.carousel-track{display:flex;gap:20px;transition:transform .6s ease;}
+
+.rec-card{width:30%;background:#fff;border:1px solid var(--border);border-radius:4px;overflow:hidden;position:relative;flex-shrink:0;}
+.rec-card .rc-img-wrap{position:relative;overflow:hidden;background:var(--cream);display:flex;align-items:center;justify-content:center;}
+.rec-card .rc-img-wrap img{max-width:80%;max-height:80%;object-fit:contain;transition:transform .4s;}
+.rec-card:hover .rc-img-wrap img{transform:scale(1.05);}
+.rc-badge{position:absolute;top:10px;left:10px;background:#2e7d32;color:#fff;font-size:11px;font-weight:600;padding:3px 8px;border-radius:3px;z-index:2;}
+.rc-icon-btns{position:absolute;top:10px;right:10px;display:flex;flex-direction:column;gap:7px;z-index:3;opacity:0;transform:translateX(12px);transition:opacity .25s,transform .25s;}
+.rec-card:hover .rc-icon-btns{opacity:1;transform:translateX(0);}
+.rc-icon-btn{width:36px;height:36px;background:#fff;border:none;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:15px;box-shadow:0 2px 8px rgba(0,0,0,.12);transition:background .2s,color .2s;}
+.rc-icon-btn:hover{background:var(--gold);color:#fff;}
+.rc-icon-btn.active{background:var(--gold);color:#fff;}
+.rc-hover-panel{position:absolute;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);padding:10px 12px;transform:translateY(100%);transition:transform .3s ease;z-index:4;}
+.rec-card:hover .rc-hover-panel{transform:translateY(0);}
+.rc-controls-row{display:flex;align-items:center;gap:6px;margin-bottom:8px;}
+.rc-variant-select{flex:1;border:1px solid var(--border);padding:5px 8px;border-radius:3px;font-size:11px;font-family:'Jost',sans-serif;color:var(--text);background:#fff;}
+.rc-qty-ctrl{display:flex;align-items:center;border:1px solid var(--border);border-radius:3px;overflow:hidden;}
+.rc-qty-btn{width:26px;height:28px;background:#fff;border:none;cursor:pointer;font-size:15px;color:var(--text);line-height:1;}
+.rc-qty-btn:hover{background:var(--cream);}
+.rc-qty-span{min-width:22px;text-align:center;font-size:12px;font-weight:500;color:var(--text);}
+.rc-atc-btn{width:100%;background:var(--text);border:none;color:#fff;font-size:10px;font-weight:700;letter-spacing:1.5px;padding:8px;font-family:'Jost',sans-serif;cursor:pointer;border-radius:3px;}
+.rc-atc-btn:hover{background:var(--gold);}
+.rc-info{padding:14px;}
+.rc-cat{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
+.rc-name{font-size:14px;font-weight:500;margin-bottom:4px;}
+.rc-price{font-size:14px;color:var(--text);}
+.rc-price del{color:var(--muted);font-size:12px;margin-left:4px;}
+
+.carousel-nav{display:flex;justify-content:center;gap:12px;margin-top:20px;}
+.carousel-nav button{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--border);background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;transition:all .2s;}
+.carousel-nav button:hover{background:var(--text);color:#fff;border-color:var(--text);}
+
+.sticky-bar{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);padding:12px 40px;display:flex;align-items:center;gap:16px;z-index:190;transform:translateY(100%);transition:transform .3s;}
+.sticky-bar.visible{transform:translateY(0);}
+.sticky-product{display:flex;align-items:center;gap:12px;flex:1;}
+.sticky-product img{width:44px;height:44px;object-fit:contain;border:1px solid var(--border);border-radius:3px;}
+.sticky-product .sname{font-size:14px;font-weight:500;}
+.sticky-select{border:1.5px solid var(--border);padding:7px 10px;border-radius:4px;font-size:13px;font-family:'Jost',sans-serif;}
+.sticky-qty{display:flex;align-items:center;border:1.5px solid var(--border);border-radius:4px;overflow:hidden;}
+.sticky-qty button{width:32px;height:38px;background:#fff;border:none;cursor:pointer;font-size:16px;}
+.sticky-qty span{min-width:30px;text-align:center;font-size:14px;}
+.sticky-atc{background:var(--text);color:#fff;border:none;padding:10px 28px;font-size:13px;font-weight:600;letter-spacing:1.5px;font-family:'Jost',sans-serif;cursor:pointer;border-radius:4px;}
+.sticky-atc:hover{background:#333;}
+
+.jelwo-toast{position:fixed;bottom:80px;right:24px;background:var(--text);color:#fff;padding:12px 20px;border-radius:6px;font-size:13px;z-index:9999;opacity:0;transform:translateY(20px);transition:all .3s;pointer-events:none;}
+.jelwo-toast.show{opacity:1;transform:translateY(0);}
+
+.modal-title-custom{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:500;}
+.form-control-jelwo{border:1px solid var(--border);border-radius:0;padding:12px 14px;font-size:13px;font-family:'Jost',sans-serif;width:100%;margin-bottom:12px;}
+.form-control-jelwo:focus{outline:none;border-color:var(--gold);}
+.btn-submit-jelwo{background:var(--text);color:#fff;border:none;padding:13px 30px;font-size:13px;font-weight:600;letter-spacing:2px;font-family:'Jost',sans-serif;cursor:pointer;border-radius:40px;}
+.btn-submit-jelwo:hover{background:#333;}
+.size-table{width:100%;border-collapse:collapse;font-size:13px;}
+.size-table th{background:var(--cream);padding:10px 14px;text-align:left;font-weight:600;}
+.size-table td{padding:10px 14px;border-bottom:1px solid var(--border);}
+.size-table tr:last-child td{border-bottom:none;}
+.how-measure h6{font-size:14px;font-weight:600;margin-bottom:4px;margin-top:14px;}
+.how-measure p{font-size:13px;color:var(--muted);line-height:1.7;}
+
+footer { background: var(--cream); padding: 60px 0 30px; }
+.footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 600; color: var(--text-dark); letter-spacing: 2px; display: block; margin-bottom: 20px; text-decoration: none; }
+.footer-contact { font-size: .875rem; color: var(--text-mid); line-height: 1.8; }
+.footer-contact a { color: var(--text-mid); text-decoration: none; }
+.footer-contact a:hover { color: var(--gold); }
+.footer-heading { font-family: 'Jost', sans-serif; font-weight: 600; font-size: .8rem; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dark); margin-bottom: 16px; }
+.footer-link { display: block; font-size: .875rem; color: var(--text-mid); text-decoration: none; margin-bottom: 8px; transition: color var(--transition); }
+.footer-link:hover { color: var(--gold); padding-left: 4px; }
+.footer-social a { display: inline-flex; width: 36px; height: 36px; border-radius: 50%; background: var(--cream-dark); align-items: center; justify-content: center; color: var(--text-dark); text-decoration: none; transition: all var(--transition); margin-right: 8px; }
+.footer-social a:hover { background: var(--gold); color: #fff; }
+.footer-subscribe { display: flex; gap: 8px; }
+.footer-subscribe input { flex: 1; border: 1px solid #ddd; border-radius: 6px; padding: 10px 14px; font-size: .85rem; background: #fff; }
+.footer-subscribe button { background: var(--gold); color: #fff; border: none; border-radius: 6px; padding: 10px 20px; font-size: .85rem; font-weight: 600; cursor: pointer; transition: background var(--transition); }
+.footer-subscribe button:hover { background: var(--gold-dark); }
+.footer-bottom { border-top: 1px solid var(--cream-dark); margin-top: 40px; padding-top: 20px; font-size: .8rem; color: var(--text-mid); }
+.payment-icons i { font-size: 1.8rem; margin-left: 8px; opacity: .6; }
+
+.offcanvas-header { border-bottom: 1px solid var(--cream-dark); }
+.offcanvas-title { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; }
+.welcome-banner { background: var(--cream); padding: 10px 16px; font-size: .8rem; border-radius: 6px; margin-bottom: 16px; }
+.welcome-banner strong { color: var(--gold); }
+.free-ship-bar { background: var(--cream-dark); border-radius: 6px; height: 6px; margin-bottom: 20px; overflow: hidden; }
+.free-shipping-bar { height: 100%; background: var(--gold); border-radius: 6px; transition: width .4s ease; width: 0%; }
+.btn-checkout { background: var(--text-dark); color: #fff; border: none; padding: 13px 24px; border-radius: 6px; font-weight: 600; font-size: .85rem; cursor: pointer; transition: all var(--transition); text-decoration: none; display: inline-block; }
+.btn-checkout:hover { background: var(--gold); color: #fff; }
+
+.home-mega-menu { padding: 28px 40px 24px !important; }
+.home-theme-card { text-align: center; }
+.home-theme-img-wrap {
+  position: relative; border-radius: 10px; overflow: hidden;
+  border: 2px solid transparent; transition: border-color var(--transition), box-shadow var(--transition);
+  background: var(--cream);
+}
+.home-theme-card:hover .home-theme-img-wrap { border-color: var(--gold); box-shadow: 0 6px 24px rgba(176,140,90,.25); }
+.home-theme-img-wrap img { width: 100%; height: 160px; object-fit: cover; display: block; transition: transform .4s ease; }
+.home-theme-card:hover .home-theme-img-wrap img { transform: scale(1.04); }
+.home-theme-overlay { position: absolute; inset: 0; background: rgba(176,140,90,.5); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity var(--transition); }
+.home-theme-card:hover .home-theme-overlay { opacity: 1; }
+.home-theme-label { font-size: .78rem; color: var(--text-mid); margin: 8px 0 0; font-weight: 500; letter-spacing: .3px; transition: color var(--transition); }
+.home-theme-card:hover .home-theme-label { color: var(--gold); }
+
+@media (max-width: 992px) {
+  .mega-menu { padding: 24px; }
+  .main-nav { display: none; }
+  .promo-block,.promo-block.reverse{grid-template-columns:1fr;}
+}
+@media(max-width:768px){
+  .product-section{padding:16px;}
+  .thumb-item{width:70px;height:70px;}
+  .breadcrumb-wrap{padding:12px 16px;}
+  .rec-card{min-width:calc(50% - 10px);}
+  .promo-text{padding:30px 24px;}
+  .rec-section{padding:30px 16px;}
+  .desc-panel{grid-template-columns:1fr;}
+  .desc-panel img{width:100%;height:220px;}
+  .sticky-bar{padding:10px 16px;}
+  .video-embed-wrap{padding-bottom:56.25%;}
+}
+</style>
+</head>
+<body>
+
+<!-- =================== MAIN HEADER =================== -->
+<header class="main-header" id="mainHeader">
+  <div class="header-inner">
+    <a href="index.html" class="logo"><img src="//jelwo.myshopify.com/cdn/shop/files/jewelry-4-logo.png?v=1744805986&width=500"/></a>
+    <span style="border-left: 1px solid #e2e2e2;
+    padding-left: 30px;
+    margin-left: 30px; color:#808080; align-items:center; justify-content:flex-start;"><p>Free UK standard delivery on all orders.</p></span>
+    <!-- HEADER ACTIONS -->
+    <div class="header-actions">
+      <div class="position-relative">
+        <input type="text" id="headerSearch" placeholder="Search product..." class="form-control form-control-sm" style="width:180px;border-radius:20px;border:1px solid #ddd;">
+      </div>
+      <a href="account.html">
+      <button class="icon-btn" ><i class="bi bi-person"></i></button></a>
+      <a href="wishlist.html">
+      <button class="icon-btn" data-bs-toggle="offcanvas" data-bs-target="#wishlistOffcanvas">
+        <i class="bi bi-heart"></i>
+        <span class="badge-count wishlist-count">0</span>
+      </button></a>
+      <button class="icon-btn" data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas">
+        <i class="bi bi-bag"></i>
+        <span class="badge-count cart-count">0</span>
+      </button>
+    </div>
+  </div>
+  
+</header>
+
+<div class="header-bar">
+    <a href="tel:2201234567890" class="phone-link"><i class="bi bi-telephone"></i> (220) 123 456 7890</a>
+    <!-- NAV -->
+    <nav class="main-nav">
+
+      <!-- HOME -->
+      <div class="mega-wrap">
+        <a class="nav-link-custom active">HOME <i class="bi bi-chevron-down small"></i></a>
+        <div class="mega-menu home-mega-menu" style="display:none; padding: 28px 40px 24px;">
+          <div style="width:100%;">
+            
+            <div style="display:grid; grid-template-columns:repeat(6,1fr); gap:16px;">
+ 
+              <!-- 06 Classic jewelry (NEW badge) -->
+              <div class="home-theme-card" onclick="location.href='index.html'" style="cursor:pointer;position:relative;">
+                <div style="position:absolute;top:8px;left:8px;z-index:3;background:#2ecc71;color:#fff;font-size:.62rem;font-weight:700;padding:2px 7px;border-radius:3px;letter-spacing:.5px;transform:rotate(-5deg);">NEW</div>
+                <div class="home-theme-img-wrap">
+                  <img src="//jelwo.myshopify.com/cdn/shop/files/home6.jpg?v=1750230396&width=500" alt="Classic jewelry">
+                  <div class="home-theme-overlay"><i class="bi bi-eye" style="font-size:1.2rem;color:#fff;"></i></div>
+                </div>
+                <p class="home-theme-label">06 Classic jewelry</p>
+              </div>
+ 
+              <!-- 01 Unique jewelry -->
+              <div class="home-theme-card" onclick="location.href='index.html'" style="cursor:pointer;">
+                <div class="home-theme-img-wrap">
+                  <img src="//jelwo.myshopify.com/cdn/shop/files/demo-menu-banner-1.jpg?v=1746178520&width=500" alt="Unique jewelry">
+                  <div class="home-theme-overlay"><i class="bi bi-eye" style="font-size:1.2rem;color:#fff;"></i></div>
+                </div>
+                <p class="home-theme-label">01 Unique jewelry</p>
+              </div>
+ 
+              <!-- 02 Modern jewelry -->
+              <div class="home-theme-card" onclick="location.href='index.html'" style="cursor:pointer;">
+                <div class="home-theme-img-wrap">
+                  <img src="//jelwo.myshopify.com/cdn/shop/files/demo-menu-banner-2.jpg?v=1746178520&width=500" alt="Modern jewelry">
+                  <div class="home-theme-overlay"><i class="bi bi-eye" style="font-size:1.2rem;color:#fff;"></i></div>
+                </div>
+                <p class="home-theme-label">02 Modern jewelry</p>
+              </div>
+ 
+              <!-- 03 Traditional jewelry -->
+              <div class="home-theme-card" onclick="location.href='index.html'" style="cursor:pointer;">
+                <div class="home-theme-img-wrap">
+                  <img src="//jelwo.myshopify.com/cdn/shop/files/demo-menu-banner-3.jpg?v=1746178520&width=500" alt="Traditional jewelry">
+                  <div class="home-theme-overlay"><i class="bi bi-eye" style="font-size:1.2rem;color:#fff;"></i></div>
+                </div>
+                <p class="home-theme-label">03 Traditional jewelry</p>
+              </div>
+ 
+              <!-- 04 Luxury jewelry -->
+              <div class="home-theme-card" onclick="location.href='index.html'" style="cursor:pointer;">
+                <div class="home-theme-img-wrap">
+                  <img src="//jelwo.myshopify.com/cdn/shop/files/demo-menu-banner-4.jpg?v=1746178520&width=500" alt="Luxury jewelry">
+                  <div class="home-theme-overlay"><i class="bi bi-eye" style="font-size:1.2rem;color:#fff;"></i></div>
+                </div>
+                <p class="home-theme-label">04 Luxury jewelry</p>
+              </div>
+ 
+              <!-- 05 Elegant jewelry -->
+              <div class="home-theme-card" onclick="location.href='index.html'" style="cursor:pointer;">
+                <div class="home-theme-img-wrap">
+                  <img src="//jelwo.myshopify.com/cdn/shop/files/demo-menu-banner-5.jpg?v=1746178520&width=500" alt="Elegant jewelry">
+                  <div class="home-theme-overlay"><i class="bi bi-eye" style="font-size:1.2rem;color:#fff;"></i></div>
+                </div>
+                <p class="home-theme-label">05 Elegant jewelry</p>
+              </div>
+ 
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SHOP -->
+      <div class="mega-wrap">
+        <a href="shop.html" class="nav-link-custom">SHOP <i class="bi bi-chevron-down small"></i></a>
+        <div class="mega-menu" style="display:none;">
+          <div class="container-fluid">
+            <div class="row g-4">
+              <div class="col-2 mega-menu-col">
+                <h6>Earrings</h6>
+                <a href="flowerjhumka.html">Flower jumkha</a>
+                <a href="flowerjhumka.html">Brown sunglasses</a>
+                <a href="flowerjhumka.html">Bucket shoes</a>
+                <a href="iamondrashmiring.html">Iamond rashmi ring</a>
+                <a href="floralgoldbangle.html">Floral gold bangle</a>
+                <a href="glitterdiamondring.html">Glitter diamond ring</a>
+              </div>
+              <div class="col-2 mega-menu-col">
+                <h6>Necklace</h6>
+                <a href="framedgoldpendant.html">Framed gold pendant</a>
+                <a href="glowernosepin.html">Flower nose pin</a>
+                <a href="goldnosepin.html">Gold nose pin</a>
+                <a href="goldnosepin.html">Color print sandal</a>
+                <a href="blossomdiamondbangle.html">Blossom diamond bangle</a>
+                <a href="simplepearlear.html">Simple Pearl earrings</a>
+              </div>
+              <div class="col-2 mega-menu-col">
+                <h6>Rings</h6>
+                <a href="rosegoldring.html">Rose gold rings</a>
+                <a href="sherbiring.html">Sherbi ring</a>
+                <a href="iamondrashmiring.html">Iamond rashmi ring</a>
+                <a href="glitterdiamondring.html">Glitter diamond ring</a>
+                <a href="diamondring.html">Diamond rings</a>
+                <a href="clusterdiamondring.html">Cluster diamond ring</a>
+              </div>
+              <div class="col-2 mega-menu-col">
+                <h6>Bracelets</h6>
+                <a href="floralgoldbangle.html">Floral gold bangle</a>
+                <a href="modish.html">Modish bracelet</a>
+                <a href="blossomdiamondbangle.html">Blossom diamond bangle</a>
+                <a href="gemstonechainbrac.html">Gemstone chain bracelet</a>
+                <a href="gemstonechainbrac.html">Blue heavy t-shirt</a>
+                <a href="gemstonechainbrac.html">Brown sunglasses</a>
+              </div>
+              <div class="col-4">
+                <div style="background:var(--gold);border-radius:12px;overflow:hidden;position:relative;">
+                  <img src="//jelwo.myshopify.com/cdn/shop/files/jewelry-4-menu-banner.jpg?v=1742635152&width=500" style="width:100%;height:200px;object-fit:cover;opacity:.7;">
+                  <div style="position:absolute;bottom:0;left:0;right:0;padding:16px;color:#fff">
+                    <div style="font-size:.75rem;letter-spacing:2px">SPECIAL OFFER</div>
+                    <div style="font-family:'Cormorant Garamond',serif;font-size:1.6rem">FLAT 30% OFF</div>
+                    <a href="collections.html" class="btn-outline-jelwo mt-2" style="font-size:.72rem;padding:6px 14px;color:#fff;border-color:#fff">SHOP NOW</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRODUCTS -->
+      <div class="mega-wrap">
+        <a class="nav-link-custom">PRODUCTS <i class="bi bi-chevron-down small"></i></a>
+        <div class="mega-menu" style="display:none;">
+          <div class="container-fluid">
+            <div class="row g-4">
+              <div class="col-2 mega-menu-col">
+                <h6>Earrings</h6>
+                <a href="dropgoldear.html">Drop gold earrings</a>
+                <a href="simplepearlear.html">Simple Pearl earrings</a>
+                <a href="gemstonejhumka.html">Gemstone jhumkas</a>
+                <a href="flowerjhumka.html">Flower jhumka</a>
+                <a href="rosegoldbrac.html">Rose gold bracelet</a>
+                <a href="diamondbrac.html">Diamond bracelet</a>
+              </div>
+              <div class="col-2 mega-menu-col">
+                <h6>Bracelets</h6>
+                <a href="rosegoldbrac.html">Rose gold bracelet</a>
+                <a href="diamondbrac.html">Diamond bracelet</a>
+                <a href="goldchain.html">Gold chain</a>
+                <a href="rosegoldbrac.html">Rose gold bracelet</a>
+                <a href="diamondbrac.html">Diamond bracelet</a>
+                <a href="goldchain.html">Gold chain</a>
+              </div>
+              <div class="col-2 mega-menu-col">
+                <h6>Necklace</h6>
+                <a href="diamondnecklace.html">Diamond necklace</a>
+                <a href="goldpendant.html">Gold pendant</a>
+                <a href="flowerpendant.html">Flower pendant</a>
+                <a href="rosegoldbrac.html">Rose gold bracelet</a>
+                <a href="diamondbrac.html">Diamond bracelet</a>
+                <a href="goldchain.html">Gold chain</a>
+              </div>
+              <div class="col-2 mega-menu-col">
+                <h6>Rings</h6>
+                <a href="chicdiamondring.html">Chic diamond ring</a>
+                <a href="glitterdiamondring.html">Glitter diamond ring</a>
+                <a href="sherbiring.html">Sherbi ring</a>
+                <a href="rosegoldbrac.html">Rose gold bracelet</a>
+                <a href="diamondbrac.html">Diamond bracelet</a>
+                <a href="goldchain.html">Gold chain</a>
+              </div>
+              <div class="col-4">
+                <h6>Popular Collection</h6>
+                <div id="productsMegaCarousel" class="d-flex gap-3 overflow-hidden">
+                  <!-- populated by JS -->
+                </div>
+                <div class="d-flex gap-2 mt-3">
+                  <button class="btn btn-sm btn-outline-secondary" onclick="slideMegaCarousel(-1)"><i class="bi bi-chevron-left"></i></button>
+                  <button class="btn btn-sm btn-outline-secondary" onclick="slideMegaCarousel(1)"><i class="bi bi-chevron-right"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BLOG -->
+      <a href="blog.html" class="nav-link-custom">BLOG</a>
+
+      <!-- PAGES -->
+      <div class="normal-wrap">
+        <a class="nav-link-custom">
+          PAGES <i class="bi bi-chevron-down small"></i>
+        </a>
+
+        <div class="normal-menu">
+
+          <!-- About (nested) -->
+          <div class="nested-dropdown-wrap">
+            <a style="cursor:pointer;display:flex;align-items:center;text-align:center;justify-content:space-between;">
+              About us <i class="bi bi-chevron-right small"></i>
+            </a>
+            <div class="nested-dropdown">
+              <a href="about.html">About us</a>
+              <a href="about2.html">About us 2</a>
+            </div>
+          </div>
+
+          <!-- Contact (nested) -->
+          <div class="nested-dropdown-wrap mt-2">
+            <a style="cursor:pointer;display:flex;align-items:center;justify-content:space-between">
+              Contact <i class="bi bi-chevron-right small"></i>
+            </a>
+            <div class="nested-dropdown">
+              <a href="contact.html">Contact us</a>
+              <a href="contact2.html">Contact us 2</a>
+            </div>
+          </div>
+
+          <a href="faqs.html">Faq's</a>
+          <a href="privacy.html">Privacy policy</a>
+          <a href="refund.html">Refund policy</a>
+          <a href="storeloc.html">Store location</a>
+          <a href="shipping.html">Shipping & return</a>
+          <a href="terms.html">Terms & condition</a>
+
+        </div>
+      </div>
+    </nav>
+    <a href="collections.html" class="free-try ms-auto"><i class="bi bi-house"></i> FREE TRY AT HOME</a>
+
+  </div>
+
+<!-- CART OFFCANVAS -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="cartOffcanvas" style="width:400px;">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title">My shopping cart</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div class="welcome-banner">New customers save 10% with code <strong>WELCOME10</strong></div>
+    <div class="free-ship-bar"><div class="free-shipping-bar"></div></div>
+    <p class="free-shipping-text text-muted small mb-3">Spend Rs. 100 more and get free shipping!</p>
+    <div id="cartOffcanvasItems"></div>
+    <div class="border-top pt-3 mt-3">
+      <div class="d-flex justify-content-between mb-3">
+        <strong>Subtotal</strong>
+        <strong id="cartSubtotal">Rs. 0.00</strong>
+      </div>
+      <p class="text-muted small">Taxes, discounts and shipping calculated at checkout.</p>
+      <div class="d-flex gap-2">
+        <a href="cart.html" class="btn btn-outline-secondary flex-fill">VIEW CART</a>
+        <a href="#" class="btn-checkout flex-fill text-center">CHECKOUT</a>
+      </div>
+      <div class="mt-4">
+        <p class="small fw-semibold">You might also like</p>
+        <div id="cartRecsCarousel" class="d-flex gap-3 overflow-hidden"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb-wrap">
+  <a href="index.html">Home</a> / <span>Modish Bracelet</span>
+</div>
+
+<!-- PRODUCT SECTION -->
+<section class="product-section container-fluid">
+  <div class="row g-4">
+
+    <!-- LEFT: GALLERY -->
+    <div class="col-12 col-lg-6">
+      <div class="main-img-wrap" id="mainImgWrap">
+        <img id="mainImg" src="//jelwo.myshopify.com/cdn/shop/files/jewelry-pro-41.jpg?v=1741667580&width=3840" alt="Modish Bracelet"/>
+      </div>
+      <div class="thumb-strip" id="thumbStrip">
+        <div class="thumb-item active" onclick="switchImg(this,'//jelwo.myshopify.com/cdn/shop/files/jewelry-pro-41.jpg?v=1741667580&width=3840')">
+          <img src="//jelwo.myshopify.com/cdn/shop/files/jewelry-pro-41.jpg?v=1741667580&width=3840" alt=""/>
+        </div>
+        <div class="thumb-item" onclick="switchImg(this,'//jelwo.myshopify.com/cdn/shop/files/jewelry-pro-42.jpg?v=1741667580&width=3840')">
+          <img src="//jelwo.myshopify.com/cdn/shop/files/jewelry-pro-42.jpg?v=1741667580&width=3840" alt=""/>
+        </div>
+        <div class="thumb-item" onclick="switchImg(this,'//jelwo.myshopify.com/cdn/shop/files/jewelry-pro-43.jpg?v=1741667580&width=3840')">
+          <img src="//jelwo.myshopify.com/cdn/shop/files/jewelry-pro-43.jpg?v=1741667580&width=3840" alt=""/>
+        </div>
+        <div class="thumb-item" onclick="switchImg(this,'//jelwo.myshopify.com/cdn/shop/files/jewelry-pro-44.jpg?v=1741667580&width=3840')">
+          <img src="//jelwo.myshopify.com/cdn/shop/files/jewelry-pro-44.jpg?v=1741667580&width=3840" alt=""/>
+        </div>
+        <div class="thumb-item" onclick="switchImg(this,'//jelwo.myshopify.com/cdn/shop/files/jewelry-pro-45.jpg?v=1741667580&width=3840')">
+          <img src="//jelwo.myshopify.com/cdn/shop/files/jewelry-pro-45.jpg?v=1741667580&width=3840" alt=""/>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: INFO -->
+    <div class="col-12 col-lg-6">
+      <div class="product-title">Modish Bracelet</div>
+      <div class="d-flex align-items-center gap-2 mb-1">
+        <span class="stars">★★★★★</span>
+        <span class="review-link" onclick="document.getElementById('accReview').scrollIntoView({behavior:'smooth'})">No review</span>
+      </div>
+
+      <div class="price-row">
+        <span class="price-now">Rs. 17.00</span>
+        <span class="price-old">Rs. 39.00</span>
+        <span class="sale-badge">Sale 56%</span>
+      </div>
+      <div class="tax-note">Tax included. Shipping calculated at checkout.</div>
+      <div class="stock-indicator"><span class="stock-dot"></span> 16 in stock</div>
+      <div class="care-note">Crafted with intricate floral detailing, this gold bangle adds a touch of elegance to any outfit. Made from high-quality materials with an eco-conscious approach.</div>
+
+      <!-- TIMER -->
+      <div class="timer-box">
+        <span class="timer-label">⚡ Hurry up! Sale ends in:</span>
+        <span class="timer-digits" id="saleTimer">00 : 00 : 00 : 00</span>
+      </div>
+
+      <!-- SIZE -->
+      <div class="opt-label">Size: <span id="selectedSize">6</span></div>
+      <div class="size-btns">
+        <button class="size-btn active" onclick="selectSize(this,'6')">6</button>
+        <button class="size-btn" onclick="selectSize(this,'6.5')">6.5</button>
+        <button class="size-btn" onclick="selectSize(this,'7')">7</button>
+        <button class="size-btn" onclick="selectSize(this,'7.5')">7.5</button>
+      </div>
+
+      <!-- COLOR -->
+      <div class="opt-label" style="margin-top:14px;">Color: <span id="selectedColor">Gold</span></div>
+      <div class="color-btns">
+        <button class="color-btn active" onclick="selectColor(this,'Gold')" style="background:#c9a84c;" title="Gold"></button>
+        <button class="color-btn" onclick="selectColor(this,'Yellow')" style="background:yellow;" title="Yellow"></button>
+        <button class="color-btn" onclick="selectColor(this,'Brown')" style="background:brown;" title="Brown"></button>
+      </div>
+
+      <!-- QTY -->
+      <div class="opt-label" style="margin-top:14px;">Quantity</div>
+      <div class="qty-box">
+        <button onclick="changeMainQty(-1)">−</button>
+        <span id="mainQty">1</span>
+        <button onclick="changeMainQty(1)">+</button>
+      </div>
+
+      <!-- BUTTONS -->
+      <div class="d-flex gap-3 mt-4">
+        <button class="btn-atc flex-fill" onclick="addMainToCart()">ADD TO CART</button>
+        <button class="btn-buy flex-fill" onclick="location.href='checkout.html'">BUY IT NOW</button>
+      </div>
+
+      <!-- ACTION LINKS -->
+      <div class="action-links flex-wrap">
+        <button class="action-link" onclick="toggleMainWishlist(this)"><i class="bi bi-heart" id="mainWishIcon"></i> WISHLIST</button>
+        <button class="action-link" data-bs-toggle="modal" data-bs-target="#sizeGuideModal"><i class="bi bi-rulers"></i> SIZEGUIDE</button>
+        <button class="action-link" data-bs-toggle="modal" data-bs-target="#questionModal"><i class="bi bi-patch-question"></i> QUESTION</button>
+        <button class="action-link" onclick="shareProduct()"><i class="bi bi-share"></i> SHARE</button>
+      </div>
+
+      <!-- DELIVERY -->
+      <div class="delivery-row"><strong>Delivery:</strong> Estimated delivery time: 5-7 days</div>
+      <div class="sku-row"><strong>Sku:</strong> FGB-031</div>
+
+      <!-- PAYMENT -->
+      <div class="payment-box">
+        <h6>Payment &amp; Security</h6>
+        <div class="payment-icons">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Visa_Inc._logo_%282021%E2%80%93present%29.svg/1280px-Visa_Inc._logo_%282021%E2%80%93present%29.svg.png" alt="Visa" style="height:22px;object-fit:contain;"/>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/200px-Mastercard-logo.svg.png" alt="MC" style="height:22px;object-fit:contain;"/>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/American_Express_logo.svg/200px-American_Express_logo.svg.png" alt="Amex" style="height:22px;object-fit:contain;"/>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/PayPal.svg/200px-PayPal.svg.png" alt="PayPal" style="height:22px;object-fit:contain;"/>
+        </div>
+        <div class="payment-note">Your payment information is processed securely. We do not store credit card details nor have access to your credit card information.</div>
+      </div>
+
+      <!-- TRUST -->
+      <div class="trust-strip">
+        <div class="trust-item"><i class="bi bi-geo-alt"></i>Order tracking</div>
+        <div class="trust-item"><i class="bi bi-arrow-counterclockwise"></i>90 days return</div>
+        <div class="trust-item"><i class="bi bi-currency-dollar"></i>Money guarantee</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACCORDION -->
+  <div class="jelwo-accordion" style="max-width:1200px;margin:0 auto;">
+
+    <!-- DESCRIPTION -->
+    <div class="jelwo-acc-item">
+      <button class="jelwo-acc-btn" onclick="toggleAcc(this)">
+        Description <span class="icon"><i class="bi bi-plus"></i></span>
+      </button>
+      <div class="jelwo-acc-body">
+        <div class="desc-panel">
+          <img src="https://cdn.shopify.com/s/files/1/0671/2567/4121/files/product-description.jpg?v=1746179918" alt="desc"/>
+          <div class="desc-col">
+            <h6>Product Specifications</h6>
+            <p>This Modish Bracelet is crafted with intricate detailing, using 30% more recycled materials. We label products manufactured using environmentally friendly technologies with the Join Life label.</p>
+            <h6>Care Instructions</h6>
+            <div class="wash-item"><i class="bi bi-droplet"></i> Avoid contact with water and perfumes.</div>
+            <div class="wash-item"><i class="bi bi-x-circle"></i> Do not expose to harsh chemicals.</div>
+            <div class="wash-item"><i class="bi bi-box-seam"></i> Store in provided pouch when not in use.</div>
+          </div>
+          <div class="desc-col">
+            <h6>Material</h6>
+            <p>Crafted from high-quality gold-plated alloy with a floral engraving. The Green to Wear 2.0 standard ensures minimal environmental impact in our production process.</p>
+            <h6>Sizing Note</h6>
+            <p>Available in three bangle sizes to suit different wrist sizes.</p>
+            <p>Please refer to our size guide for measurements.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADDITIONAL INFO -->
+    <div class="jelwo-acc-item">
+      <button class="jelwo-acc-btn" onclick="toggleAcc(this)">
+        Additional info <span class="icon"><i class="bi bi-plus"></i></span>
+      </button>
+      <div class="jelwo-acc-body">
+        <table class="info-table">
+          <tr><td>Vendor</td><td>Jelwo</td></tr>
+          <tr><td>Type</td><td>Bracelet / Bangle</td></tr>
+          <tr><td>Size</td><td>2-12 , 2-14 , 2-16</td></tr>
+          <tr><td>Color</td><td>Gold , Bronze , Rose Gold</td></tr>
+          <tr><td>Sku</td><td>FGB-031</td></tr>
+          <tr><td>Barcode</td><td>987654321</td></tr>
+          <tr><td>Weight</td><td>45.000 g</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- RETURN POLICIES -->
+    <div class="jelwo-acc-item">
+      <button class="jelwo-acc-btn" onclick="toggleAcc(this)">
+        Return policies <span class="icon"><i class="bi bi-plus"></i></span>
+      </button>
+      <div class="jelwo-acc-body">
+        <div class="return-text">
+          <p>Provided the conditions in our refund policy have been met, refunds will be processed using the original form of payment. You can return an item purchased online by posting it to us. Please contact customer service for return address.</p>
+          <ul>
+            <li>The items with the original receipt are returned within 30 days of purchase.</li>
+            <li>Items must be in the original condition as purchased with all labels/tickets attached.</li>
+          </ul>
+          <p style="margin-top:10px;">Please note that delivery costs will be excluded from the refund unless goods are returned in accordance with your statutory rights (e.g. they are faulty or not as ordered).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- REVIEW -->
+    <div class="jelwo-acc-item" id="accReview">
+      <button class="jelwo-acc-btn" onclick="toggleAcc(this)">
+        Review <span class="icon"><i class="bi bi-plus"></i></span>
+      </button>
+      <div class="jelwo-acc-body">
+        <h5 style="text-align:center;font-family:'Cormorant Garamond',serif;font-size:24px;margin-bottom:20px;">Customer Reviews</h5>
+        <div class="row g-3 align-items-center">
+          <div class="col-12 col-md-3 text-center">
+            <div style="font-size:28px;font-weight:700;">5.00</div>
+            <div class="stars" style="font-size:18px;">★★★★★</div>
+            <div style="font-size:12px;color:var(--muted);">Based on 1 review ✔</div>
+          </div>
+          <div class="col-12 col-md-5">
+            <div id="ratingBars"></div>
+          </div>
+          <div class="col-12 col-md-4 text-center">
+            <button class="btn-submit-jelwo" data-bs-toggle="modal" data-bs-target="#reviewModal">WRITE A REVIEW</button>
+          </div>
+        </div>
+        <div style="margin-top:20px;">
+          <select style="border:1px solid var(--border);padding:6px 12px;font-size:13px;font-family:'Jost',sans-serif;margin-bottom:16px;">
+            <option>Most Recent</option>
+            <option>Highest Rated</option>
+            <option>Lowest Rated</option>
+          </select>
+          <div id="reviewsList">
+            <div style="border:1px solid var(--border);border-radius:4px;padding:16px;max-width:400px;">
+              <div class="stars" style="font-size:14px;">★★★★★</div>
+              <div style="font-size:12px;color:var(--muted);float:right;margin-top:-18px;">04/14/2025</div>
+              <div style="display:flex;align-items:center;gap:8px;margin:8px 0;"><i class="bi bi-person-circle" style="font-size:20px;color:var(--muted);"></i><span style="font-size:13px;">Priya S.</span></div>
+              <div style="font-weight:600;font-size:14px;margin-bottom:4px;">Absolutely gorgeous!</div>
+              <div style="font-size:13px;color:var(--muted);">The floral detailing is so intricate and it looks stunning on the wrist. Great quality for the price!</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROMO BANNERS -->
+<div class="promo-section">
+  <div class="promo-block">
+    <div class="promo-img">
+      <img src="//jelwo.myshopify.com/cdn/shop/files/product-about-img-1.jpg?v=1745823026&width=1024" alt="New Arrivals"/>
+    </div>
+    <div class="promo-text">
+      <h2>New woman fashion arrivals</h2>
+      <p>As part of our mission create space for women to express their sensuality without shame fear or the patriarchal gaze we're asking women to invite us into their most intimate space.</p>
+      <a href="collections.html" class="btn-shop">SHOP NOW</a>
+    </div>
+  </div>
+  <div class="promo-block reverse">
+    <div class="promo-img">
+      <img src="//jelwo.myshopify.com/cdn/shop/files/product-about-img-2.jpg?v=1745823024&width=1024" alt="Fashion"/>
+    </div>
+    <div class="promo-text">
+      <h2>I make clothes make fashion</h2>
+      <p>As part of our mission create space for women to express their sensuality without shame fear or the patriarchal gaze we're asking women to invite us into their most intimate space.</p>
+      <a href="collections.html" class="btn-shop">SHOP NOW</a>
+    </div>
+  </div>
+</div>
+
+<!-- RECOMMENDED PRODUCTS -->
+<section class="rec-section">
+  <p class="sec-label">YOU MIGHT ALSO LIKE</p>
+  <h3>Recommended product</h3>
+  <div class="carousel-track-outer">
+    <div class="carousel-track" id="recTrack"></div>
+  </div>
+  <div class="carousel-nav">
+    <button onclick="moveCarousel(-1)"><i class="bi bi-chevron-left"></i></button>
+    <button onclick="moveCarousel(1)"><i class="bi bi-chevron-right"></i></button>
+  </div>
+</section>
+
+<!-- STICKY BAR -->
+<div class="sticky-bar" id="stickyBar">
+  <div class="sticky-product">
+    <img src="//jelwo.myshopify.com/cdn/shop/files/jewelry-pro-41.jpg?v=1741667580&width=300" alt=""/>
+    <div>
+      <div class="sname">Modish Bracelet</div>
+    </div>
+  </div>
+  <select class="sticky-select" id="stickyVariant">
+    <option>6 / Gold - Rs. 17.00</option>
+    <option>6 / Yellow - Rs. 17.00</option>
+    <option>6 / Brown - Rs. 17.00</option>
+    <option>6.5 / Gold - Rs. 18.00</option>
+    <option>6.5 / Yellow - Rs. 18.00</option>
+    <option>6.5 / Brown - Rs. 17.00</option>
+    <option>7 / Gold - Rs. 19.00</option>
+    <option>7 / Yellow - Rs. 19.00</option>
+    <option>7 / Brown - Rs. 17.00</option>
+    <option>7.5 / Gold - Rs. 20.00</option>
+    <option>7.5 / Yellow - Rs. 20.00</option>
+    <option>7.5 / Brown - Rs. 17.00</option>
+  </select>
+  <div class="sticky-qty">
+    <button onclick="changeStickyQty(-1)">−</button>
+    <span id="stickyQty">1</span>
+    <button onclick="changeStickyQty(1)">+</button>
+  </div>
+  <button class="sticky-atc" onclick="addStickyToCart()">ADD TO CART</button>
+</div>
+
+<!-- SIZE GUIDE MODAL -->
+<div class="modal fade" id="sizeGuideModal" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header border-0 pb-0">
+        <h5 class="modal-title-custom">Size guide</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <table class="size-table">
+          <thead><tr><th>Size Code</th><th>Inner Diameter</th><th>Wrist Circumference</th><th>Fits</th></tr></thead>
+          <tbody>
+            <tr><td>2-12</td><td>58 mm</td><td>Up to 15 cm</td><td>Small wrist</td></tr>
+            <tr><td>2-14</td><td>60 mm</td><td>15 – 17 cm</td><td>Medium wrist</td></tr>
+            <tr><td>2-16</td><td>62 mm</td><td>17 – 19 cm</td><td>Large wrist</td></tr>
+          </tbody>
+        </table>
+        <div class="how-measure mt-4">
+          <h5 style="font-size:18px;font-weight:600;margin-bottom:16px;">How to measure your wrist</h5>
+          <div class="row">
+            <div class="col-md-6">
+              <h6>1. Use a flexible tape measure</h6>
+              <p>Wrap it around your wrist just below the wrist bone where you would normally wear a bangle.</p>
+              <h6>2. Note the measurement</h6>
+              <p>The number in centimetres is your wrist circumference — use the table above to find your size.</p>
+            </div>
+            <div class="col-md-6">
+              <div style="background:var(--cream);border-radius:8px;padding:20px;text-align:center;font-size:13px;color:var(--muted);">
+                <img src="https://cdn.shopify.com/s/files/1/0728/4994/8973/files/measure.jpg?v=1701679680" class="img-fluid">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- QUESTION MODAL -->
+<div class="modal fade" id="questionModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" style="border-radius:8px;border:none;">
+      <div class="modal-header border-0 pb-0 pt-4">
+        <h5 class="modal-title-custom w-100 text-center">Ask a question</h5>
+        <button type="button" class="btn-close position-absolute" style="top:14px;right:14px;" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body pt-3 pb-4 px-4">
+        <input class="form-control-jelwo" placeholder="Your name*" type="text"/>
+        <input class="form-control-jelwo" placeholder="Your phone number" type="tel"/>
+        <input class="form-control-jelwo" placeholder="Your email*" type="email"/>
+        <textarea class="form-control-jelwo" placeholder="Your message*" rows="4" style="resize:vertical;"></textarea>
+        <div style="font-size:12px;color:var(--muted);text-align:center;margin-bottom:16px;">* Required fields</div>
+        <div class="text-center">
+          <button class="btn-submit-jelwo" onclick="submitQuestion()">SUBMIT NOW</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- REVIEW MODAL -->
+<div class="modal fade" id="reviewModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" style="border-radius:8px;border:none;">
+      <div class="modal-header border-0 pb-0 pt-4">
+        <h5 class="modal-title-custom w-100 text-center">Write a Review</h5>
+        <button type="button" class="btn-close position-absolute" style="top:14px;right:14px;" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body pt-3 pb-4 px-4">
+        <input class="form-control-jelwo" placeholder="Your name*" type="text" id="rvName"/>
+        <input class="form-control-jelwo" placeholder="Your email*" type="email" id="rvEmail"/>
+        <div style="margin-bottom:12px;">
+          <label style="font-size:13px;font-weight:500;margin-bottom:6px;display:block;">Rating</label>
+          <div class="star-selector" id="starSelector">
+            <span onclick="setRating(1)">★</span><span onclick="setRating(2)">★</span>
+            <span onclick="setRating(3)">★</span><span onclick="setRating(4)">★</span>
+            <span onclick="setRating(5)">★</span>
+          </div>
+        </div>
+        <input class="form-control-jelwo" placeholder="Review title*" type="text" id="rvTitle"/>
+        <textarea class="form-control-jelwo" placeholder="Your review*" rows="4" id="rvBody" style="resize:vertical;"></textarea>
+        <div class="text-center mt-2">
+          <button class="btn-submit-jelwo" onclick="submitReview()">SUBMIT REVIEW</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container-fluid px-5" style="padding-bottom: 40px;">
+    <div class="row g-5">
+      <div class="col-md-3">
+        <a href="index.html" class="footer-logo">JELWO</a>
+        <div class="footer-contact">
+          <p><i class="bi bi-geo-alt me-2"></i>55 East 10th street, new york,<br>ny 10003, united states</p>
+          <p class="mt-2"><i class="bi bi-telephone me-2"></i><a href="tel:2201234567890">+ (220) 123 456 7890</a></p>
+          <p><i class="bi bi-envelope me-2"></i><a href="mailto:demo123546@gmail.com">demo123546@gmail.com</a></p>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <p class="footer-heading">Information</p>
+        <a href="about.html" class="footer-link">About us</a>
+        <a href="contact.html" class="footer-link">Contact us</a>
+        <a href="faqs.html" class="footer-link">Faq's</a>
+        <a href="news.html" class="footer-link">News</a>
+      </div>
+      <div class="col-md-2">
+        <p class="footer-heading">Privacy &amp; terms</p>
+        <a href="privacy.html" class="footer-link">Privacy policy</a>
+        <a href="refund.html" class="footer-link">Refund policy</a>
+        <a href="shipping.html" class="footer-link">Shipping &amp; return</a>
+        <a href="terms.html" class="footer-link">Terms &amp; condition</a>
+      </div>
+      <div class="col-md-2">
+        <p class="footer-heading">Category</p>
+        <a href="rings.html" class="footer-link">Rings</a>
+        <a href="earring.html" class="footer-link">Earring</a>
+        <a href="pendant.html" class="footer-link">Pendant</a>
+        <a href="necklaces.html" class="footer-link">Necklaces</a>
+        <a href="bracelets.html" class="footer-link">Bracelets</a>
+      </div>
+      <div class="col-md-3">
+        <p class="footer-heading">Visit store</p>
+        <p class="footer-contact" style="font-size:.875rem;color:var(--text-mid);">
+          Mon - sat : 10am - 11pm<br>Sun : 10am - 4pm<br>7 Days a week
+        </p>
+        <div class="mt-4">
+          <p class="footer-heading">Subscribe &amp; get 15% discount.</p>
+          <div class="footer-subscribe">
+            <input type="email" placeholder="Enter your email" id="footerEmail">
+            <button onclick="footerSubscribe()">SUBSCRIBE</button>
+          </div>
+          <p class="text-success small mt-2" id="footerMsg" style="display:none;">Thanks for subscribing, Discount code: <strong>WC5</strong></p>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom d-flex justify-content-between align-items-center flex-wrap gap-3">
+      <div>
+        <div class="footer-social mb-2">
+          <a href="#"><i class="bi bi-facebook"></i></a>
+          <a href="#"><i class="bi bi-twitter-x"></i></a>
+          <a href="#"><i class="bi bi-instagram"></i></a>
+          <a href="#"><i class="bi bi-pinterest"></i></a>
+          <a href="https://youtube.com" target="_blank"><i class="bi bi-youtube"></i></a>
+        </div>
+        Copyright © 2026 by spacingtech
+      </div>
+      <div class="payment-icons">
+        <i class="bi bi-credit-card-2-front"></i>
+        <i class="bi bi-credit-card"></i>
+        <i class="bi bi-paypal"></i>
+        <i class="bi bi-bank"></i>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="javascript/App.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// ── MEGA DROPDOWN POSITION ─────────────────────────────────
+function positionMegaMenus() {
+  document.querySelectorAll('.mega-menu').forEach(m => m.style.top = '130px');
+}
+window.addEventListener('scroll', positionMegaMenus);
+window.addEventListener('resize', positionMegaMenus);
+document.addEventListener('DOMContentLoaded', positionMegaMenus);
+document.querySelectorAll('.mega-wrap').forEach(wrap => {
+  wrap.addEventListener('mouseenter', () => { positionMegaMenus(); wrap.querySelector('.mega-menu').style.display = 'block'; });
+  wrap.addEventListener('mouseleave', () => { wrap.querySelector('.mega-menu').style.display = 'none'; });
+});
+
+// ── PRODUCTS MEGA CAROUSEL ─────────────────────────────────
+let megaCarouselIdx = 0;
+const megaProds = PRODUCTS.slice(0, 4);
+function renderMegaCarousel() {
+  const el = document.getElementById('productsMegaCarousel');
+  if (!el) return;
+  el.innerHTML = megaProds.slice(megaCarouselIdx, megaCarouselIdx + 2).map(p => `
+    <div class="d-flex gap-2 align-items-center p-2 border rounded" style="min-width:180px;cursor:pointer;" onclick="location.href='collections.html'">
+      <img src="${p.image}" style="width:60px;height:60px;object-fit:cover;border-radius:6px;">
+      <div>
+        <p style="font-size:.8rem;font-weight:500;margin:0;">${p.name}</p>
+        <span style="font-size:.8rem;color:var(--gold);font-weight:600;">Rs. ${p.price.toFixed(2)}</span>
+        ${p.oldPrice ? `<del style="font-size:.7rem;color:#999;margin-left:4px;">Rs. ${p.oldPrice.toFixed(2)}</del>` : ''}
+      </div>
+    </div>`).join('');
+}
+function slideMegaCarousel(dir) {
+  megaCarouselIdx = Math.max(0, Math.min(megaCarouselIdx + dir, megaProds.length - 2));
+  renderMegaCarousel();
+}
+renderMegaCarousel();
+
+// ── FOOTER SUBSCRIBE ───────────────────────────────────────
+function footerSubscribe() {
+  const email = document.getElementById('footerEmail').value;
+  if (!email) return;
+  document.getElementById('footerMsg').style.display = 'block';
+  document.getElementById('footerEmail').value = '';
+}
+
+// ── CART RECS ──────────────────────────────────────────────
+function renderCartRecs() {
+  const el = document.getElementById('cartRecsCarousel');
+  if (!el) return;
+  el.innerHTML = PRODUCTS.slice(0, 3).map(p => `
+    <div style="min-width:130px;text-align:center;cursor:pointer;" onclick="location.href='collections.html'">
+      <img src="${p.image}" style="width:90px;height:90px;object-fit:cover;border-radius:8px;margin-bottom:6px;">
+      <p style="font-size:.75rem;font-weight:500;margin:0;">${p.name}</p>
+      <span style="font-size:.75rem;color:var(--gold);">Rs. ${p.price.toFixed(2)}</span>
+    </div>`).join('');
+}
+renderCartRecs();
+
+// ── GALLERY ────────────────────────────────────────────────
+function switchImg(el, src) {
+  document.querySelectorAll('.thumb-item').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  const img = document.getElementById('mainImg');
+  img.style.opacity = '0';
+  setTimeout(() => { img.src = src; img.style.opacity = '1'; }, 200);
+}
+
+// ── SIZE / COLOR ───────────────────────────────────────────
+function selectSize(btn, val) {
+  document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('selectedSize').textContent = val;
+}
+function selectColor(btn, val) {
+  document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('selectedColor').textContent = val;
+}
+
+// ── QTY ────────────────────────────────────────────────────
+function changeMainQty(d) {
+  const el = document.getElementById('mainQty');
+  let v = parseInt(el.textContent) + d; if (v < 1) v = 1; el.textContent = v;
+}
+function changeStickyQty(d) {
+  const el = document.getElementById('stickyQty');
+  let v = parseInt(el.textContent) + d; if (v < 1) v = 1; el.textContent = v;
+}
+
+// ── CART ───────────────────────────────────────────────────
+const PRODUCT_IMG = '//jelwo.myshopify.com/cdn/shop/files/jewelry-pro-31.jpg?v=1741665663&width=300';
+
+function addMainToCart() {
+  const size = document.getElementById('selectedSize').textContent;
+  const color = document.getElementById('selectedColor').textContent;
+  const qty = parseInt(document.getElementById('mainQty').textContent);
+  JelwoStore.addToCart({ id: 'modish-bracelet', name: 'Modish Bracelet', price: 17, image: PRODUCT_IMG, variant: `${size} / ${color}`, qty });
+  bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('cartOffcanvas')).show();
+}
+function addStickyToCart() {
+  const variant = document.getElementById('stickyVariant').value;
+  const qty = parseInt(document.getElementById('stickyQty').textContent);
+  JelwoStore.addToCart({ id: 'modish-bracelet', name: 'Modish Bracelet', price: 17, image: PRODUCT_IMG, variant, qty });
+  bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('cartOffcanvas')).show();
+}
+
+// ── WISHLIST ───────────────────────────────────────────────
+function toggleMainWishlist(btn) {
+  const added = JelwoStore.addToWishlist({ id: 'modish-bracelet', name: 'Modish Bracelet', price: 17, image: PRODUCT_IMG });
+  const icon = document.getElementById('mainWishIcon');
+  icon.className = added ? 'bi bi-heart-fill' : 'bi bi-heart';
+  icon.style.color = added ? '#c62828' : '';
+}
+
+// ── TIMER ──────────────────────────────────────────────────
+(function initTimer() {
+  const endDate = new Date().getTime() + (1613 * 3600 * 1000) + (8 * 60 * 1000) + 40000;
+  function tick() {
+    const dist = endDate - Date.now();
+    if (dist <= 0) { document.getElementById('saleTimer').textContent = '00 : 00 : 00 : 00'; return; }
+    const d = Math.floor(dist/86400000), h = Math.floor((dist%86400000)/3600000),
+          m = Math.floor((dist%3600000)/60000), s = Math.floor((dist%60000)/1000);
+    document.getElementById('saleTimer').textContent =
+      `${String(d).padStart(2,'0')} : ${String(h).padStart(2,'0')} : ${String(m).padStart(2,'0')} : ${String(s).padStart(2,'0')}`;
+  }
+  tick(); setInterval(tick, 1000);
+})();
+
+// ── ACCORDION ──────────────────────────────────────────────
+function toggleAcc(btn) {
+  const body = btn.nextElementSibling;
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  btn.classList.toggle('open', !isOpen);
+}
+
+// ── STICKY BAR ─────────────────────────────────────────────
+window.addEventListener('scroll', () => {
+  document.getElementById('stickyBar').classList.toggle('visible', window.scrollY > 500);
+});
+
+// ── CAROUSEL ───────────────────────────────────────────────
+let carouselIdx = 0;
+function buildCarousel() {
+  const track = document.getElementById('recTrack');
+  track.innerHTML = PRODUCTS.map(p => {
+    const inW = JelwoStore.isInWishlist(p.id);
+    return `
+    <div class="rec-card">
+      <div class="rc-img-wrap">
+        ${p.badge ? `<span class="rc-badge">${p.badge}%</span>` : ''}
+        <img src="${p.image}" alt="${p.name}" loading="lazy"/>
+        <div class="rc-icon-btns">
+          <button class="rc-icon-btn ${inW?'active':''}" onclick="rcToggleWish(this,'${p.id}')"><i class="bi bi-heart${inW?'-fill':''}"></i></button>
+          <button class="rc-icon-btn" onclick="rcQuickView('${p.id}')"><i class="bi bi-eye"></i></button>
+        </div>
+      </div>
+      <div class="rc-info">
+        <div class="rc-cat">${p.category}</div>
+        <div class="rc-name">${p.name}</div>
+        <div class="rc-price">Rs. ${p.price.toFixed(2)} <del>Rs. ${p.oldPrice.toFixed(2)}</del></div>
+      </div>
+      <div class="rc-hover-panel">
+        <div class="rc-controls-row">
+          <select class="rc-variant-select" id="rcvar-${p.id}">${p.variants.map(v=>`<option>${v}</option>`).join('')}</select>
+          <div class="rc-qty-ctrl">
+            <button class="rc-qty-btn" onclick="rcQty('${p.id}',-1)">−</button>
+            <span class="rc-qty-span" id="rcqty-${p.id}">1</span>
+            <button class="rc-qty-btn" onclick="rcQty('${p.id}',1)">+</button>
+          </div>
+        </div>
+        <button class="rc-atc-btn" onclick="rcAddToCart('${p.id}')">ADD TO CART</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+function getVisibleCards() { return window.innerWidth < 576 ? 2 : window.innerWidth < 992 ? 2 : 4; }
+function moveCarousel(dir) {
+  const cards = document.querySelectorAll('.rec-card');
+  const max = Math.max(0, cards.length - getVisibleCards());
+  carouselIdx = Math.max(0, Math.min(carouselIdx + dir, max));
+  document.getElementById('recTrack').style.transform = `translateX(-${carouselIdx * (cards[0].offsetWidth + 20)}px)`;
+}
+setInterval(() => {
+  const cards = document.querySelectorAll('.rec-card');
+  if (!cards.length) return;
+  const max = Math.max(0, cards.length - getVisibleCards());
+  carouselIdx = carouselIdx >= max ? 0 : carouselIdx + 1;
+  document.getElementById('recTrack').style.transform = `translateX(-${carouselIdx * (cards[0].offsetWidth + 20)}px)`;
+}, 5000);
+function rcQty(id, d) {
+  const el = document.getElementById(`rcqty-${id}`); if (!el) return;
+  let v = parseInt(el.textContent) + d; if (v < 1) v = 1; el.textContent = v;
+}
+function rcAddToCart(id) {
+  const p = PRODUCTS.find(x => x.id === id); if (!p) return;
+  JelwoStore.addToCart({ id:p.id, name:p.name, price:p.price, image:p.image,
+    variant: document.getElementById(`rcvar-${id}`)?.value || p.variants[0],
+    qty: parseInt(document.getElementById(`rcqty-${id}`)?.textContent || '1') });
+  bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('cartOffcanvas')).show();
+}
+function rcToggleWish(btn, id) {
+  const p = PRODUCTS.find(x => x.id === id); if (!p) return;
+  const added = JelwoStore.addToWishlist(p);
+  btn.querySelector('i').className = added ? 'bi bi-heart-fill' : 'bi bi-heart';
+  btn.classList.toggle('active', added);
+}
+function rcQuickView(id) {
+  const p = PRODUCTS.find(x => x.id === id); if (!p) return;
+  alert(`Quick view: ${p.name} — Rs. ${p.price.toFixed(2)}`);
+}
+
+// ── REVIEW ─────────────────────────────────────────────────
+let selectedRating = 5;
+function setRating(r) {
+  selectedRating = r;
+  document.querySelectorAll('#starSelector span').forEach((s,i) => { s.style.color = i<r?'#f5c518':'#ddd'; s.style.fontSize='24px'; s.style.cursor='pointer'; });
+}
+function submitReview() {
+  const name = document.getElementById('rvName').value.trim();
+  const title = document.getElementById('rvTitle').value.trim();
+  const body = document.getElementById('rvBody').value.trim();
+  if (!name || !title || !body) { alert('Please fill all required fields.'); return; }
+  const stars = '★'.repeat(selectedRating) + '☆'.repeat(5-selectedRating);
+  const today = new Date().toLocaleDateString('en-US',{month:'2-digit',day:'2-digit',year:'numeric'});
+  const div = document.createElement('div');
+  div.style.cssText = 'border:1px solid var(--border);border-radius:4px;padding:16px;max-width:400px;margin-top:12px;';
+  div.innerHTML = `<div style="color:#f5c518;font-size:14px;">${stars}</div><div style="font-size:12px;color:var(--muted);">${today}</div><div style="font-size:13px;margin:6px 0;"><i class="bi bi-person-circle me-1"></i>${name}</div><div style="font-weight:600;font-size:14px;margin-bottom:4px;">${title}</div><div style="font-size:13px;color:var(--muted);">${body}</div>`;
+  document.getElementById('reviewsList').appendChild(div);
+  bootstrap.Modal.getInstance(document.getElementById('reviewModal')).hide();
+  JelwoStore.showToast('Review submitted!', 'wish');
+}
+
+// ── QUESTION ───────────────────────────────────────────────
+function submitQuestion() {
+  bootstrap.Modal.getInstance(document.getElementById('questionModal')).hide();
+  JelwoStore.showToast('Question submitted!', 'wish');
+}
+
+// ── SHARE ──────────────────────────────────────────────────
+function shareProduct() {
+  if (navigator.share) { navigator.share({ title: 'Modish Bracelet - JELWO', url: window.location.href }); }
+  else { navigator.clipboard?.writeText(window.location.href); JelwoStore.showToast('Link copied to clipboard!', 'wish'); }
+}
+
+// ── RATING BARS ────────────────────────────────────────────
+function buildRatingBars() {
+  const data = [[5,1],[4,0],[3,0],[2,0],[1,0]];
+  const total = data.reduce((s,d) => s+d[1], 0) || 1;
+  document.getElementById('ratingBars').innerHTML = data.map(([star,count]) => `
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;">
+      <span style="font-size:13px;color:#f5c518;">${'★'.repeat(star)}</span>
+      <div style="flex:1;background:#e8e2d8;border-radius:3px;height:8px;overflow:hidden;">
+        <div style="height:100%;background:#f5c518;width:${(count/total)*100}%;"></div>
+      </div>
+      <span style="font-size:12px;color:var(--muted);min-width:12px;">${count}</span>
+    </div>`).join('');
+}
+
+// ── STAR SELECTOR INIT ─────────────────────────────────────
+function initStarSelector() {
+  document.querySelectorAll('#starSelector span').forEach((s,i) => {
+    s.style.cssText = `color:${i<5?'#f5c518':'#ddd'};font-size:24px;cursor:pointer;`;
+  });
+  selectedRating = 5;
+}
+
+// ── INIT ───────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  JelwoStore.updateCartUI();
+  JelwoStore.updateWishlistUI();
+  buildCarousel();
+  buildRatingBars();
+  initStarSelector();
+  const icon = document.getElementById('mainWishIcon');
+  if (icon && JelwoStore.isInWishlist('floral-gold-bangle')) {
+    icon.className = 'bi bi-heart-fill';
+    icon.style.color = '#c62828';
+  }
+});
+</script>
+</body>
+</html>
